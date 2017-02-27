@@ -1,9 +1,11 @@
-import { NgModule }      from '@angular/core';
+import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule }   from '@angular/forms';
+import { FormsModule } from '@angular/forms';
+import { APP_BASE_HREF } from '@angular/common';
 
-import { CategoryList }  from './admin/categoryList';
-import { CategoryDetail }  from './admin/categoryDetail';
+import { CategoryList } from './admin/categoryList';
+import { CategoryDetail } from './admin/categoryDetail';
+
 @NgModule({
     imports: [
         BrowserModule,
