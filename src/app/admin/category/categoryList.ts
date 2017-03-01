@@ -9,8 +9,8 @@ import { CategoryService } from './categoryService';
     selector: 'category-list',
     template: `
     <ul class="categories">
-      <li *ngFor="let category of categories" [class.selected]="category === selectedCategory" (click)="onSelect(category)">
-        <span class="badge">{{category.id}}</span> <span>{{category.name}}</span>
+      <li *ngFor="let category of categories" [class.selected]="category === selectedCategory">
+        <span (click)="onSelect(category)">{{category.id}} {{category.name}}</span>
         <button class="delete" (click)="delete(hero); $event.stopPropagation()">x</button>
       </li>
     </ul>   
