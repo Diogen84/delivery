@@ -54,6 +54,8 @@ import { Category } from './categoryModel';
           <input [(ngModel)]="category.edited" />
           </div>
         </div>
+        <button (click)="goBack()">Back</button>
+        <button (click)="save()">Save</button>
     </div>
     `
 })
@@ -71,6 +73,11 @@ export class CategoryDetail implements OnInit {
         this.route.params
             .switchMap((params: Params) => this.categoryService.getCategory(+params['id']))
             .subscribe(category => this.category = category);
+    }
+
+    save(): void {
+        this.categoryService.update(this.category)
+            .then(() => this.goBack());
     }
 
     goBack(): void {
