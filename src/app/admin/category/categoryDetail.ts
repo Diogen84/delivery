@@ -72,7 +72,7 @@ export class CategoryDetail implements OnInit {
     ngOnInit(): void {
         this.route.params
             .switchMap((params: Params) => this.categoryService.getCategory(+params['id']))
-            .subscribe(category => this.category = category);
+            .subscribe(category => this.category = category );
     }
 
     save(): void {

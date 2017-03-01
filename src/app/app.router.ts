@@ -7,7 +7,7 @@ import { CategoryDetail } from './admin/category/categoryDetail';
 const routes: Routes = [
     { path: '', redirectTo: 'admin/categories', pathMatch: 'full' },
     { path: 'admin/categories', component: CategoryList },
-    { path: 'admin/category-detail/:id', component: CategoryDetail }
+    { path: 'admin/categories/:id', component: CategoryDetail }
 ];
 
 @NgModule({

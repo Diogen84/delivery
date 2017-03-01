@@ -5,11 +5,10 @@ import { Component } from '@angular/core';
     selector: 'my-app',
     template: `
     <h1>{{title}}</h1>
-    <!-- add here more links to page routings with name of directives -->
-    <a routerLink="admin/categories">CategoryList</a>
-    <a routerLink="admin/category-detail/1">Category1</a>
-    <a routerLink="admin/category-detail/2">Category2</a>
-    <a routerLink="admin/category-detail/3">Category3</a>
+    <a routerLink="admin/categories" routerLinkActive="active">CategoryList</a>
+    <a routerLink="admin/categories/1" routerLinkActive="active">Category1</a>
+    <a routerLink="admin/categories/2" routerLinkActive="active">Category2</a>
+    <a routerLink="admin/categories/3" routerLinkActive="active">Category3</a>
     <router-outlet></router-outlet>`
 })
 

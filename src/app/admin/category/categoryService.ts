@@ -6,14 +6,46 @@ import { Category } from './categoryModel';
 
 @Injectable()
 export class CategoryService {
-    private categoriesUrl = 'api/categories';  // URL to web api
-    private categoryUrl = 'api/category-detail';
+
     private headers = new Headers({'Content-Type': 'application/json'});
+    // URL to web api
+    private categoriesUrl = 'api/categories';
 
     constructor(private http: Http) { }
 
+    getCategories(): Promise<Category[]> {
+        return this.http.get(this.categoriesUrl)
+            .toPromise()
+            .then(response => response.json().data as Category[])
+            .catch(this.handleError);
+    }
+
+    getCategory(id: number): Promise<Category> {
+        const url = `${this.categoriesUrl}/${id}`;
+        return this.http.get(url)
+            .toPromise()
+            .then(response => response.json().data as Category)
+            .catch(this.handleError);
+    }
+
+    delete(id: number): Promise<void> {
+        const url = `${this.categoriesUrl}/${id}`;
+        return this.http.delete(url, {headers: this.headers})
+            .toPromise()
+            .then(() => null)
+            .catch(this.handleError);
+    }
+
+    create(name: string): Promise<Category> {
+        return this.http
+            .post(this.categoriesUrl, JSON.stringify({name: name}), {headers: this.headers})
+            .toPromise()
+            .then(res => res.json().data)
+            .catch(this.handleError);
+    }
+
     update(category: Category): Promise<Category> {
-        const url = `${this.categoryUrl}/${category.id}`;
+        const url = `${this.categoriesUrl}/${category.id}`;
         return this.http
             .put(url, JSON.stringify(category), {headers: this.headers})
             .toPromise()
@@ -21,41 +53,8 @@ export class CategoryService {
             .catch(this.handleError);
     }
 
-
-    getCategories(): Promise<Category[]> {
-        //return Promise.resolve(CATEGORIES);
-        return this.http.get(this.categoriesUrl)
-            .toPromise()
-            .then(response => response.json().data as Category[])
-            .catch(this.handleError);
-    }
-
     private handleError (error : any):Promise<any> {
         console.error('An error occured ', error);
         return Promise.reject(error.message || error);
     }
-
-    getCategory(id: number): Promise<Category> {
-        const url = `${this.categoryUrl}/${id}`;
-        return this.http.get(url)
-            .toPromise()
-            .then(response => response.json().data as Category)
-            .catch(this.handleError);
-
-        /*return this.getCategories()
-            .then(categories => categories.find(category => category.id === id));
-            */
-    }
-
-
-
-    /*
-    // See the "Take it slow" appendix
-    getCategoriesSlowly(): Promise<Category[]> {
-        return new Promise(resolve => {
-            // Simulate server latency with 2 second delay
-            setTimeout(() => resolve(this.getCategories()), 2000);
-        });
-    }*/
-
 }
