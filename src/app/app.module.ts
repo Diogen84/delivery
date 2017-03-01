@@ -1,24 +1,29 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
-import { APP_BASE_HREF } from '@angular/common';
+import { RouterModule }   from '@angular/router';
+import { APP_BASE_HREF, LocationStrategy, HashLocationStrategy } from '@angular/common';
 
 import { AppComponent } from './app.component';
 import { CategoryList } from './admin/category/categoryList';
 import { CategoryDetail } from './admin/category/categoryDetail';
 import { CategoryService } from './admin/category/categoryService';
 
+import { AppRoutingModule }     from './app.router';
+
 @NgModule({
     imports: [
         BrowserModule,
-        FormsModule
+        FormsModule,
+        AppRoutingModule
     ],
     declarations: [
+        AppComponent,
         CategoryList,
-        CategoryDetail,
-        AppComponent
+        CategoryDetail
     ],
     providers: [
+        {provide: LocationStrategy, useClass: HashLocationStrategy},
         CategoryService
     ],
     bootstrap: [ AppComponent ]

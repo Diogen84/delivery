@@ -1,7 +1,13 @@
-import { Component, Input } from '@angular/core';
+import 'rxjs/add/operator/switchMap';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Params }   from '@angular/router';
+import { Location }                 from '@angular/common';
+
+import { CategoryService } from './categoryService';
 import { Category } from './categoryModel';
 
 @Component({
+    moduleId: module.id,
     selector:'category-detail',
     template:`
         <div *ngIf="category">
@@ -52,6 +58,22 @@ import { Category } from './categoryModel';
     `
 })
 
-export class CategoryDetail {
-    @Input() category: Category;
+export class CategoryDetail implements OnInit {
+    category: Category;
+
+    constructor(
+        private categoryService: CategoryService,
+        private route: ActivatedRoute,
+        private location: Location
+    ) {}
+
+    ngOnInit(): void {
+        this.route.params
+            .switchMap((params: Params) => this.categoryService.getCategory(+params['id']))
+            .subscribe(category => this.category = category);
+    }
+
+    goBack(): void {
+        this.location.back();
+    }
 }

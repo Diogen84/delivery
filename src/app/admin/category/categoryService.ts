@@ -16,4 +16,9 @@ export class CategoryService {
             setTimeout(() => resolve(this.getCategories()), 2000);
         });
     }
+
+    getCategory(id: number): Promise<Category> {
+        return this.getCategories()
+            .then(categories => categories.find(category => category.id === id));
+    }
 }
