@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Category } from './categoryModel';
 import { CategoryService } from './categoryService';
 
 @Component({
-    selector: 'my-app',
+    selector: 'category-list',
     template: `
     <ul class="categories">
       <li *ngFor="let category of categories" [class.selected]="category === selectedCategory" (click)="onSelect(category)">
@@ -15,7 +15,7 @@ import { CategoryService } from './categoryService';
     providers: [CategoryService]
 })
 
-export class CategoryList implements OnInit {
+export class CategoryList {
     categories: Category[];
     selectedCategory : Category;
     //addservice via constructor
@@ -33,8 +33,5 @@ export class CategoryList implements OnInit {
         this.getCategories();
     }
 
-    onSelect(category: Category): void {
-        this.selectedCategory = category;
-    }
 }
 

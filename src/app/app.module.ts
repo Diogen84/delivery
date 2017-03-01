@@ -3,8 +3,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { APP_BASE_HREF } from '@angular/common';
 
-import { CategoryList } from './admin/categoryList';
-import { CategoryDetail } from './admin/categoryDetail';
+import { AppComponent } from './app.component';
+import { CategoryList } from './admin/category/categoryList';
+import { CategoryDetail } from './admin/category/categoryDetail';
+import { CategoryService } from './admin/category/categoryService';
 
 @NgModule({
     imports: [
@@ -13,8 +15,12 @@ import { CategoryDetail } from './admin/categoryDetail';
     ],
     declarations: [
         CategoryList,
-        CategoryDetail
+        CategoryDetail,
+        AppComponent
     ],
-    bootstrap: [ CategoryList ]
+    providers: [
+        CategoryService
+    ],
+    bootstrap: [ AppComponent ]
 })
 export class AppModule { }
