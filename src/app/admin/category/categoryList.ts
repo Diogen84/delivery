@@ -11,7 +11,7 @@ import { CategoryService } from './categoryService';
     <ul class="categories">
       <li *ngFor="let category of categories" [class.selected]="category === selectedCategory">
         <span (click)="onSelect(category)">{{category.id}} {{category.name}}</span>
-        <button class="delete" (click)="delete(hero); $event.stopPropagation()">x</button>
+        <button class="delete" (click)="delete(category); $event.stopPropagation()">x</button>
       </li>
     </ul>   
     <button (click)="add(category.name); category.name=''">Add</button>
