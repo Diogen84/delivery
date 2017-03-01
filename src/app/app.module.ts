@@ -13,7 +13,7 @@ import { AppRoutingModule }     from './app.router';
 
 
 // Imports for loading & configuring the in-memory web api
-import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
+import { InMemoryWebApiModule } from 'angular2-in-memory-web-api';
 import { InMemoryDataService }  from './simulated-api/in-memory-data.service';
 
 @NgModule({

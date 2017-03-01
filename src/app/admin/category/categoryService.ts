@@ -27,7 +27,7 @@ export class CategoryService {
         return this.http.get(this.categoriesUrl)
             .toPromise()
             .then(response => response.json().data as Category[])
-            .catch(this.handleError)
+            .catch(this.handleError);
     }
 
     private handleError (error : any):Promise<any> {
