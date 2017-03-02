@@ -27,7 +27,7 @@ import { CategoryService } from './categoryService';
     </div>
     
     <button *ngIf="!openedAddBox" (click)="openAddBox()">Add</button>
-    <form #createCategoryForm="ngForm" (ngSubmit)="onSubmitNewCategoryForm(createCategoryForm.value)">
+    <form #createCategoryForm="ngForm" *ngIf="openedAddBox" (ngSubmit)="onSubmitNewCategoryForm(createCategoryForm.value)">
         <div><label>Id: </label>{{newCategory.id}}</div>
         <div>
           <label for="name">Name:{{newCategory.name}}</label>
@@ -101,7 +101,7 @@ export class CategoryList {
                 this.categories.push(category);
                 this.selectedCategory = null;
             });
-        console.log(this);
+        this.openedAddBox = false;
     }
     getCategories(): void {
         this.categoryService
