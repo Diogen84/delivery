@@ -8,6 +8,10 @@ import { CategoryService } from './categoryService';
     moduleId: module.id,
     selector: 'category-list',
     template: `
+    <div class="search">
+            
+    </div>
+
     <ul class="categories">
       <li *ngFor="let category of categories" [class.selected]="category === selectedCategory">
         <span (click)="onSelect(category)">{{category.id}} {{category.name}}</span>
@@ -20,62 +24,60 @@ import { CategoryService } from './categoryService';
       </h2>
       <button (click)="gotoDetail()">View Details</button>
     </div>
-
+    
     <button *ngIf="!openedAddBox" (click)="openAddBox()">Add</button>
-    <div *ngIf="openedAddBox">
+    <form #createCategoryForm="ngForm" (ngSubmit)="onSubmitNewCategoryForm(createCategoryForm.value)">
         <div><label>Id: </label>{{newCategory.id}}</div>
         <div>
-          <label>Name:{{newCategory.name}}</label>
+          <label for="name">Name:{{newCategory.name}}</label>
           <div>
-            <input [(ngModel)]="newCategory.name" />
+            <input type="text" [(ngModel)]="newCategory.name" name="name" #name="ngModel" required />
           </div>
         </div>
         <div>
-          <label>Thumbnail: <br />{{newCategory.thumbnail}}</label>
+          <label for="thumbnail">Thumbnail: <br />{{newCategory.thumbnail}}</label>
           <div>
-            <input [(ngModel)]="newCategory.thumbnail" />
+            <input type="text" [(ngModel)]="newCategory.thumbnail" name="thumbnail" #thumbnail="ngModel" />
         </div>
         </div>
         <div>
-          <label>Short description: <br />{{newCategory.shortDescription}}</label>
+          <label for="shortDescription">Short description: <br />{{newCategory.shortDescription}}</label>
           <div>
-            <input [(ngModel)]="newCategory.shortDescription" />
+            <input type="text" [(ngModel)]="newCategory.shortDescription" name="shortDescription" #shortDescription="ngModel" />
             </div>
         </div>
         <div>
-          <label>Description: <br />{{newCategory.description}}</label>
+          <label for="description">Description: <br />{{newCategory.description}}</label>
           <div>
-          <input [(ngModel)]="newCategory.description" />
+          <input type="text" [(ngModel)]="newCategory.description" name="description" #description="ngModel" />
           </div>
         </div>
         <div>
-          <label>Lock: <br />{{newCategory.lock}}</label>
+          <label for="lock">Lock: <br />{{newCategory.lock}}</label>
           <div>
-          <input [(ngModel)]="newCategory.lock" type="checkbox" />
+          <input type="text" [(ngModel)]="newCategory.lock" name="lock" #lock="ngModel" type="checkbox" />
           </div>
         </div> 
         <div>
-          <label>Created: <br />{{newCategory.created}}</label>
+          <label for="created">Created: <br />{{newCategory.created}}</label>
           <div>
-          <input [(ngModel)]="newCategory.created" />
+          <input type="text" [(ngModel)]="newCategory.created" name="created" #created="ngModel" />
           </div>
         </div>
         <div>
-          <label>Edited: <br />{{newCategory.edited}}</label>
+          <label for="edited">Edited: <br />{{newCategory.edited}}</label>
           <div>
-          <input [(ngModel)]="newCategory.edited" />
+          <input type="text" [(ngModel)]="newCategory.edited" name="edited" #edited="ngModel" />
           </div>
         </div>
-        <button (click)="add(newCategory)">Save</button>
-    </div>
-
-`
+        <button type="submit" [disabled]="!createCategoryForm.valid">Save</button> 
+    </form>`
 })
 
 export class CategoryList {
+    newCategory = new Category();
     categories: Category[];
     selectedCategory : Category;
-    newCategory : Category;
     openedAddBox : boolean;
     //addservice via constructor
 
@@ -88,29 +90,24 @@ export class CategoryList {
         this.openedAddBox = true;
     }
 
+    onSubmitNewCategoryForm() {
+        let min = Math.ceil(10);
+        let max = Math.floor(100);
+
+        this.newCategory.id = Math.floor(Math.random() * (max - min + 1 )) + min;
+        this.categoryService.createCategory(this.newCategory)
+            .then(category => {
+                this.categories.push(category);
+                this.selectedCategory = null;
+            });
+        console.log(this);
+    }
     getCategories(): void {
         this.categoryService
             .getCategories()
             .then(categories => this.categories = categories);
     }
-    /*add(name: string): void {
-        name = name.trim();
-        if (!name) { return; }
-        this.categoryService.create(name)
-            .then(category => {
-                this.categories.push(category);
-                this.selectedCategory = null;
-            });
-    }*/
-    add(newCategory: Category): void {
-        name = name.trim();
-        if (!name) { return; }
-        this.categoryService.create(name)
-            .then(category => {
-                this.categories.push(category);
-                this.selectedCategory = null;
-            });
-    }
+
     delete(category: Category): void {
         this.categoryService
             .delete(category.id)

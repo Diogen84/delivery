@@ -36,9 +36,9 @@ export class CategoryService {
             .catch(this.handleError);
     }
 
-    create(name: string): Promise<Category> {
+    createCategory(category : any) : Promise<Category> {
         return this.http
-            .post(this.categoriesUrl, JSON.stringify({name: name}), {headers: this.headers})
+            .post(this.categoriesUrl, JSON.stringify(category), {headers: this.headers})
             .toPromise()
             .then(res => res.json().data)
             .catch(this.handleError);
