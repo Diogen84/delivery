@@ -14,6 +14,7 @@ import { InMemoryDataService }  from './simulated-api/in-memory-data.service';
 import { AppComponent } from './app.component';
 import { CategoryList } from './admin/category/categoryList';
 import { CategoryDetail } from './admin/category/categoryDetail';
+import { CategorySearch } from './admin/category/categorySearch';
 import { CategoryService } from './admin/category/categoryService';
 
 @NgModule({
@@ -25,6 +26,7 @@ import { CategoryService } from './admin/category/categoryService';
         AppRoutingModule
     ],
     declarations: [
+        CategorySearch,
         AppComponent,
         CategoryList,
         CategoryDetail

@@ -9,11 +9,12 @@ import { CategoryService } from './categoryService';
     selector: 'category-list',
     template: `
     <div class="search">
-            
+        <category-search></category-search>
     </div>
 
     <ul class="categories">
-      <li *ngFor="let category of categories" [class.selected]="category === selectedCategory">
+      <li *ngFor="let category of categories" [class.selected]="category === selectedCategory" 
+      [routerLink]="['/admin/categories/' + category.id]">
         <span (click)="onSelect(category)">{{category.id}} {{category.name}}</span>
         <button class="delete" (click)="delete(category); $event.stopPropagation()">x</button>
       </li>
