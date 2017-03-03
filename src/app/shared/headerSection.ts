@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
 	moduleId: module.id,
@@ -60,4 +60,4 @@ import { Component, OnInit } from '@angular/core';
 	`
 })
 
-export class HeaderSection implements OnInit {}
+export class HeaderSection {}

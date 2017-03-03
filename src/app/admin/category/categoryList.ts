@@ -124,7 +124,8 @@ import { CategoryService } from './categoryService';
                                           </li>
                                       </ul>
                                       <div class="buttons">
-                                          <button type="submit" [disabled]="!createCategoryForm.valid">Create new category</button> 
+                                          <button type="submit" class="btn" [disabled]="!createCategoryForm.valid">
+                                              Create new category</button> 
                                           <a href="#" class="btn" data-ng-click="editCancel($event, category)">Cancel</a>
                                       </div>
                                   </fieldset>
@@ -160,8 +161,8 @@ export class CategoryList {
         let time = new Date();
 
         this.newCategory.id = Math.floor(Math.random() * (max - min + 1 )) + min;
-        this.newCategory.created = time;
-        this.newCategry.edited = time;
+        this.newCategory.created = time.getDate() + '.' + (time.getMonth() + 1) + '.' + time.getFullYear();
+        this.newCategory.edited = this.newCategory.created;
         this.categoryService.createCategory(this.newCategory)
             .then(category => {
                 this.categories.push(category);
