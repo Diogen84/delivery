@@ -1,5 +1,7 @@
 "use strict";
 
+const sass = require('gulp-sass');
+const concat = require("gulp-concat");
 const gulp = require("gulp");
 const del = require("del");
 const tsc = require("gulp-typescript");
@@ -23,6 +25,15 @@ gulp.task('tslint', () => {
             formatter: 'prose'
         }))
         .pipe(tslint.report());
+});
+
+
+gulp.task('sass', function () {
+    gulp.src('./src/scss/*.scss')
+        .pipe(sourcemaps.init())
+        .pipe(sass().on('error', sass.logError))
+        .pipe(concat('master.css'))
+        .pipe(gulp.dest('build/styles'));
 });
 
 /**
@@ -69,14 +80,17 @@ gulp.task('watch', function () {
     gulp.watch(["src/**/*.ts"], ['compile']).on('change', function (e) {
         console.log('TypeScript file ' + e.path + ' has been changed. Compiling.');
     });
-    gulp.watch(["src/**/*.html", "src/**/*.css"], ['resources']).on('change', function (e) {
+    gulp.watch(["src/**/*.html"], ['resources']).on('change', function (e) {
         console.log('Resource file ' + e.path + ' has been changed. Updating.');
     });
+	gulp.watch(['/src/scss/**/*'], ['sass']).on('change', function(e) {
+		console.log('Resource file ' + e.path + ' has been changed. Updating.');
+	});
 });
 
 /**
  * Build the project.
  */
-gulp.task("build", ['compile', 'resources', 'libs'], () => {
+gulp.task("build", ['compile', 'resources', 'libs', 'sass'], () => {
     console.log("Building the project ...");
 });

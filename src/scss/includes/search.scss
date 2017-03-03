@@ -1,0 +1,21 @@
+.search {
+  float:right;
+
+  fieldset {
+    margin:0;
+    padding:0;
+    border:none;
+  }
+  input[type="text"] {
+    border:1px solid $search-border;
+    background:$search-background;
+    color:$search-input-color;
+    font:14px arial, helvetica, sans-serif;
+    outline:none;
+    padding:3px 5px;
+    margin:0;
+    box-sizing:border-box;
+    display:block;
+    width:230px;
+  }
+}

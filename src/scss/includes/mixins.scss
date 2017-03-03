@@ -1,0 +1,37 @@
+@mixin button () {
+  display:inline-block;
+  vertical-align:top;
+  background:$btn-background;
+  color:$btn-color;
+  border:1px solid $btn-border;
+  -webkit-transition:color .3s ease-out, background-color .3s ease-out, border-color .3s ease-out;
+  -moz-transition:color .3s ease-out, background-color .3s ease-out, border-color .3s ease-out;
+  -ms-transition:color .3s ease-out, background-color .3s ease-out, border-color .3s ease-out;
+  transition:color .3s ease-out, background-color .3s ease-out, border-color .3s ease-out;
+  box-sizing:border-box;
+  padding:3px 8px;
+  font:12px/1.2 arial, helvetica, sans-serif;
+  text-decoration:none;
+  text-align:center;
+
+  &:hover {
+    background:$btn-background-hover;
+    color:$btn-color-hover;
+    border-color:$btn-border-hover;
+    text-decoration:none;
+  }
+}
+@mixin input {
+  display:inline-block;
+  vertical-align:top;
+  background:$input-background;
+  color:$input-color;
+  border:1px solid $input-border;
+  box-sizing:border-box;
+  padding:3px 8px;
+  margin:0;
+  font:12px/1.2 arial, helvetica, sans-serif;
+  width:100%;
+  outline:none;
+  border-radius:3px;
+}

@@ -1,0 +1,8 @@
+//dimensions
+$max-holder-width : 1024px;
+$header-offset: 50px;
+
+.view-slot {
+  max-width:$max-holder-width;
+  margin:0 auto;
+}

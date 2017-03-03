@@ -58,7 +58,7 @@ import { CategoryService } from './categoryService';
           <div>
           <input type="text" [(ngModel)]="newCategory.lock" name="lock" #lock="ngModel" type="checkbox" />
           </div>
-        </div> 
+        </div>
         <div>
           <label for="created">Created: <br />{{newCategory.created}}</label>
           <div>

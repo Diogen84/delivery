@@ -1,0 +1,33 @@
+.footer .holder {
+  background:$footer-background-color;
+  box-shadow:0 0 6px 0 $footer-shadow-color;
+}
+.footer-block {
+  max-width:$max-holder-width;
+  padding:10px;
+  margin:0 auto;
+  overflow:hidden;
+  box-sizing: border-box;
+}
+.footer-block .footer-logo {
+  float:right;
+  margin:0 0 0 10px;
+  border:1px solid #000;
+  padding:10px;
+  color:#000;
+  text-decoration:none;
+  background:#fff;
+  -webkit-transition:color .3s ease-out, background-color .3s ease-out;
+  transition:color .3s ease-out, background-color .3s ease-out;
+}
+.footer-block .footer-logo:hover {
+  text-decoration:none;
+  color:#fff;
+  background:#000;
+}
+.footer-container {
+  overflow:hidden;
+  padding:10px 0 0;
+
+  p { margin:0; }
+}

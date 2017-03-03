@@ -1,0 +1,115 @@
+.cart {
+  font:16px/1.5 arial, helvetica, sans-serif;
+  color:$cart-color;
+
+  form {
+    margin:0;
+    padding:0;
+  }
+  fieldset {
+    margin:0;
+    padding:0;
+    border:none;
+  }
+  .cart-picture {
+    img {
+      width:100%;
+      height:auto;
+      max-height:300px;
+      display:block;
+    }
+  }
+  .cart-holder {
+    margin:0 auto;
+    max-width:$max-holder-width;
+  }
+  .cart-table {
+    display:table;
+    width:100%;
+    border-collapse:collapse;
+
+    td { padding:10px; }
+    .cart-table-img,
+    .cart-table-description,
+    .cart-table-quantity,
+    .cart-table-description,
+    .cart-table-price,
+    .cart-table-options {
+      vertical-align:middle;
+      display:table-cell;
+      padding:10px;
+    }
+    .title-row td { padding-bottom:0; }
+    .cart-table-img {
+      width:100px;
+      vertical-align:top;
+
+      img {
+        max-width:100%;
+        height:auto;
+        display:block;
+        margin:0 auto;
+        border:1px solid #000;
+      }
+    }
+    .cart-table-description {
+      vertical-align:top;
+      li {
+        white-space:nowrap;
+      }
+    }
+    h3 {
+      margin:0;
+      font:bold 20px/1.5 arial, helvetica, sans-serif;
+    }
+    p {
+      margin:0 0 10px;
+    }
+    ul {
+      margin:0;
+      padding:0;
+      list-style:none;
+    }
+    li {
+      position:relative;
+      padding:0 0 0 15px;
+    }
+    li:before {
+      content:'-';
+      position:absolute;
+      left:0;
+      top:0;
+    }
+    .cart-table-quantity {
+      width:80px;
+
+      input {
+        vertical-align:middle;
+        margin:0;
+        padding:5px 10px 6px;
+        border:1px solid $cart-color;
+        width:80px;
+        box-sizing:border-box;
+        font:18px arial, helvetica, sans-serif;
+        color:$cart-color;
+        text-align:right;
+      }
+    }
+    .cart-table-price {
+      width:80px;
+      text-align:right;
+    }
+    .total .price-title,
+    .total .price {
+      text-align:right;
+      font-weight:bold;
+    }
+    .cart-table-options {
+      ul {
+        margin:0;
+        padding:0;
+        list-style:none;
+      }
+    }
+  }
+}

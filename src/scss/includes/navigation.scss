@@ -1,0 +1,119 @@
+.navigation-opener {
+  float:right;
+  position:relative;
+  width:28px;
+  height:20px;
+  overflow:hidden;
+  text-indent:-9999px;
+  display:none;
+
+  span,
+  &:after,
+  &:before {
+    width:28px;
+    height:4px;
+    position:absolute;
+    left:0;
+    top:50%;
+    background:$nav-burger-color;
+  }
+
+  span {
+    -webkit-transform:translate(0, -50%);
+    transform:translate(0, -50%);
+    -webkit-transition:opacity .3s ease-out;
+    transition:opacity .3s ease-out;
+  }
+  &:after {
+    top:0;
+    content:'';
+    -webkit-transition:transform .3s ease-out, top .3s ease-out;
+    transition:transform .3s ease-out, top .3s ease-out;
+    transform-origin:50% 50%;
+  }
+
+  &:before {
+    top:auto;
+    bottom:0;
+    content:'';
+    -webkit-transition:transform .3s ease-out, bottom .3s ease-out;
+    transition:transform .3s ease-out, bottom .3s ease-out;
+    transform-origin:50% 50%;
+  }
+}
+.active .navigation-opener {
+  span { opacity:0; }
+  &:after {
+    -webkit-transform:rotateZ(45deg) translate(0, -50%);
+    transform:rotateZ(45deg) translate(0, -50%);
+    top:50%;
+    margin:-1px 0 0;
+  }
+  &:before {
+    -webkit-transform:rotateZ(-45deg) translate(0, 50%);
+    transform:rotateZ(-45deg) translate(0, 50%);
+    bottom:50%;
+  }
+}
+.navigation {
+  margin:0;
+  padding:0;
+  list-style:none;
+  font-size:0;
+
+  & > li {
+    display:inline-block;
+    vertical-align:top;
+    font-size:14px;
+    margin:0 15px 0 0;
+    position:relative;
+  }
+
+  a {
+    display:block;
+    color:#000;
+    border:1px solid #000;
+    background:#fff;
+    text-decoration:none;
+    padding:2px 5px;
+    white-space:nowrap;
+    -webkit-transition:color .3s ease-out, background-color .3s ease-out;
+    transition:color .3s ease-out, background-color .3s ease-out;
+  }
+  ul {
+    position:absolute;
+    left:0;
+    top:100%;
+    min-width:100%;
+    background:#fff;
+    padding:0;
+    margin:0;
+    list-style:none;
+    display:none;
+
+    ul {
+      top:0;
+      left:100%;
+      margin:1px 0 0 -1px;
+    }
+  }
+  .last ul ul {
+    left:auto;
+    right:100%;
+    margin:1px -1px 0 0;
+  }
+  li li {
+    margin:-1px 0 0;
+    position:relative;
+  }
+  li:hover > ul {
+    display:block;
+  }
+}
+@media (min-width:641px) {
+  .navigation li:hover > a {
+    color:#fff;
+    background:#000;
+    text-decoration:none;
+  }
+}
