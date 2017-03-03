@@ -17,7 +17,7 @@ import { Category } from './categoryModel';
 
 @Component({
     moduleId: module.id,
-    selector: 'category-search',
+    selector: '[category-search]',
     template: `
         <div id="search-component">
           <h4>Category Search</h4>
