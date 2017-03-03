@@ -18,9 +18,9 @@ import { Category } from './categoryModel';
                 <div class="holder">
                     <div class="left-section">
                         <ul class="admin-menu">
-                            <li><a href="admin/profiles">Profiles</a></li>
-                            <li><a href="admin/categories">Categories</a></li>
-                            <li><a href="admin/products">Products</a></li>
+                            <li><a href="#/admin/profiles">Profiles</a></li>
+                            <li><a href="#/admin/categories">Categories</a></li>
+                            <li><a href="#/admin/products">Products</a></li>
                         </ul>
                     </div>
                     <div class="right-section">

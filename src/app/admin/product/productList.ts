@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { Category } from './categoryModel';
-import { CategoryService } from './categoryService';
+import { Product } from './productModel';
+import { ProductService } from './productService';
 
-@Component({
-    moduleId: module.id,
-    selector: 'div.category-list',
-    template: `
-      <div class="admin">
+@Componenet({
+	moduleId: module.id,
+	selector: 'div.product-list',
+	template: `
+		<div class="admin">
           <div class="admin-pic">
               <img src="images/gallery1.png" alt="" />
           </div>
@@ -28,58 +28,58 @@ import { CategoryService } from './categoryService';
                           <ul class="data-table">
                               <li class="heading">
                                   <div class="number">#</div>
-                                  <div class="id">ID</div>
-                                  <div class="options">Options</div>
-                                  <div class="trigger">Lock</div>
-                                  <div class="created">Created</div>
-                                  <div class="edited">Last edit</div>
-                                  <div class="name">Name</div>
+						            <div class="id">ID</div>
+						            <div class="options">Options</div>
+						            <div class="trigger">Lock</div>
+						            <div class="name">Name</div>
                               </li>
-                              <li *ngFor="let category of categories" [class.selected]="category === selectedCategory" 
-                              [routerLink]="['/admin/categories/' + category.id]">
+                              <li *ngFor="let product of products" [class.selected]="product === selectedProduct" 
+                              [routerLink]="['/admin/products/' + product.id]">
                                   <div class="row">
                                       <div class="number">index</div>
-                                      <div class="id">{{category.id}}</div>
+                                      <div class="id">{{product.id}}</div>
                                       <div class="options">
-                                          <a href="#" (click)="gotoDetail(category); $event.stopPropagation(); 
-                                          $event.preventDefault();">Edit</a>
-                                          <a href="#" (click)="delete(category); $event.stopPropagation(); 
-                                          $event.preventDefault();">Remove</a>
+                                          <div>
+                                              <a href="#" (click)="gotoDetail(product); $event.stopPropagation(); 
+                                              $event.preventDefault();">Edit</a>
+                                              <a href="#" (click)="delete(product); $event.stopPropagation(); 
+                                              $event.preventDefault();">Remove</a>
+                                          </div>
                                       </div>
                                       <div class="trigger"><input type="checkbox" /></div>
-                                      <div class="created">{{category.created}}</div>
-                                      <div class="edited">{{category.edited}}</div>
-                                      <div class="name">{{category.name}}</div>
+                                      <div class="created">{{product.created}}</div>
+                                      <div class="edited">{{product.edited}}</div>
+                                      <div class="name">{{product.name}}</div>
                                   </div>
                               </li>
                           </ul>
 
                           <button *ngIf="!openedAddBox" (click)="openAddBox()">Add</button>
                           <div class="createNewRow" *ngIf="openedAddBox">
-                              <h3>Create new category (id = {{newCategory.id}})</h3>
-                              <form #createCategoryForm="ngForm" *ngIf="openedAddBox" 
-                              (ngSubmit)="onSubmitNewCategoryForm(createCategoryForm.value)">
+                              <h3>Create new product (id = {{newProduct.id}})</h3>
+                              <form #createProductForm="ngForm" *ngIf="openedAddBox" 
+                              (ngSubmit)="onSubmitNewProductForm(createProductForm.value)">
                                   <fieldset>    
                                       <ul class="data-table">
                                           <li>
                                               <div class="detail">
                                                   <div class="row">
-                                                      <div class="label"><label for="name">Name:{{newCategory.name}}</label></div>
+                                                      <div class="label"><label for="name">Name:{{newProduct.name}}</label></div>
                                                       <div class="field">
-                                                          <input type="text" [(ngModel)]="newCategory.name" 
+                                                          <input type="text" [(ngModel)]="newProduct.name" 
                                                           name="name" #name="ngModel" required />
                                                       </div>
                                                   </div>
                                                   <div class="row">
-                                                      <div class="label"><label for="lock">Lock: <br />{{newCategory.lock}}</label></div>
+                                                      <div class="label"><label for="lock">Lock: <br />{{newProduct.lock}}</label></div>
                                                       <div class="field">
-                                                          <input type="text" [(ngModel)]="newCategory.lock" 
+                                                          <input type="text" [(ngModel)]="newProduct.lock" 
                                                           name="lock" #lock="ngModel" type="checkbox" />
                                                       </div>
                                                   </div>
                                                   <div class="row">
                                                       <div class="label"><label for="thumbnail">Thumbnail: 
-                                                      <br />{{newCategory.thumbnail}}</label></div>
+                                                      <br />{{newProduct.thumbnail}}</label></div>
                                                       <div class="field">
                                                           <input type="text" [(ngModel)]="newCategory.thumbnail" 
                                                           name="thumbnail" #thumbnail="ngModel" />
@@ -99,17 +99,17 @@ import { CategoryService } from './categoryService';
                                                   </div>
                                                   <div class="row">
                                                       <div class="label"><label for="shortDescription">Short description: 
-                                                      <br />{{newCategory.shortDescription}}</label></div>
+                                                      <br />{{newProduct.shortDescription}}</label></div>
                                                       <div class="field">
-                                                          <textarea [(ngModel)]="newCategory.shortDescription" 
+                                                          <textarea [(ngModel)]="newProduct.shortDescription" 
                                                           name="shortDescription" #shortDescription="ngModel"></textarea>
                                                       </div>
                                                   </div>
                                                   <div class="row">
                                                       <div class="label"><label for="description">Description: 
-                                                      <br />{{newCategory.description}}</label></div>
+                                                      <br />{{newProduct.description}}</label></div>
                                                       <div class="field">
-                                                          <textarea [(ngModel)]="newCategory.description" 
+                                                          <textarea [(ngModel)]="newProduct.description" 
                                                           name="description" #description="ngModel"></textarea>
                                                       </div>
                                                   </div>
@@ -117,9 +117,9 @@ import { CategoryService } from './categoryService';
                                           </li>
                                       </ul>
                                       <div class="buttons">
-                                          <button type="submit" class="btn" [disabled]="!createCategoryForm.valid">
-                                              Create new category</button> 
-                                          <a href="#" class="btn" data-ng-click="editCancel($event, category)">Cancel</a>
+                                          <button type="submit" class="btn" [disabled]="!createProductForm.valid">
+                                              Create new product</button> 
+                                          <a href="#" class="btn" data-ng-click="editCancel($event, product)">Cancel</a>
                                       </div>
                                   </fieldset>
                               </form>
@@ -129,19 +129,19 @@ import { CategoryService } from './categoryService';
               </div>
           </div>
       </div>
-    `
+	`
 })
 
-export class CategoryList {
-    newCategory = new Category();
-    categories: Category[];
-    selectedCategory : Category;
+export class ProductList {
+    newProduct = new Product();
+    products: Product[];
+    selectedProduct : Product;
     openedAddBox : boolean;
     //addservice via constructor
 
     constructor(
         private router: Router,
-        private categoryService: CategoryService
+        private productService: ProductService
     ) {}
 
     openAddBox() : void {
@@ -153,9 +153,9 @@ export class CategoryList {
         let max = Math.floor(100);
         let time = new Date();
 
-        this.newCategory.id = Math.floor(Math.random() * (max - min + 1 )) + min;
-        this.newCategory.created = time.getDate() + '.' + (time.getMonth() + 1) + '.' + time.getFullYear();
-        this.newCategory.edited = this.newCategory.created;
+        this.newProduct.id = Math.floor(Math.random() * (max - min + 1 )) + min;
+        this.newProduct.created = time.getDate() + '.' + (time.getMonth() + 1) + '.' + time.getFullYear();
+        this.newProduct.edited = this.newProduct.created;
         this.categoryService.createCategory(this.newCategory)
             .then(category => {
                 this.categories.push(category);
@@ -189,4 +189,3 @@ export class CategoryList {
         this.router.navigate(['admin/categories', this.selectedCategory.id]);
     }
 }
-

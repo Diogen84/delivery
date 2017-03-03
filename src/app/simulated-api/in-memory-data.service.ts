@@ -33,6 +33,50 @@ export class InMemoryDataService implements InMemoryDbService {
                 edited : '23dec2017'
             }
         ];
-        return {categories};
+        let products = [
+            {
+                id: 1;
+                name: 'Product1';
+                thumbnail: 'product_thumbnail1';
+                inStock : 10;
+                price: '100.00';
+                currency : '$';
+                weight: '10kg';
+                shortDescription : 'Product 1';
+                description : 'Product1';
+                lock : true;
+                created : '23dec2017';
+                edited : '23dec2017';
+            },
+            {
+                id: 2;
+                name: 'Product2';
+                thumbnail: 'product_thumbnail2';
+                inStock : 20;
+                price: '120.00';
+                currency : '$';
+                weight: '20kg';
+                shortDescription : 'Product 2';
+                description : 'Product2';
+                lock : false;
+                created : '23dec2017';
+                edited : '23dec2017';
+            },
+            {
+                id: 3;
+                name: 'Product3';
+                thumbnail: 'product_thumbnail3';
+                inStock : 30;
+                price: '300.00';
+                currency : '$';
+                weight: '30kg';
+                shortDescription : 'Product 3';
+                description : 'Product3';
+                lock : false;
+                created : '23dec2017';
+                edited : '23dec2017';
+            }
+        ];
+        return {categories, products};
     }
 }
