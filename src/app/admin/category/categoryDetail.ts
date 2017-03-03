@@ -8,7 +8,7 @@ import { Category } from './categoryModel';
 
 @Component({
     moduleId: module.id,
-    selector:'category-detail',
+    selector:'div.category-detail',
     template:`
         <div *ngIf="category">
         <div><label>Id: </label>{{category.id}}</div>

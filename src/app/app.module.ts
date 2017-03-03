@@ -11,6 +11,8 @@ import { InMemoryWebApiModule } from 'angular2-in-memory-web-api';
 import { InMemoryDataService }  from './simulated-api/in-memory-data.service';
 
 
+import { HeaderSection } from './shared/headerSection';
+
 import { AppComponent } from './app.component';
 import { CategoryList } from './admin/category/categoryList';
 import { CategoryDetail } from './admin/category/categoryDetail';
@@ -26,6 +28,8 @@ import { CategoryService } from './admin/category/categoryService';
         AppRoutingModule
     ],
     declarations: [
+        HeaderSection,
+
         CategorySearch,
         AppComponent,
         CategoryList,

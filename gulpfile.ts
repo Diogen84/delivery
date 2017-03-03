@@ -56,6 +56,11 @@ gulp.task("resources", () => {
         .pipe(gulp.dest("build"));
 });
 
+gulp.task("images", function() {
+    return gulp.src(["./src/images/**.*"])
+        .pipe(gulp.dest("./images"));
+});
+
 /**
  * Copy all required libraries into build directory.
  */
@@ -86,11 +91,14 @@ gulp.task('watch', function () {
 	gulp.watch(['/src/scss/**/*'], ['sass']).on('change', function(e) {
 		console.log('Resource file ' + e.path + ' has been changed. Updating.');
 	});
+    gulp.watch(['/src/images/**/*'], ['images']).on('change', function(e) {
+        console.log('Resource file ' + e.path + ' has been changed. Updating.');
+    });
 });
 
 /**
  * Build the project.
  */
-gulp.task("build", ['compile', 'resources', 'libs', 'sass'], () => {
+gulp.task("build", ['compile', 'resources', 'libs', 'sass', 'images'], () => {
     console.log("Building the project ...");
 });
