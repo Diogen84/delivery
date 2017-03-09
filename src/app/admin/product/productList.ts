@@ -122,7 +122,7 @@ import { ProductService } from './productService';
                                                       <div class="label"><label for="newCategoryProducts_related">
                                                       Related products</label></div>
                                                       <div class="field">
-                                                          <select multiple id="newCategoryProducts_related" >
+                                                          <select multiple id="newCategoryProducts_related">
                                                               <option>Category1</option>
                                                               <option>Category2</option>
                                                               <option>Category3</option>

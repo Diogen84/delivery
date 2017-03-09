@@ -16,6 +16,8 @@ import { Index } from './front/index/index';
 import { Categories } from './front/categories/categories';
 import { AppComponent } from './app.component';
 
+import { RelationService } from './shared/relationService';
+
 import { CategoryList } from './admin/category/categoryList';
 import { CategoryDetail } from './admin/category/categoryDetail';
 import { CategorySearch } from './admin/category/categorySearch';
@@ -38,20 +40,21 @@ import { ProductService } from './admin/product/productService';
         Index,
         Categories,
         HeaderSection,
+        AppComponent,
 
         ProductList,
         ProductDetail,
         ProductSearch,
 
         CategorySearch,
-        AppComponent,
         CategoryList,
         CategoryDetail
     ],
     providers: [
         {provide: LocationStrategy, useClass: HashLocationStrategy},
         CategoryService,
-        ProductService
+        ProductService,
+        RelationService
     ],
     bootstrap: [ AppComponent ]
 })

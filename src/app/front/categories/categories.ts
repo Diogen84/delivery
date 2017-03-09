@@ -43,7 +43,7 @@ export class Categories {
     ) {}
 
     gotoDetail(category: Category): void {
-        this.router.navigate(['admin/categories', this.category.id]);
+        this.router.navigate(['admin/categories', category.id]);
     }
     getCategories(): void {
         this.categoryService

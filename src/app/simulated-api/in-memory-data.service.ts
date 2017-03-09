@@ -77,6 +77,32 @@ export class InMemoryDataService implements InMemoryDbService {
                 edited : '23dec2017'
             }
         ];
-        return {categories, products};
+        let relation = [
+            {
+                productId:1,
+                categoryId:1
+            },
+            {
+                productId:2,
+                categoryId:1
+            },
+            {
+                productId:2,
+                categoryId:2
+            },
+            {
+                productId:3,
+                categoryId:2
+            },
+            {
+                productId:1,
+                categoryId:3
+            },
+            {
+                productId:3,
+                categoryId:3
+            }
+        ];
+        return {categories, products, relation};
     }
 }
