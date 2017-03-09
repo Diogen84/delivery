@@ -12,6 +12,8 @@ import { InMemoryDataService }  from './simulated-api/in-memory-data.service';
 
 
 import { HeaderSection } from './shared/headerSection';
+import { Index } from './front/index/index';
+import { Categories } from './front/categories/categories';
 import { AppComponent } from './app.component';
 
 import { CategoryList } from './admin/category/categoryList';
@@ -33,6 +35,8 @@ import { ProductService } from './admin/product/productService';
         AppRoutingModule
     ],
     declarations: [
+        Index,
+        Categories,
         HeaderSection,
 
         ProductList,

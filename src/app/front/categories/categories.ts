@@ -6,7 +6,7 @@ import { CategoryService } from '../../admin/category/categoryService';
 
 @Component({
     moduleId: module.id,
-    selector: 'div.index',
+    selector: 'div.categories',
     template:`
         <div class="holder">
             <div class="gallery">
@@ -23,7 +23,7 @@ import { CategoryService } from '../../admin/category/categoryService';
                         </div>
                         <ul class="options">
                             <li><a href="#">Buy in one click</a></li>
-                            <li><a href="#" (click)="productDetails(product.id);$event.preventDefault()">Details</a></li>
+                            <li><a href="#" (click)="categoryDetails(category.id);$event.preventDefault()">Details</a></li>
                             <li><a href="#">Add to favorites</a></li>
                             <li><a href="#">Remove from favorites</a></li>
                         </ul>
@@ -34,7 +34,7 @@ import { CategoryService } from '../../admin/category/categoryService';
     `
 })
 
-export class Index {
+export class Categories {
     categories : Category[];
 
     constructor(
