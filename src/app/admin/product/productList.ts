@@ -22,7 +22,7 @@ import { ProductService } from './productService';
                       </ul>
                   </div>
                   <div class="right-section">
-                      <!--<div class="search-section" product-search></div>-->
+                      <div class="search-section" product-search></div>
 
                       <div class="admin-content">
                           <ul class="data-table">

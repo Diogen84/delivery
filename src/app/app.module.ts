@@ -12,8 +12,8 @@ import { InMemoryDataService }  from './simulated-api/in-memory-data.service';
 
 
 import { HeaderSection } from './shared/headerSection';
-
 import { AppComponent } from './app.component';
+
 import { CategoryList } from './admin/category/categoryList';
 import { CategoryDetail } from './admin/category/categoryDetail';
 import { CategorySearch } from './admin/category/categorySearch';
@@ -21,6 +21,7 @@ import { CategoryService } from './admin/category/categoryService';
 
 import { ProductList } from './admin/product/productList';
 import { ProductDetail } from './admin/product/productDetail';
+import { ProductSearch } from './admin/product/productSearch';
 import { ProductService } from './admin/product/productService';
 
 @NgModule({
@@ -36,6 +37,7 @@ import { ProductService } from './admin/product/productService';
 
         ProductList,
         ProductDetail,
+        ProductSearch,
 
         CategorySearch,
         AppComponent,
