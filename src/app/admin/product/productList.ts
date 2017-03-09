@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { Product } from './productModel';
 import { ProductService } from './productService';
 
-@Componenet({
+@Component({
 	moduleId: module.id,
 	selector: 'div.product-list',
 	template: `
@@ -22,7 +22,7 @@ import { ProductService } from './productService';
                       </ul>
                   </div>
                   <div class="right-section">
-                      <div class="search-section" category-search></div>
+                      <!--<div class="search-section" product-search></div>-->
 
                       <div class="admin-content">
                           <ul class="data-table">
@@ -81,8 +81,40 @@ import { ProductService } from './productService';
                                                       <div class="label"><label for="thumbnail">Thumbnail: 
                                                       <br />{{newProduct.thumbnail}}</label></div>
                                                       <div class="field">
-                                                          <input type="text" [(ngModel)]="newCategory.thumbnail" 
+                                                          <input type="text" [(ngModel)]="newProduct.thumbnail" 
                                                           name="thumbnail" #thumbnail="ngModel" />
+                                                      </div>
+                                                  </div>
+                                                  <div class="row">
+                                                      <div class="label"><label for="inStock">Items in stock: <br />
+                                                      {{newProduct.inStock}}</label></div>
+                                                      <div class="field">
+                                                          <input type="text" [(ngModel)]="newProduct.inStock" 
+                                                          name="inStock" #lock="ngModel" type="text" />
+                                                      </div>
+                                                  </div>
+                                                  <div class="row">
+                                                      <div class="label"><label for="price">Price: <br />
+                                                      {{newProduct.price}}</label></div>
+                                                      <div class="field">
+                                                          <input type="text" [(ngModel)]="newProduct.price" 
+                                                          name="price" #lock="ngModel" type="text" />
+                                                      </div>
+                                                  </div>
+                                                  <div class="row">
+                                                      <div class="label"><label for="currency">Currency: <br />
+                                                      {{newProduct.currency}}</label></div>
+                                                      <div class="field">
+                                                          <input type="text" [(ngModel)]="newProduct.currency" 
+                                                          name="currency" #lock="ngModel" type="text" />
+                                                      </div>
+                                                  </div>
+                                                  <div class="row">
+                                                      <div class="label"><label for="weight">Weight: <br />
+                                                      {{newProduct.weight}}</label></div>
+                                                      <div class="field">
+                                                          <input type="text" [(ngModel)]="newProduct.weight" 
+                                                          name="weight" #lock="ngModel" type="text" />
                                                       </div>
                                                   </div>
                                                   <div class="row">
@@ -119,7 +151,8 @@ import { ProductService } from './productService';
                                       <div class="buttons">
                                           <button type="submit" class="btn" [disabled]="!createProductForm.valid">
                                               Create new product</button> 
-                                          <a href="#" class="btn" data-ng-click="editCancel($event, product)">Cancel</a>
+                                          <a href="#" class="btn" 
+                                          (click)="editCancel();$event.stopPropagation();$event.preventDefault()">Cancel</a>
                                       </div>
                                   </fieldset>
                               </form>
@@ -133,12 +166,12 @@ import { ProductService } from './productService';
 })
 
 export class ProductList {
-    newProduct = new Product();
+    private newProduct : Product = new Product();
     products: Product[];
     selectedProduct : Product;
     openedAddBox : boolean;
-    //addservice via constructor
 
+    //addservice via constructor
     constructor(
         private router: Router,
         private productService: ProductService
@@ -148,7 +181,7 @@ export class ProductList {
         this.openedAddBox = true;
     }
 
-    onSubmitNewCategoryForm() {
+    onSubmitNewProductForm() {
         let min = Math.ceil(10);
         let max = Math.floor(100);
         let time = new Date();
@@ -156,36 +189,39 @@ export class ProductList {
         this.newProduct.id = Math.floor(Math.random() * (max - min + 1 )) + min;
         this.newProduct.created = time.getDate() + '.' + (time.getMonth() + 1) + '.' + time.getFullYear();
         this.newProduct.edited = this.newProduct.created;
-        this.categoryService.createCategory(this.newCategory)
-            .then(category => {
-                this.categories.push(category);
-                this.selectedCategory = null;
+        this.productService.createProduct(this.newProduct)
+            .then(product => {
+                this.products.push(product);
+                this.selectedProduct = null;
             });
         this.openedAddBox = false;
     }
-    getCategories(): void {
-        this.categoryService
-            .getCategories()
-            .then(categories => this.categories = categories);
+    getProducts(): void {
+        this.productService
+            .getProducts()
+            .then(products => this.products = products);
     }
 
-    delete(category: Category): void {
-        this.categoryService
-            .delete(category.id)
+    delete(product: Product): void {
+        this.productService
+            .delete(product.id)
             .then(() => {
-                this.categories = this.categories.filter(h => h !== category);
-                if (this.selectedCategory === category) { this.selectedCategory = null; }
+                this.products = this.products.filter(h => h !== product);
+                if (this.selectedProduct === product) { this.selectedProduct = null; }
             });
     }
     ngOnInit(): void {
-        this.getCategories();
+        this.getProducts();
         this.openedAddBox = false;
     }
-    onSelect(category: Category) : void {
-        this.selectedCategory = category;
+    onSelect(product: Product) : void {
+        this.selectedProduct = product;
     }
-    gotoDetail(category: Category): void {
-        this.selectedCategory = category;
-        this.router.navigate(['admin/categories', this.selectedCategory.id]);
+    gotoDetail(product: Product): void {
+        this.selectedProduct = product;
+        this.router.navigate(['admin/products', this.selectedProduct.id]);
+    }
+    editCancel(): void {
+        this.openedAddBox = false;
     }
 }

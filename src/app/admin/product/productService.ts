@@ -4,7 +4,7 @@ import { Headers, Http } from '@angular/http';
 
 import { Product } from './productModel';
 
-@Injectable
+@Injectable()
 export class ProductService {
 	private headers = new Headers({'Content-Type': 'application/json'});
     // URL to web api
@@ -35,7 +35,7 @@ export class ProductService {
             .catch(this.handleError);
     }
 
-    createCategory(product : any) : Promise<Product> {
+    createProduct(product : any) : Promise<Product> {
         return this.http
             .post(this.productsUrl, JSON.stringify(product), {headers: this.headers})
             .toPromise()
@@ -44,7 +44,7 @@ export class ProductService {
     }
 
     update(product: Product): Promise<Product> {
-        const url = `${this.productssUrl}/${product.id}`;
+        const url = `${this.productsUrl}/${product.id}`;
         return this.http
             .put(url, JSON.stringify(product), {headers: this.headers})
             .toPromise()

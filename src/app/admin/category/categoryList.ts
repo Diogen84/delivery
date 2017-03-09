@@ -119,7 +119,8 @@ import { CategoryService } from './categoryService';
                                       <div class="buttons">
                                           <button type="submit" class="btn" [disabled]="!createCategoryForm.valid">
                                               Create new category</button> 
-                                          <a href="#" class="btn" data-ng-click="editCancel($event, category)">Cancel</a>
+                                          <a href="#" class="btn" 
+                                          (click)="editCancel();$event.stopPropagation();$event.preventDefault()">Cancel</a>
                                       </div>
                                   </fieldset>
                               </form>
@@ -133,7 +134,7 @@ import { CategoryService } from './categoryService';
 })
 
 export class CategoryList {
-    newCategory = new Category();
+    private newCategory: Category = new Category();
     categories: Category[];
     selectedCategory : Category;
     openedAddBox : boolean;
@@ -187,6 +188,9 @@ export class CategoryList {
     gotoDetail(category: Category): void {
         this.selectedCategory = category;
         this.router.navigate(['admin/categories', this.selectedCategory.id]);
+    }
+    editCancel(): void {
+        this.openedAddBox = false;
     }
 }
 

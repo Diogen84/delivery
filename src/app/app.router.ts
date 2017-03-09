@@ -9,7 +9,7 @@ import { ProductList } from './admin/product/productList';
 const routes: Routes = [
     { path: '', redirectTo: 'admin/categories', pathMatch: 'full' },
     { path: 'admin/categories', component: CategoryList },
-    { path: 'admin/categories/:id', component: CategoryDetail }
+    { path: 'admin/categories/:id', component: CategoryDetail },
     { path: 'admin/products', component: ProductList }
 ];
 

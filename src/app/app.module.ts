@@ -19,6 +19,9 @@ import { CategoryDetail } from './admin/category/categoryDetail';
 import { CategorySearch } from './admin/category/categorySearch';
 import { CategoryService } from './admin/category/categoryService';
 
+import { ProductList } from './admin/product/productList';
+import { ProductService } from './admin/product/productService';
+
 @NgModule({
     imports: [
         BrowserModule,
@@ -29,6 +32,7 @@ import { CategoryService } from './admin/category/categoryService';
     ],
     declarations: [
         HeaderSection,
+        ProductList,
 
         CategorySearch,
         AppComponent,
@@ -37,7 +41,8 @@ import { CategoryService } from './admin/category/categoryService';
     ],
     providers: [
         {provide: LocationStrategy, useClass: HashLocationStrategy},
-        CategoryService
+        CategoryService,
+        ProductService
     ],
     bootstrap: [ AppComponent ]
 })
