@@ -35,8 +35,8 @@ import { CategoryService } from './categoryService';
                                   <div class="edited">Last edit</div>
                                   <div class="name">Name</div>
                               </li>
-                              <li *ngFor="let category of categories" [class.selected]="category === selectedCategory" 
-                              [routerLink]="['/admin/categories/' + category.id]">
+                              <li *ngFor="let category of categories" [class.selected]="category === selectedCategory"> 
+                              <!--[routerLink]="['/admin/categories/' + category.id]">-->
                                   <div class="row">
                                       <div class="number">index</div>
                                       <div class="id">{{category.id}}</div>
@@ -46,7 +46,8 @@ import { CategoryService } from './categoryService';
                                           <a href="#" (click)="delete(category); $event.stopPropagation(); 
                                           $event.preventDefault();">Remove</a>
                                       </div>
-                                      <div class="trigger"><input type="checkbox" /></div>
+                                      <div class="trigger"><input type="checkbox" 
+                                      [(ngModel)]="category.lock" name="lock" (change)="save(category)" /></div>
                                       <div class="created">{{category.created}}</div>
                                       <div class="edited">{{category.edited}}</div>
                                       <div class="name">{{category.name}}</div>
@@ -73,7 +74,7 @@ import { CategoryService } from './categoryService';
                                                   <div class="row">
                                                       <div class="label"><label for="lock">Lock: <br />{{newCategory.lock}}</label></div>
                                                       <div class="field">
-                                                          <input type="text" [(ngModel)]="newCategory.lock" 
+                                                          <input [(ngModel)]="newCategory.lock" 
                                                           name="lock" #lock="ngModel" type="checkbox" />
                                                       </div>
                                                   </div>
@@ -191,6 +192,9 @@ export class CategoryList {
     }
     editCancel(): void {
         this.openedAddBox = false;
+    }
+    save(category: Category): void {
+        this.categoryService.update(category);
     }
 }
 

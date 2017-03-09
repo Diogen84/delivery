@@ -20,6 +20,7 @@ import { CategorySearch } from './admin/category/categorySearch';
 import { CategoryService } from './admin/category/categoryService';
 
 import { ProductList } from './admin/product/productList';
+import { ProductDetail } from './admin/product/productDetail';
 import { ProductService } from './admin/product/productService';
 
 @NgModule({
@@ -32,7 +33,9 @@ import { ProductService } from './admin/product/productService';
     ],
     declarations: [
         HeaderSection,
+
         ProductList,
+        ProductDetail,
 
         CategorySearch,
         AppComponent,

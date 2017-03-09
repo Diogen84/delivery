@@ -33,8 +33,8 @@ import { ProductService } from './productService';
 						            <div class="trigger">Lock</div>
 						            <div class="name">Name</div>
                               </li>
-                              <li *ngFor="let product of products" [class.selected]="product === selectedProduct" 
-                              [routerLink]="['/admin/products/' + product.id]">
+                              <li *ngFor="let product of products" [class.selected]="product === selectedProduct">
+                              <!--[routerLink]="['/admin/products/' + product.id]">-->
                                   <div class="row">
                                       <div class="number">index</div>
                                       <div class="id">{{product.id}}</div>
@@ -46,7 +46,8 @@ import { ProductService } from './productService';
                                               $event.preventDefault();">Remove</a>
                                           </div>
                                       </div>
-                                      <div class="trigger"><input type="checkbox" /></div>
+                                      <div class="trigger"><input type="checkbox" 
+                                      [(ngModel)]="product.lock" name="lock" (change)="save(product)" /></div>
                                       <div class="created">{{product.created}}</div>
                                       <div class="edited">{{product.edited}}</div>
                                       <div class="name">{{product.name}}</div>
@@ -73,7 +74,7 @@ import { ProductService } from './productService';
                                                   <div class="row">
                                                       <div class="label"><label for="lock">Lock: <br />{{newProduct.lock}}</label></div>
                                                       <div class="field">
-                                                          <input type="text" [(ngModel)]="newProduct.lock" 
+                                                          <input [(ngModel)]="newProduct.lock" 
                                                           name="lock" #lock="ngModel" type="checkbox" />
                                                       </div>
                                                   </div>
@@ -223,5 +224,8 @@ export class ProductList {
     }
     editCancel(): void {
         this.openedAddBox = false;
+    }
+    save(product: Product): void {
+        this.productService.update(product);
     }
 }
