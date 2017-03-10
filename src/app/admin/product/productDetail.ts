@@ -8,7 +8,7 @@ import { Product } from './productModel';
 
 import { Relation } from '../../shared/relationModel';
 import { RelationService } from '../../shared/relationService';
-import { SelectedCategoryItem } from '../../shared/selectedCategoriesModel';
+import { CategoryItem } from '../../shared/selectedCategoriesModel';
 
 import { Category } from '../../admin/category/categoryModel';
 import { CategoryService } from '../../admin/category/categoryService';
@@ -32,65 +32,53 @@ import { CategoryService } from '../../admin/category/categoryService';
                     </div>
                     <div class="right-section">
                         <div class="search-section" category-search></div>
-
                         <div class="admin-content">
-                            <div *ngIf="product">
-                                <div><label>Id: </label>{{product.id}}</div>
-                                <div>
-                                  <label>Name:{{product.name}}</label>
-                                  <div>
-                                    <input [(ngModel)]="product.name" />
-                                  </div>
-                                </div>
-                                <div>
-                                  <label>Thumbnail: <br />{{product.thumbnail}}</label>
-                                  <div>
-                                    <input [(ngModel)]="product.thumbnail" />
-                                </div>
-                                </div>
-                                <div>
-                                  <label>Short description: <br />{{product.shortDescription}}</label>
-                                  <div>
-                                    <input [(ngModel)]="product.shortDescription" />
+                            <form #editProductForm="ngForm" *ngIf="product">
+                                <fieldset>
+                                    <div><label>Id: </label>{{product.id}}</div>
+                                    <div>
+                                      <label for="name">Name:{{product.name}}</label>
+                                      <div>
+                                        <input [(ngModel)]="product.name" name="name" #name="ngModel" />
+                                      </div>
                                     </div>
-                                </div>
-                                <div>
-                                  <label>Description: <br />{{product.description}}</label>
-                                  <div>
-                                  <input [(ngModel)]="product.description" />
-                                  </div>
-                                </div>
-                                <div class="row">
-                                    <div class="label"><label for="newCategoryProducts_related">
-                                        Related products</label>
+                                    <div>
+                                      <label for="thimbnail">Thumbnail: <br />{{product.thumbnail}}</label>
+                                      <div>
+                                        <input [(ngModel)]="product.thumbnail" name="thumbnail" #thumbnail="ngModel" />
                                     </div>
-                                    <div class="field">
-                                        <select multiple [(ngModel)]="selectedCategories">
-                                            <option *ngFor="let category of categoryList" value="category.id">{{category.name}}</option>
-                                        </select>
                                     </div>
-                                </div>
-                                <div>
-                                  <label>Lock: <br />{{product.lock}}</label>
-                                  <div>
-                                  <input [(ngModel)]="product.lock" type="checkbox" />
-                                  </div>
-                                </div>
-                                <div>
-                                  <label>Created: <br />{{product.created}}</label>
-                                  <div>
-                                  <input [(ngModel)]="product.created" />
-                                  </div>
-                                </div>
-                                <div>
-                                  <label>Edited: <br />{{product.edited}}</label>
-                                  <div>
-                                  <input [(ngModel)]="product.edited" />
-                                  </div>
-                                </div>
-                                <button (click)="goBack()">Back</button>
-                                <button (click)="save()">Save</button>
-                            </div>
+                                    <div>
+                                        <label for="shortDescription">Short description: <br />{{product.shortDescription}}</label>
+                                        <div>
+                                            <input [(ngModel)]="product.shortDescription" name="shortDescription" #shortDescription="ngModel" />
+                                        </div>
+                                    </div>
+                                    <div>
+                                      <label for="description">Description: <br />{{product.description}}</label>
+                                      <div>
+                                        <input [(ngModel)]="product.description" name="description" #description="ngModel" />
+                                      </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="label"><label for="selectedCategory">Related products</label>
+                                        </div>
+                                        <div class="field">
+                                            <select multiple [(ngModel)]="selectedCategories" name="selectedCategory">
+                                                <option *ngFor="let category of categoryList" [ngValue]="category">{{category.name}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div>
+                                      <label for="lock">Lock: <br />{{product.lock}}</label>
+                                      <div>
+                                      <input [(ngModel)]="product.lock" name="lock" #lock="ngModel" type="checkbox" />
+                                      </div>
+                                    </div>
+                                    <button (click)="goBack()">Back</button>
+                                    <button (click)="save()">Save</button>
+                                </fieldset>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -101,8 +89,9 @@ import { CategoryService } from '../../admin/category/categoryService';
 
 export class ProductDetail implements OnInit {
     product: Product;
-    categoryList: {id: number, name: string}[] = [];
-    selectedCategories: SelectedCategoryItem[] = [];
+    selectedCategories: CategoryItem[] = [];
+    categoryList: CategoryItem[] = [];
+
     relations: Relation[];
 
     constructor(
@@ -123,28 +112,30 @@ export class ProductDetail implements OnInit {
                 this.categoryService.getCategories()
                     .then(response => {
                         for ( let i = 0 ; i < response.length ; i++ ) {
-                            this.categoryList.push({
-                                id: response[i].id,
-                                name: response[i].name
-                            });
+                            this.categoryList.push(new CategoryItem(response[i].id, response[i].name));
                         }
                         this.relationService.getRelationsOfProduct(this.product.id)
-                            .then(selectedCategories => {
-                                for ( let j = 0 ; j < selectedCategories.length ; j++ ) {
-                                    for ( let i = 0 ; i < self.categoryList.length ; i++ ) {
-                                        if (selectedCategories[j].categoryId === self.categoryList[i].id) {
-                                            self.selectedCategories.push({
-                                                id: self.categoryList[i].id,
-                                                name: self.categoryList[i].name
-                                            });
+                            .then(res => {
+                                this.selectedCategories = [];
+                                for ( let i = 0; i < res.length ; i++ ) {
+                                    if ( this.product.id === res[i].productId ) {
+                                        for ( let j = 0 ; j < this.categoryList.length ; j++ ) {
+                                            if (res[i].categoryId === this.categoryList[j].value) {
+                                                console.log(this.categoryList[j]);
+                                                //console.log(self.categoryList[j]);
+                                                this.selectedCategories.push(this.categoryList[j]);
+                                            }
                                         }
                                     }
                                 }
-                                console.log(self);
                             });
                     });
             });
     }
+
+
+
+
 
 
 

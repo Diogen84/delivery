@@ -58,8 +58,7 @@ import { CategoryService } from './categoryService';
                           <button *ngIf="!openedAddBox" (click)="openAddBox()">Add</button>
                           <div class="createNewRow" *ngIf="openedAddBox">
                               <h3>Create new category (id = {{newCategory.id}})</h3>
-                              <form #createCategoryForm="ngForm" *ngIf="openedAddBox" 
-                              (ngSubmit)="onSubmitNewCategoryForm(createCategoryForm.value)">
+                              <form #createCategoryForm="ngForm" *ngIf="openedAddBox" (ngSubmit)="onSubmitNewCategoryForm(createCategoryForm.value)">
                                   <fieldset>    
                                       <ul class="data-table">
                                           <li>
@@ -67,28 +66,23 @@ import { CategoryService } from './categoryService';
                                                   <div class="row">
                                                       <div class="label"><label for="name">Name:{{newCategory.name}}</label></div>
                                                       <div class="field">
-                                                          <input type="text" [(ngModel)]="newCategory.name" 
-                                                          name="name" #name="ngModel" required />
+                                                          <input type="text" [(ngModel)]="newCategory.name" name="name" #name="ngModel" required />
                                                       </div>
                                                   </div>
                                                   <div class="row">
                                                       <div class="label"><label for="lock">Lock: <br />{{newCategory.lock}}</label></div>
                                                       <div class="field">
-                                                          <input [(ngModel)]="newCategory.lock" 
-                                                          name="lock" #lock="ngModel" type="checkbox" />
+                                                          <input [(ngModel)]="newCategory.lock"name="lock" #lock="ngModel" type="checkbox" />
                                                       </div>
                                                   </div>
                                                   <div class="row">
-                                                      <div class="label"><label for="thumbnail">Thumbnail: 
-                                                      <br />{{newCategory.thumbnail}}</label></div>
+                                                      <div class="label"><label for="thumbnail">Thumbnail:<br />{{newCategory.thumbnail}}</label></div>
                                                       <div class="field">
-                                                          <input type="text" [(ngModel)]="newCategory.thumbnail" 
-                                                          name="thumbnail" #thumbnail="ngModel" />
+                                                          <input type="text" [(ngModel)]="newCategory.thumbnail" name="thumbnail" #thumbnail="ngModel" />
                                                       </div>
                                                   </div>
                                                   <div class="row">
-                                                      <div class="label"><label for="newCategoryProducts_related">
-                                                      Related products</label></div>
+                                                      <div class="label"><label for="newCategoryProducts_related">Related products</label></div>
                                                       <div class="field">
                                                           <select multiple id="newCategoryProducts_related" >
                                                               <option>Category1</option>
@@ -99,29 +93,23 @@ import { CategoryService } from './categoryService';
                                                       </div>
                                                   </div>
                                                   <div class="row">
-                                                      <div class="label"><label for="shortDescription">Short description: 
-                                                      <br />{{newCategory.shortDescription}}</label></div>
+                                                      <div class="label"><label for="shortDescription">Short description:<br />{{newCategory.shortDescription}}</label></div>
                                                       <div class="field">
-                                                          <textarea [(ngModel)]="newCategory.shortDescription" 
-                                                          name="shortDescription" #shortDescription="ngModel"></textarea>
+                                                          <textarea [(ngModel)]="newCategory.shortDescription" name="shortDescription" #shortDescription="ngModel"></textarea>
                                                       </div>
                                                   </div>
                                                   <div class="row">
-                                                      <div class="label"><label for="description">Description: 
-                                                      <br />{{newCategory.description}}</label></div>
+                                                      <div class="label"><label for="description">Description:<br />{{newCategory.description}}</label></div>
                                                       <div class="field">
-                                                          <textarea [(ngModel)]="newCategory.description" 
-                                                          name="description" #description="ngModel"></textarea>
+                                                          <textarea [(ngModel)]="newCategory.description" name="description" #description="ngModel"></textarea>
                                                       </div>
                                                   </div>
                                               </div>
                                           </li>
                                       </ul>
                                       <div class="buttons">
-                                          <button type="submit" class="btn" [disabled]="!createCategoryForm.valid">
-                                              Create new category</button> 
-                                          <a href="#" class="btn" 
-                                          (click)="editCancel();$event.stopPropagation();$event.preventDefault()">Cancel</a>
+                                          <button type="submit" class="btn" [disabled]="!createCategoryForm.valid">Create new category</button> 
+                                          <a href="#" class="btn" (click)="editCancel();$event.stopPropagation();$event.preventDefault()">Cancel</a>
                                       </div>
                                   </fieldset>
                               </form>
