@@ -72,7 +72,7 @@ import { CategoryService } from './categoryService';
                                                   <div class="row">
                                                       <div class="label"><label for="lock">Lock: <br />{{newCategory.lock}}</label></div>
                                                       <div class="field">
-                                                          <input [(ngModel)]="newCategory.lock"name="lock" #lock="ngModel" type="checkbox" />
+                                                          <input [(ngModel)]="newCategory.lock" name="lock" #lock="ngModel" type="checkbox" />
                                                       </div>
                                                   </div>
                                                   <div class="row">
