@@ -22,10 +22,7 @@ import { CategoryService } from '../../admin/category/categoryService';
                             <p>{{category.shortDescription}}</p>
                         </div>
                         <ul class="options">
-                            <li><a href="#">Buy in one click</a></li>
-                            <li><a href="#" (click)="categoryDetails(category.id);$event.preventDefault()">Details</a></li>
-                            <li><a href="#">Add to favorites</a></li>
-                            <li><a href="#">Remove from favorites</a></li>
+                            <li><a href="#/categories/{{category.id}}">Details</a></li>
                         </ul>
                     </div>
                 </div>
