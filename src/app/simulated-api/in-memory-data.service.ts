@@ -79,26 +79,32 @@ export class InMemoryDataService implements InMemoryDbService {
         ];
         let relation = [
             {
+                id:1,
                 productId:1,
                 categoryId:1
             },
             {
+                id:2,
                 productId:2,
                 categoryId:1
             },
             {
+                id:3,
                 productId:2,
                 categoryId:2
             },
             {
+                id:4,
                 productId:3,
                 categoryId:2
             },
             {
+                id:5,
                 productId:1,
                 categoryId:3
             },
             {
+                id:6,
                 productId:3,
                 categoryId:3
             }

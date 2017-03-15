@@ -10,7 +10,6 @@ import { Relation } from '../../shared/relationModel';
 import { RelationService } from '../../shared/relationService';
 import { CategoryItem } from '../../shared/selectedCategoriesModel';
 
-import { Category } from '../../admin/category/categoryModel';
 import { CategoryService } from '../../admin/category/categoryService';
 
 @Component({
@@ -82,7 +81,6 @@ import { CategoryService } from '../../admin/category/categoryService';
                                       <div class="buttons">
                                           <button type="submit" class="btn" [disabled]="!editProductForm.valid">Save</button> 
                                           <a href="#" class="btn" (click)="goBack()">Cancel</a>
-                                          <button (click)="save()">Save</button>
                                       </div>
                                 </fieldset>
                             </form>
@@ -100,7 +98,7 @@ export class ProductDetail implements OnInit {
     categoryList: CategoryItem[] = [];
 
     localRelations: Relation[];
-    relations: Relation[];
+    relation: Relation;
 
     constructor(
         private categoryService: CategoryService,
@@ -139,32 +137,34 @@ export class ProductDetail implements OnInit {
                     });
             });
     }
-
-
-    save(): void {
-        this.productService.update(this.product)
-            .then(() => {
-                this.goBack();
-            });
-    }
-
-
-    saveCategories() : void {
-        this.relationService.getRelations().then(relations => {
-            console.log(relations);
-            console.log(this.localRelations);
-            console.log(this.selectedCategories);
-        });
-    }
-
     onSubmitNewCategoryForm(): void {
-        console.log(this.product);
-
         this.productService.update(this.product)
             .then(() => {
-
-                this.saveCategories();
-                //this.goBack();
+                for ( let i = 0; i < this.categoryList.length ; i++ ) {
+                    for ( let j = 0 ; j < this.localRelations.length ; j++ ) {
+                        //create elements
+                        if ( this.categoryList[i].value !== this.localRelations[j].categoryId ) {
+                            for ( let z = 0 ; z < this.selectedCategories.length ; z++ ) {
+                                if ( this.selectedCategories[z].value ===  this.categoryList[i].value ) {
+                                    this.relation = {
+                                        id: Math.random() * (1000 - 10) + 10,
+                                        productId: this.product.id,
+                                        categoryId: this.selectedCategories[z].value
+                                    };
+                                    this.relationService.createRelationsOfProduct(this.relation).then(res => {});
+                                }
+                            }
+                        } else {
+                            //delete elements
+                            for ( let z = 0 ; z < this.selectedCategories.length ; z++ ) {
+                                if ( this.selectedCategories[z].value !==  this.localRelations[j].categoryId ) {
+                                    this.relationService.deleteRelationsOfProduct(this.localRelations[j].id).then(res => {});
+                                }
+                            }
+                        }
+                    }
+                }
+                this.goBack();
             });
     }
 

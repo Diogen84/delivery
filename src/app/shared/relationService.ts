@@ -27,11 +27,18 @@ export class RelationService {
             .then(response => response.json().data as Relation[])
             .catch(this.handleError);
     }
-    setRelationsOfProduct(productId : number) : Promise<Relation[]> {
-        const url = `${this.relationUrl}?productId=${productId}`;
-        return this.http.get(url)
+    createRelationsOfProduct(relation : any) : Promise<Relation> {
+        return this.http
+            .post(this.relationUrl, JSON.stringify(relation), {headers: this.headers})
             .toPromise()
-            .then(response => response.json().data as Relation[])
+            .then(res => res.json().data)
+            .catch(this.handleError);
+    }
+    deleteRelationsOfProduct(id: number): Promise<void> {
+        const url = `${this.relationUrl}/${id}`;
+        return this.http.delete(url, {headers: this.headers})
+            .toPromise()
+            .then(() => null)
             .catch(this.handleError);
     }
 
@@ -41,9 +48,7 @@ export class RelationService {
 
 
 
-
-
-
+/*
     getRelationsOfCategory(categoryId : number) : Promise<Relation[]> {
         const url = `${this.relationUrl}?productId=${categoryId}`;
         return this.http.get(url)
@@ -51,7 +56,7 @@ export class RelationService {
             .then(response => response.json().data as Relation[])
             .catch(this.handleError);
     }
-
+*/
 
     private handleError (error : any):Promise<any> {
         console.error('An error occured ', error);
