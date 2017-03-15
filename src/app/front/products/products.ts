@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 
 import { Product } from '../../admin/product/productModel';
 import { ProductService } from '../../admin/product/productService';
+
+import { Relation } from '../../shared/relationModel';
+import { RelationService } from '../../shared/relationService';
 
 @Component({
     moduleId: module.id,
@@ -29,22 +32,22 @@ import { ProductService } from '../../admin/product/productService';
 })
 
 export class Products {
-    products : Product[];
+    relations : Relation[] = [];
+    products : Product[] = [];
 
     constructor(
-        private router: Router,
-        private productService: ProductService
+        private route: ActivatedRoute,
+        private productService: ProductService,
+        private relationService: RelationService
     ) {}
 
-    gotoDetail(product: Product): void {
-        this.router.navigate(['admin/products', product.id]);
-    }
-    getProducts(): void {
-        this.productService
-            .getProducts()
-            .then(products => this.products = products);
-    }
     ngOnInit(): void {
-        this.getProducts();
+        this.route.params.switchMap((params: Params) => this.relationService.getRelationsOfCategory(+params['id']))
+            .subscribe(relations => {
+                for ( let i = 0 ; i < relations.length ; i++ ) {
+                    this.productService.getProduct(relations[i].productId).then(res => this.products.push(res) );
+                }
+            });
+
     }
 }

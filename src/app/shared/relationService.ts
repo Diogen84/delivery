@@ -42,7 +42,13 @@ export class RelationService {
             .catch(this.handleError);
     }
 
-
+    getRelationsOfCategory(categoryId : number) : Promise<Relation[]> {
+        const url = `${this.relationUrl}?categoryId=${categoryId}`;
+        return this.http.get(url)
+            .toPromise()
+            .then(response => response.json().data as Relation[])
+            .catch(this.handleError);
+    }
 
 
 
