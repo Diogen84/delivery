@@ -24,6 +24,9 @@ import { RelationService } from '../../shared/relationService';
                         <div class="description">
                             <p>{{product.shortDescription}}</p>
                         </div>
+                        <ul class="options">
+                            <li><a href="#/products/{{product.id}}">Details</a></li>
+                        </ul>
                     </div>
                 </div>
             </div>

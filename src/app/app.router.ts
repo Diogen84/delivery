@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { Index } from './front/index/index';
 import { Categories } from './front/categories/categories';
 import { Products } from './front/products/products';
+import { ProductPage } from './front/products/product';
 
 import { CategoryList } from './admin/category/categoryList';
 import { CategoryDetail } from './admin/category/categoryDetail';
@@ -19,8 +20,7 @@ const routes: Routes = [
     //shop
     { path: 'categories', component: Categories },
     { path: 'categories/:id', component: Products },
-    { path: 'products', component: Index },
-    { path: 'products/:id', component: Index },
+    { path: 'products/:id', component: ProductPage },
     { path: 'cart', component: Index },
     { path: 'checkout', component: Index }, //???
 

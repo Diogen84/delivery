@@ -15,6 +15,7 @@ import { HeaderSection } from './shared/headerSection';
 import { Index } from './front/index/index';
 import { Categories } from './front/categories/categories';
 import { Products } from './front/products/products';
+import { ProductPage } from './front/products/product';
 import { AppComponent } from './app.component';
 
 import { RelationService } from './shared/relationService';
@@ -41,6 +42,7 @@ import { ProductService } from './admin/product/productService';
         Index,
         Categories,
         Products,
+        ProductPage,
         HeaderSection,
         AppComponent,
 
