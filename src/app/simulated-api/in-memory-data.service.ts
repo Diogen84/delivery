@@ -42,8 +42,8 @@ export class InMemoryDataService implements InMemoryDbService {
                 price: '100.00',
                 currency : '$',
                 weight: '10kg',
-                shortDescription : 'Product 1',
-                description : 'Product1',
+                shortDescription : 'Product 1 Lorem ipsum dolor sit amet lorem ispum dolor sit amet',
+                description : 'Product1 Lorem ipsum dolor sit amet lorem ispum dolor sit amet',
                 lock : true,
                 created : '23dec2017',
                 edited : '23dec2017'
@@ -56,8 +56,8 @@ export class InMemoryDataService implements InMemoryDbService {
                 price: '120.00',
                 currency : '$',
                 weight: '20kg',
-                shortDescription : 'Product 2',
-                description : 'Product2',
+                shortDescription : 'Product 2 Lorem ipsum dolor sit amet lorem ispum dolor sit amet',
+                description : 'Product2 Lorem ipsum dolor sit amet lorem ispum dolor sit amet',
                 lock : false,
                 created : '23dec2017',
                 edited : '23dec2017'
@@ -70,8 +70,8 @@ export class InMemoryDataService implements InMemoryDbService {
                 price: '300.00',
                 currency : '$',
                 weight: '30kg',
-                shortDescription : 'Product 3',
-                description : 'Product3',
+                shortDescription : 'Product 3 Lorem ipsum dolor sit amet lorem ispum dolor sit amet',
+                description : 'Product3 Lorem ipsum dolor sit amet lorem ispum dolor sit amet',
                 lock : false,
                 created : '23dec2017',
                 edited : '23dec2017'

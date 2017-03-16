@@ -29,10 +29,10 @@ import { ProductService } from '../../admin/product/productService';
                     <div class="description">
                         <h1>{{product.name}}</h1>
                         <ul>
-                            <li>ID: </li>
-                            <li>Weight: </li>
-                            <li>Price: </li>
-                            <li>In stock: </li>
+                            <li>ID: {{product.id}}</li>
+                            <li>Weight: {{product.weight}}</li>
+                            <li>Price: {{product.price}}</li>
+                            <li>In stock: {{product.inStock}}</li>
                             <li>Quantity: <form><fieldset><input class="quantity" type="number" value="1" /><input type="submit" class="submit" value="Buy" /></fieldset></form></li>
                         </ul>
                         <ul class="options">
@@ -40,7 +40,7 @@ import { ProductService } from '../../admin/product/productService';
                             <li><a href="#">Remove from favorites</a></li>
                         </ul>
                         <div class="description-text">
-                            
+                            {{product.description}}
                         </div>
                     </div>
                 </div>
@@ -67,8 +67,8 @@ import { ProductService } from '../../admin/product/productService';
     `
 })
 
-export class ProductPage {
-    product : Product;
+export class ProductPage implements OnInit {
+    product: Product = new Product;
 
     constructor(
         private route: ActivatedRoute,
