@@ -30,6 +30,8 @@ import { ProductDetail } from './admin/product/productDetail';
 import { ProductSearch } from './admin/product/productSearch';
 import { ProductService } from './admin/product/productService';
 
+import { CartPage } from './front/cart/cartPage';
+
 @NgModule({
     imports: [
         BrowserModule,
@@ -52,7 +54,9 @@ import { ProductService } from './admin/product/productService';
 
         CategorySearch,
         CategoryList,
-        CategoryDetail
+        CategoryDetail,
+
+        CartPage
     ],
     providers: [
         {provide: LocationStrategy, useClass: HashLocationStrategy},

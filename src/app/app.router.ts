@@ -11,6 +11,7 @@ import { CategoryDetail } from './admin/category/categoryDetail';
 
 import { ProductList } from './admin/product/productList';
 import { ProductDetail } from './admin/product/productDetail';
+import { CartPage } from './front/cart/cartPage';
 
 const routes: Routes = [
     //front
@@ -21,7 +22,7 @@ const routes: Routes = [
     { path: 'categories', component: Categories },
     { path: 'categories/:id', component: Products },
     { path: 'products/:id', component: ProductPage },
-    { path: 'cart', component: Index },
+    { path: 'cart', component: CartPage },
     { path: 'checkout', component: Index }, //???
 
     //admin

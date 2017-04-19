@@ -28,6 +28,7 @@ import { Component } from '@angular/core';
 		            	<li><a href="#/index">Home</a></li>
 		            	<li><a href="#/categories">Categories</a></li>
 		            	<li><a href="#/admin/categories">Admin</a></li>
+                        <li><a href="#/cart">Cart</a></li>
 		                <li><a href="/">Menu Item 1</a>
 		                    <ul>
 		                        <li><a href="/">Sub-item1</a></li>
