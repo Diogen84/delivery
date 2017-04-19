@@ -4,7 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { Index } from './front/index/index';
 import { Categories } from './front/categories/categories';
 import { Products } from './front/products/products';
-import { ProductPage } from './front/products/product';
+import { ProductPage } from './front/products/productPage';
 
 import { CategoryList } from './admin/category/categoryList';
 import { CategoryDetail } from './admin/category/categoryDetail';

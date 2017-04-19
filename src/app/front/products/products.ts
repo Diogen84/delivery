@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 
 import { Product } from '../../admin/product/productModel';
 import { ProductService } from '../../admin/product/productService';
@@ -25,7 +25,7 @@ import { RelationService } from '../../shared/relationService';
                             <p>{{product.shortDescription}}</p>
                         </div>
                         <ul class="options">
-                            <li><a href="#/products/{{product.id}}">Details</a></li>
+                            <li><a href="#/products/{{product.id}}" (click)="gotoDetail(product); $event.stopPropagation();$event.preventDefault();">Details</a></li>
                         </ul>
                     </div>
                 </div>
@@ -37,13 +37,18 @@ import { RelationService } from '../../shared/relationService';
 export class Products {
     relations : Relation[] = [];
     products : Product[] = [];
+    product : Product;
 
     constructor(
+        private router: Router,
         private route: ActivatedRoute,
         private productService: ProductService,
         private relationService: RelationService
     ) {}
 
+    gotoDetail(product: Product): void {
+        this.router.navigate(['products/', product.id]);
+    }
     ngOnInit(): void {
         this.route.params.switchMap((params: Params) => this.relationService.getRelationsOfCategory(+params['id']))
             .subscribe(relations => {

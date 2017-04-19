@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 
-import { Product } from '../../admin/product/productModel';
 import { ProductService } from '../../admin/product/productService';
+import { Product } from '../../admin/product/productModel';
 
 @Component({
     moduleId: module.id,
@@ -33,7 +33,14 @@ import { ProductService } from '../../admin/product/productService';
                             <li>Weight: {{product.weight}}</li>
                             <li>Price: {{product.price}}</li>
                             <li>In stock: {{product.inStock}}</li>
-                            <li>Quantity: <form><fieldset><input class="quantity" type="number" value="1" /><input type="submit" class="submit" value="Buy" /></fieldset></form></li>
+                            <li>Quantity: 
+                                <form #buyProductForm="ngForm" (ngSubmit)="onSubmitBuyProductForm(buyProductForm.value)">
+                                    <fieldset>
+                                        <input class="quantity" type="number" [(ngModel)]="amount" name="amount" #quantity="ngModel" />
+                                        <input type="submit" class="submit" value="Buy" />
+                                    </fieldset>
+                                </form>
+                            </li>
                         </ul>
                         <ul class="options">
                             <li><a href="#">Add to favorites</a></li>
@@ -68,7 +75,8 @@ import { ProductService } from '../../admin/product/productService';
 })
 
 export class ProductPage implements OnInit {
-    product: Product = new Product;
+    product: Product = new Product();
+    amount : number;
 
     constructor(
         private route: ActivatedRoute,
@@ -77,9 +85,13 @@ export class ProductPage implements OnInit {
 
     ngOnInit(): void {
         this.route.params.switchMap((params: Params) => this.productService.getProduct(+params['id']))
-            .subscribe(product => {
-                this.product = product;
-                console.log(this);
+            .subscribe(item => {
+                this.product = item;
+                this.amount = 1;
             } );
+    }
+
+    onSubmitBuyProductForm(): void {
+        console.log(this);
     }
 }
