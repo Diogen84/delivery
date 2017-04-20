@@ -1,4 +1,4 @@
 export class OrderModel {
-    product : any;
+    productId : number;
     amount : number;
 }

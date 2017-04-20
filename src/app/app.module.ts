@@ -32,6 +32,8 @@ import { ProductService } from './admin/product/productService';
 
 import { CartPage } from './front/cart/cartPage';
 
+import { CookieService } from './shared/cookieService';
+
 @NgModule({
     imports: [
         BrowserModule,
@@ -62,7 +64,8 @@ import { CartPage } from './front/cart/cartPage';
         {provide: LocationStrategy, useClass: HashLocationStrategy},
         CategoryService,
         ProductService,
-        RelationService
+        RelationService,
+        CookieService
     ],
     bootstrap: [ AppComponent ]
 })

@@ -4,6 +4,9 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { ProductService } from '../../admin/product/productService';
 import { Product } from '../../admin/product/productModel';
 
+import { OrderModel } from '../../shared/orderModel';
+import { CookieService } from '../../shared/cookieService';
+
 @Component({
     moduleId: module.id,
     selector: 'div.products',
@@ -77,10 +80,14 @@ import { Product } from '../../admin/product/productModel';
 export class ProductPage implements OnInit {
     product: Product = new Product();
     amount : number;
+    data : string;
+    cart: OrderModel;
+    cookieOrders: OrderModel[] = [];
 
     constructor(
         private route: ActivatedRoute,
-        private productService: ProductService
+        private productService: ProductService,
+        private cookieService: CookieService
     ) {}
 
     ngOnInit(): void {
@@ -88,10 +95,20 @@ export class ProductPage implements OnInit {
             .subscribe(item => {
                 this.product = item;
                 this.amount = 1;
-            } );
+            });
     }
 
     onSubmitBuyProductForm(): void {
-        console.log(this);
+        this.cart = {
+            productId: this.product.id,
+            amount: this.amount
+        };
+        this.cookieOrders = JSON.parse(this.cookieService.getCookie('cart'));
+        let result = this.cookieService.checkCookies(this.cookieOrders, this.cart);
+        this.cookieService.setCookie('cart', JSON.stringify(result), {
+            expires :3600
+        });
+        console.log(result);
+        console.log('===================================');
     }
 }
