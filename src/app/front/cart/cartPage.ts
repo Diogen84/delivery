@@ -16,6 +16,7 @@ import { CookieService } from '../../shared/cookieService';
         </div>
         <div class="cart-holder">
             <div class="cart-related">
+                <h2>Cart</h2>
                 <table class="cart-table">
                     <tr class="title-row">
                         <td></td>
@@ -49,6 +50,9 @@ import { CookieService } from '../../shared/cookieService';
                         </td>
                     </tr>
                 </table>
+                <div class="button-holder">
+                    <a href="#/checkout">Checkout</a>
+                </div>
             </div>
         </div>
     </div>`

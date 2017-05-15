@@ -31,6 +31,8 @@ import { ProductSearch } from './admin/product/productSearch';
 import { ProductService } from './admin/product/productService';
 
 import { CartPage } from './front/cart/cartPage';
+import { CheckoutPage } from './front/cart/checkoutPage';
+import { CheckoutService } from './front/cart/checkoutService';
 
 import { CookieService } from './shared/cookieService';
 
@@ -58,13 +60,15 @@ import { CookieService } from './shared/cookieService';
         CategoryList,
         CategoryDetail,
 
-        CartPage
+        CartPage,
+        CheckoutPage
     ],
     providers: [
         {provide: LocationStrategy, useClass: HashLocationStrategy},
         CategoryService,
         ProductService,
         RelationService,
+        CheckoutService,
         CookieService
     ],
     bootstrap: [ AppComponent ]
