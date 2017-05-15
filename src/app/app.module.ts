@@ -29,6 +29,7 @@ import { ProductList } from './admin/product/productList';
 import { ProductDetail } from './admin/product/productDetail';
 import { ProductSearch } from './admin/product/productSearch';
 import { ProductService } from './admin/product/productService';
+import { OrderList } from './admin/orders/orderList';
 
 import { CartPage } from './front/cart/cartPage';
 import { CheckoutPage } from './front/cart/checkoutPage';
@@ -59,6 +60,7 @@ import { CookieService } from './shared/cookieService';
         CategorySearch,
         CategoryList,
         CategoryDetail,
+        OrderList,
 
         CartPage,
         CheckoutPage

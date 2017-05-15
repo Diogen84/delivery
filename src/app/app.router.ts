@@ -11,6 +11,7 @@ import { CategoryDetail } from './admin/category/categoryDetail';
 
 import { ProductList } from './admin/product/productList';
 import { ProductDetail } from './admin/product/productDetail';
+import { OrderList } from './admin/orders/orderList';
 import { CartPage } from './front/cart/cartPage';
 import { CheckoutPage } from './front/cart/checkoutPage';
 
@@ -30,7 +31,8 @@ const routes: Routes = [
     { path: 'admin/categories', component: CategoryList },
     { path: 'admin/categories/:id', component: CategoryDetail },
     { path: 'admin/products', component: ProductList },
-    { path: 'admin/products/:id', component: ProductDetail }
+    { path: 'admin/products/:id', component: ProductDetail },
+    { path: 'admin/orderList', component: OrderList }
 ];
 
 @NgModule({

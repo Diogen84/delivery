@@ -5,7 +5,9 @@ import { Product } from '../../admin/product/productModel';
 
 import { OrderModel } from '../../shared/orderModel';
 import { CartModel } from './cartModel';
+import { CheckoutOrderModel } from '../../shared/checkoutOrderModel';
 import { CookieService } from '../../shared/cookieService';
+import { CheckoutService } from './checkoutService';
 
 @Component({
     moduleId: module.id,
@@ -54,25 +56,25 @@ import { CookieService } from '../../shared/cookieService';
                                 <div class="row">
                                     <label for="name">Name:</label>
                                     <div class="cell">
-                                        <input type="text" id="name" name="name" value="" />
+                                        <input type="text" id="name" name="customerName" [(ngModel)]="checkoutOrder.name" />
                                     </div>
                                 </div>
                                 <div class="row">
                                     <label for="phone">Phone:</label>
                                     <div class="cell">
-                                        <input type="text" id="phone" name="phone" value="" />
+                                        <input type="text" id="phone" name="customerPhone" [(ngModel)]="checkoutOrder.phone" />
                                     </div>
                                 </div>
                                 <div class="row">
                                     <label for="address">Address:</label>
                                     <div class="cell">
-                                        <textarea id="address" name="address"></textarea>
+                                        <textarea id="address" name="customerAddress" [(ngModel)]="checkoutOrder.address"></textarea>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <label for="additional">Additional:</label>
                                     <div class="cell">
-                                        <textarea id="additional" name="additional"></textarea>
+                                        <textarea id="additional" name="customerAdditional" [(ngModel)]="checkoutOrder.additional"></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -93,10 +95,12 @@ export class CheckoutPage implements OnInit {
     cart: CartModel[] = [];
     orderModel : OrderModel = new OrderModel();
     cookieOrders: OrderModel[] = [];
+    checkoutOrder: CheckoutOrderModel = new CheckoutOrderModel();
 
     constructor(
         private productService: ProductService,
-        private cookieService: CookieService
+        private cookieService: CookieService,
+        private checkoutService: CheckoutService
     ) {}
 
     ngOnInit(): void {
@@ -106,7 +110,6 @@ export class CheckoutPage implements OnInit {
         for ( let i = 0 ; i < orders.length ; i++ ) {
             let obj = orders[i];
             this.productService.getProduct(obj.productId).then(product => {
-                console.log(product);
                 if (product.price.length > 0) {
                     totalPrice = Number(product.price) * obj.amount;
                 }
@@ -118,40 +121,25 @@ export class CheckoutPage implements OnInit {
             });
         }
     }
-
     onSubmitCheckoutForm(): void {
-        console.log(1);
 
+        this.checkoutOrder.products = [];
+        this.checkoutOrder.name = this.checkoutOrder.name || '';
+        this.checkoutOrder.phone = this.checkoutOrder.phone || '';
+        this.checkoutOrder.address = this.checkoutOrder.address || '';
+        this.checkoutOrder.additional = this.checkoutOrder.additional || '';
 
+        for ( let i = 0; i < this.cart.length ; i++ ) {
+            let item = this.cart[i];
+            this.checkoutOrder.products.push({
+                productId:item.product.id,
+                amount: item.amount
+            });
+        }
 
-
-
-        /*this.productService.update(this.product)
-            .then(() => {
-                for ( let i = 0; i < this.categoryList.length ; i++ ) {
-                    for ( let j = 0 ; j < this.localRelations.length ; j++ ) {
-                        //create elements
-                        if ( this.categoryList[i].value !== this.localRelations[j].categoryId ) {
-                            for ( let z = 0 ; z < this.selectedCategories.length ; z++ ) {
-                                if ( this.selectedCategories[z].value ===  this.categoryList[i].value ) {
-                                    this.relation = {
-                                        id: Math.random() * (1000 - 10) + 10,
-                                        productId: this.product.id,
-                                        categoryId: this.selectedCategories[z].value
-                                    };
-                                    this.relationService.createRelationsOfProduct(this.relation).then(res => {});
-                                }
-                            }
-                        } else {
-                            //delete elements
-                            for ( let z = 0 ; z < this.selectedCategories.length ; z++ ) {
-                                if ( this.selectedCategories[z].value !==  this.localRelations[j].categoryId ) {
-                                    this.relationService.deleteRelationsOfProduct(this.localRelations[j].id).then(res => {});
-                                }
-                            }
-                        }
-                    }
-                }
-            });*/
+        this.checkoutService.setOrder(this.checkoutOrder)
+            .then((response) => {
+                console.log(response);
+            });
     }
 }

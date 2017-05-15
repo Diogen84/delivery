@@ -21,6 +21,7 @@ import { Category } from './categoryModel';
                             <li><a href="#/admin/profiles">Profiles</a></li>
                             <li><a href="#/admin/categories">Categories</a></li>
                             <li><a href="#/admin/products">Products</a></li>
+                            <li><a href="#/admin/orderList">Order list</a></li>
                         </ul>
                     </div>
                     <div class="right-section">
