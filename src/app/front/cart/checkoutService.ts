@@ -24,6 +24,12 @@ export class CheckoutService {
     }
 
     /*getOrders()*/
+    getOrders(): Promise<CheckoutOrderModel[]> {
+        return this.http.get(this.checkoutOrderUrl)
+            .toPromise()
+            .then(response => response.json().data as CheckoutOrderModel[])
+            .catch(this.handleError);
+    }
 
     private handleError (error : any):Promise<any> {
         console.error('An error occured ', error);

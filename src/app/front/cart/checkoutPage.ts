@@ -122,8 +122,9 @@ export class CheckoutPage implements OnInit {
         }
     }
     onSubmitCheckoutForm(): void {
-
+        let date = new Date();
         this.checkoutOrder.products = [];
+        this.checkoutOrder.date = date;
         this.checkoutOrder.name = this.checkoutOrder.name || '';
         this.checkoutOrder.phone = this.checkoutOrder.phone || '';
         this.checkoutOrder.address = this.checkoutOrder.address || '';
