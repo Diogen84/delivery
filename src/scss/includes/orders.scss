@@ -1,0 +1,45 @@
+.orders {
+  font:16px/1.5 arial, helvetica, sans-serif;
+  color:$cart-color;
+
+  .orders-picture {
+    img {
+      width:100%;
+      height:auto;
+      max-height:300px;
+      display:block;
+    }
+  }
+  .orders-holder {
+    margin:0 auto;
+    max-width:$max-holder-width;
+  }
+
+  .orders-table {
+    display:table;
+    width:100%;
+    border-collapse:collapse;
+
+    td,
+    th {
+      border:1px solid $cart-color;
+      padding:3px 5px;
+
+      &.num {
+        width:1px;
+        white-space:nowrap;
+      }
+      &.order-cell {
+        width:1%;
+
+        .productNum,
+        .productId,
+        .productPrice,
+        .productTotalPrice {
+          width:1px;
+          white-space:nowrap;
+        }
+      }
+    }
+  }
+}
