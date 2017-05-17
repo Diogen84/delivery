@@ -129,6 +129,7 @@ export class CheckoutPage implements OnInit {
         this.checkoutOrder.phone = this.checkoutOrder.phone || '';
         this.checkoutOrder.address = this.checkoutOrder.address || '';
         this.checkoutOrder.additional = this.checkoutOrder.additional || '';
+        this.checkoutOrder.status = 'new';
 
         for ( let i = 0; i < this.cart.length ; i++ ) {
             let item = this.cart[i];

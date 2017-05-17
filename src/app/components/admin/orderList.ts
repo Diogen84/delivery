@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { CheckoutService} from '../../services/checkoutService';
-import { CheckoutOrderListModel } from '../../models/checkoutOrderListModel';
+import { OrderHistory } from '../../models/OrderHistory';
 import { ProductService } from '../../services/productService';
 
 @Component({
@@ -67,7 +67,7 @@ import { ProductService } from '../../services/productService';
 
 export class OrderList implements OnInit {
 
-    private checkoutOrder:CheckoutOrderListModel[] = [];
+    private checkoutOrder:OrderHistory[] = [];
 
     constructor (
         private productService: ProductService,
@@ -76,16 +76,15 @@ export class OrderList implements OnInit {
 
     ngOnInit(): void {
         this.checkoutService.getOrders().then((response) => {
-            /*this.checkoutOrder = {
-                name: response.name,
-                phone: response.phone,
-                address: response.address,
-                additional: response.additional,
-                date: response.date,
-                products: response.products,
-            };*/
             for ( let i = 0 ; i < response.length ; i++ ) {
-
+                this.checkoutOrder[i] = {
+                    name: response[i].name,
+                    phone: response[i].phone,
+                    address: response[i].address,
+                    additional: response[i].additional,
+                    date: response[i].date,
+                    products: response[i].products,
+                };
                 this.checkoutOrder[i].totalPrice = 0;
                 for (let j = 0; j < response[i].products.length; j++) {
 

@@ -13,12 +13,13 @@ export class CheckoutOrderListProductModel {
     edited : string;
 }
 
-export class CheckoutOrderListModel {
+export class OrderHistory {
     date: any;
     name: string;
     phone: string;
     address: string;
     additional: any;
     totalPrice: number;
+    status:string;
     products: CheckoutOrderListProductModel[];
 }

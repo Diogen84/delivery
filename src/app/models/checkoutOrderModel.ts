@@ -4,5 +4,6 @@ export class CheckoutOrderModel {
     phone: string;
     address: string;
     additional: any;
+    status:string;
     products: any;
 }
