@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 
-import { ProductService } from '../../admin/product/productService';
-import { Product } from '../../admin/product/productModel';
+import { ProductService } from '../../services/productService';
+import { ProductModel } from '../../models/productModel';
 
-import { OrderModel } from '../../shared/orderModel';
-import { CookieService } from '../../shared/cookieService';
+import { OrderModel } from '../../models/orderModel';
+import { CookieService } from '../../services/cookieService';
 
 @Component({
     moduleId: module.id,
@@ -77,8 +77,8 @@ import { CookieService } from '../../shared/cookieService';
     `
 })
 
-export class ProductPage implements OnInit {
-    product: Product = new Product();
+export class ProductDetailPage implements OnInit {
+    product: ProductModel = new ProductModel();
     amount : number;
     data : string;
     cart: OrderModel;

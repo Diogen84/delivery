@@ -12,32 +12,32 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 
-import { ProductSearchService } from './productSearchService';
-import { Product } from './productModel';
+import { CategorySearchService } from '../../services/categorySearchService';
+import { CategoryModel } from '../../models/categoryModel';
 
 @Component({
     moduleId: module.id,
-    selector: '[product-search]',
+    selector: '[category-search]',
     template: `
         <div id="search-component">
-          <h4>Product Search</h4>
+          <h4>Category Search</h4>
           <input #searchBox id="search-box" (keyup)="search(searchBox.value)" />
           <div>
-            <div *ngFor="let product of products | async"
-                 (click)="gotoDetail(product)" class="search-result" >
-              {{product.name}}
+            <div *ngFor="let category of categories | async"
+                 (click)="gotoDetail(category)" class="search-result" >
+              {{category.name}}
             </div>
           </div>
         </div>
     `,
-    providers: [ProductSearchService]
+    providers: [CategorySearchService]
 })
-export class ProductSearch implements OnInit {
-    products: Observable<Product[]>;
+export class CategorySearch implements OnInit {
+    categories: Observable<CategoryModel[]>;
     private searchTerms = new Subject<string>();
 
     constructor(
-        private productSearchService: ProductSearchService,
+        private categorySearchService: CategorySearchService,
         private router: Router) {}
 
     // Push a search term into the observable stream.
@@ -46,23 +46,23 @@ export class ProductSearch implements OnInit {
     }
 
     ngOnInit(): void {
-        this.products = this.searchTerms
+        this.categories = this.searchTerms
             .debounceTime(300)        // wait 300ms after each keystroke before considering the term
             .distinctUntilChanged()   // ignore if next search term is same as previous
             .switchMap(term => term   // switch to new observable each time the term changes
                 // return the http search observable
-                ? this.productSearchService.search(term)
+                ? this.categorySearchService.search(term)
                 // or the observable of empty heroes if there was no search term
-                : Observable.of<Product[]>([]))
+                : Observable.of<CategoryModel[]>([]))
 
             .catch(error => {
                 // TODO: add real error handling
                 console.log(error);
-                return Observable.of<Product[]>([]);
+                return Observable.of<CategoryModel[]>([]);
             });
     }
-    gotoDetail(product: Product): void {
-        let link = ['admin/products/', product.id];
+    gotoDetail(category: CategoryModel): void {
+        let link = ['admin/categories/', category.id];
         this.router.navigate(link);
     }
 }

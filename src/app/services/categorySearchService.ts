@@ -4,16 +4,16 @@ import { Http }       from '@angular/http';
 import { Observable }     from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 
-import { Category }           from './categoryModel';
+import { CategoryModel }           from '../models/categoryModel';
 
 @Injectable()
 export class CategorySearchService {
 
     constructor(private http: Http) {}
 
-    search(term: string): Observable<Category[]> {
+    search(term: string): Observable<CategoryModel[]> {
         return this.http
             .get(`api/categories/?name=${term}`)
-            .map(response => response.json().data as Category[]);
+            .map(response => response.json().data as CategoryModel[]);
     }
 }

@@ -3,8 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params }   from '@angular/router';
 import { Location }                 from '@angular/common';
 
-import { CategoryService } from './categoryService';
-import { Category } from './categoryModel';
+import { CategoryModel } from '../../models/categoryModel';
+import { CategoryService } from '../../services/categoryService';
 
 @Component({
     moduleId: module.id,
@@ -80,16 +80,11 @@ import { Category } from './categoryModel';
                 </div>
             </div>
         </div>
-
-
-
-
-    
     `
 })
 
 export class CategoryDetail implements OnInit {
-    category: Category;
+    category: CategoryModel;
 
     constructor(
         private categoryService: CategoryService,

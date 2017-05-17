@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 
-import { Product } from '../../admin/product/productModel';
-import { ProductService } from '../../admin/product/productService';
+import { ProductModel } from '../../models/productModel';
+import { RelationModel } from '../../models/relationModel';
 
-import { Relation } from '../../shared/relationModel';
-import { RelationService } from '../../shared/relationService';
+import { ProductService } from '../../services/productService';
+import { RelationService } from '../../services/relationService';
 
 @Component({
     moduleId: module.id,
@@ -34,10 +34,10 @@ import { RelationService } from '../../shared/relationService';
     `
 })
 
-export class Products {
-    relations : Relation[] = [];
-    products : Product[] = [];
-    product : Product;
+export class ProductListPage {
+    relations : RelationModel[] = [];
+    products : ProductModel[] = [];
+    product : ProductModel;
 
     constructor(
         private router: Router,
@@ -46,7 +46,7 @@ export class Products {
         private relationService: RelationService
     ) {}
 
-    gotoDetail(product: Product): void {
+    gotoDetail(product: ProductModel): void {
         this.router.navigate(['products/', product.id]);
     }
     ngOnInit(): void {

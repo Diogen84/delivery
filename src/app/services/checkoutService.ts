@@ -2,8 +2,8 @@ import 'rxjs/add/operator/toPromise';
 import { Injectable } from '@angular/core';
 import { Headers, Http } from '@angular/http';
 
-import { OrderModel } from '../../shared/orderModel';
-import { CheckoutOrderModel } from '../../shared/checkoutOrderModel';
+import { OrderModel } from '../models/orderModel';
+import { CheckoutOrderModel } from '../models/checkoutOrderModel';
 
 @Injectable()
 export class CheckoutService {

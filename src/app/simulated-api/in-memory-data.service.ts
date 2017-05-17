@@ -116,6 +116,7 @@ export class InMemoryDataService implements InMemoryDbService {
                 phone: 'phone',
                 address: 'address',
                 additional: 'additional',
+                status: 'new',
                 products: [
                     {
                         productId:1,

@@ -12,30 +12,31 @@ import { InMemoryDataService }  from './simulated-api/in-memory-data.service';
 
 
 import { HeaderSection } from './shared/headerSection';
-import { Index } from './front/index/index';
-import { Categories } from './front/categories/categories';
-import { Products } from './front/products/products';
-import { ProductPage } from './front/products/productPage';
+import { Index } from './components/front/indexPage';
+
 import { AppComponent } from './app.component';
 
-import { RelationService } from './shared/relationService';
+import { CategoryService } from './services/categoryService';
+import { CategorySearchService } from './services/categorySearchService';
+import { ProductService } from './services/productService';
+import { RelationService } from './services/relationService';
+import { CookieService } from './services/cookieService';
+import { CheckoutService } from './services/checkoutService';
 
-import { CategoryList } from './admin/category/categoryList';
-import { CategoryDetail } from './admin/category/categoryDetail';
-import { CategorySearch } from './admin/category/categorySearch';
-import { CategoryService } from './admin/category/categoryService';
+import { CategoryList } from './components/admin/categoryList';
+import { CategoryDetail } from './components/admin/categoryDetail';
+import { CategorySearch } from './components/admin/categorySearch';
+import { ProductList } from './components/admin/productList';
+import { ProductDetail } from './components/admin/productDetail';
+import { OrderList } from './components/admin/orderList';
 
-import { ProductList } from './admin/product/productList';
-import { ProductDetail } from './admin/product/productDetail';
-import { ProductSearch } from './admin/product/productSearch';
-import { ProductService } from './admin/product/productService';
-import { OrderList } from './admin/orders/orderList';
+import { CategoryListPage } from './components/front/categoryListPage';
+import { ProductListPage } from './components/front/productListPage';
+import { ProductDetailPage } from './components/front/productDetailPage';
+import { CartPage } from './components/front/cartPage';
+import { CheckoutPage } from './components/front/checkoutPage';
 
-import { CartPage } from './front/cart/cartPage';
-import { CheckoutPage } from './front/cart/checkoutPage';
-import { CheckoutService } from './front/cart/checkoutService';
 
-import { CookieService } from './shared/cookieService';
 
 @NgModule({
     imports: [
@@ -48,30 +49,31 @@ import { CookieService } from './shared/cookieService';
     declarations: [
         Index,
         HeaderSection,
-        Categories,
-        Products,
-        ProductPage,
         AppComponent,
 
-        ProductList,
-        ProductDetail,
-        ProductSearch,
-
-        CategorySearch,
+        //admin
         CategoryList,
         CategoryDetail,
+        CategorySearch,
+        ProductList,
+        ProductDetail,
         OrderList,
 
+        //front
+        CategoryListPage,
+        ProductListPage,
+        ProductDetailPage,
         CartPage,
         CheckoutPage
     ],
     providers: [
         {provide: LocationStrategy, useClass: HashLocationStrategy},
         CategoryService,
+        CategorySearchService,
         ProductService,
         RelationService,
-        CheckoutService,
-        CookieService
+        CookieService,
+        CheckoutService
     ],
     bootstrap: [ AppComponent ]
 })

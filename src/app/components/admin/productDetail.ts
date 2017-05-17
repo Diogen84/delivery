@@ -3,14 +3,14 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params }   from '@angular/router';
 import { Location }                 from '@angular/common';
 
-import { ProductService } from './productService';
-import { Product } from './productModel';
+import { ProductService } from '../../services/productService';
+import { RelationService } from '../../services/relationService';
+import { CategoryService } from '../../services/categoryService';
 
-import { Relation } from '../../shared/relationModel';
-import { RelationService } from '../../shared/relationService';
-import { CategoryItem } from '../../shared/selectedCategoriesModel';
+import { ProductModel } from '../../models/productModel';
+import { RelationModel } from '../../models/relationModel';
+import { CategoryItem } from '../../models/selectedCategoriesModel';
 
-import { CategoryService } from '../../admin/category/categoryService';
 
 @Component({
     moduleId: module.id,
@@ -94,12 +94,12 @@ import { CategoryService } from '../../admin/category/categoryService';
 })
 
 export class ProductDetail implements OnInit {
-    product: Product;
+    product: ProductModel;
     selectedCategories: CategoryItem[] = [];
     categoryList: CategoryItem[] = [];
 
-    localRelations: Relation[];
-    relation: Relation;
+    localRelations: RelationModel[];
+    relation: RelationModel;
 
     constructor(
         private categoryService: CategoryService,

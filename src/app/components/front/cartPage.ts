@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 
-import { ProductService } from '../../admin/product/productService';
-import { Product } from '../../admin/product/productModel';
+import { ProductModel } from '../../models/productModel';
+import { OrderModel } from '../../models/orderModel';
+import { CartModel } from '../../models/cartModel';
 
-import { OrderModel } from '../../shared/orderModel';
-import { CartModel } from './cartModel';
-import { CookieService } from '../../shared/cookieService';
+import { ProductService } from '../../services/productService';
+import { CookieService } from '../../services/cookieService';
 
 @Component({
     moduleId: module.id,
@@ -59,7 +59,7 @@ import { CookieService } from '../../shared/cookieService';
 })
 
 export class CartPage implements OnInit {
-    product: Product = new Product();
+    product: ProductModel = new ProductModel();
     cart: CartModel[] = [];
     orderModel : OrderModel = new OrderModel();
     cookieOrders: OrderModel[] = [];

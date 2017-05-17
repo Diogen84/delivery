@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { Product } from './productModel';
-import { ProductService } from './productService';
+import { ProductModel } from '../../models/productModel';
+import { ProductService } from '../../services/productService';
 
 @Component({
 	moduleId: module.id,
@@ -168,9 +168,9 @@ import { ProductService } from './productService';
 })
 
 export class ProductList {
-    private newProduct : Product = new Product();
-    products: Product[];
-    selectedProduct : Product;
+    private newProduct : ProductModel = new ProductModel();
+    products: ProductModel[];
+    selectedProduct : ProductModel;
     openedAddBox : boolean;
 
     //addservice via constructor
@@ -204,7 +204,7 @@ export class ProductList {
             .then(products => this.products = products);
     }
 
-    delete(product: Product): void {
+    delete(product: ProductModel): void {
         this.productService
             .delete(product.id)
             .then(() => {
@@ -216,17 +216,17 @@ export class ProductList {
         this.getProducts();
         this.openedAddBox = false;
     }
-    onSelect(product: Product) : void {
+    onSelect(product: ProductModel) : void {
         this.selectedProduct = product;
     }
-    gotoDetail(product: Product): void {
+    gotoDetail(product: ProductModel): void {
         this.selectedProduct = product;
         this.router.navigate(['admin/products', this.selectedProduct.id]);
     }
     editCancel(): void {
         this.openedAddBox = false;
     }
-    save(product: Product): void {
+    save(product: ProductModel): void {
         this.productService.update(product);
     }
 }

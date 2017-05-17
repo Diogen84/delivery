@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 
-import { ProductService } from '../../admin/product/productService';
-import { Product } from '../../admin/product/productModel';
+import { ProductService } from '../../services/productService';
+import { ProductModel } from '../../models/productModel';
 
-import { OrderModel } from '../../shared/orderModel';
-import { CartModel } from './cartModel';
-import { CheckoutOrderModel } from '../../shared/checkoutOrderModel';
-import { CookieService } from '../../shared/cookieService';
-import { CheckoutService } from './checkoutService';
+import { OrderModel } from '../../models/orderModel';
+import { CartModel } from '../../models/cartModel';
+import { CheckoutOrderModel } from '../../models/checkoutOrderModel';
+import { CookieService } from '../../services/cookieService';
+import { CheckoutService } from '../../services/checkoutService';
 
 @Component({
     moduleId: module.id,
@@ -91,7 +91,7 @@ import { CheckoutService } from './checkoutService';
 })
 
 export class CheckoutPage implements OnInit {
-    product: Product = new Product();
+    product: ProductModel = new ProductModel();
     cart: CartModel[] = [];
     orderModel : OrderModel = new OrderModel();
     cookieOrders: OrderModel[] = [];

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
-import { CheckoutService} from '../../front/cart/checkoutService';
-import { CheckoutOrderListModel } from '../../front/cart/checkoutOrderListModel';
-import { ProductService } from '../../admin/product/productService';
+import { CheckoutService} from '../../services/checkoutService';
+import { CheckoutOrderListModel } from '../../models/checkoutOrderListModel';
+import { ProductService } from '../../services/productService';
 
 @Component({
     moduleId: module.id,
@@ -76,7 +76,14 @@ export class OrderList implements OnInit {
 
     ngOnInit(): void {
         this.checkoutService.getOrders().then((response) => {
-            this.checkoutOrder = response;
+            /*this.checkoutOrder = {
+                name: response.name,
+                phone: response.phone,
+                address: response.address,
+                additional: response.additional,
+                date: response.date,
+                products: response.products,
+            };*/
             for ( let i = 0 ; i < response.length ; i++ ) {
 
                 this.checkoutOrder[i].totalPrice = 0;

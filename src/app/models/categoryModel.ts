@@ -1,11 +1,7 @@
-export class Product {
+export class CategoryModel {
     id: number;
     name: string;
     thumbnail: any;
-    inStock : number;
-    price: string;
-    currency : string;
-    weight: string;
     shortDescription : string;
     description : string;
     lock : boolean;

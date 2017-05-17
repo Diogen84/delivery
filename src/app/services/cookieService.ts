@@ -2,7 +2,7 @@ import 'rxjs/add/operator/toPromise';
 import { Injectable } from '@angular/core';
 import { Headers, Http } from '@angular/http';
 
-import { OrderModel } from './orderModel';
+import { OrderModel } from '../models/orderModel';
 
 @Injectable()
 export class CookieService {

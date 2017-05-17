@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { Category } from '../../admin/category/categoryModel';
-import { CategoryService } from '../../admin/category/categoryService';
+import { CategoryModel } from '../../models/categoryModel';
+import { CategoryService } from '../../services/categoryService';
 
 @Component({
     moduleId: module.id,
@@ -31,15 +31,15 @@ import { CategoryService } from '../../admin/category/categoryService';
     `
 })
 
-export class Categories {
-    categories : Category[];
+export class CategoryListPage {
+    categories : CategoryModel[];
 
     constructor(
         private router: Router,
         private categoryService: CategoryService
     ) {}
 
-    gotoDetail(category: Category): void {
+    gotoDetail(category: CategoryModel): void {
         this.router.navigate(['admin/categories', category.id]);
     }
     getCategories(): void {

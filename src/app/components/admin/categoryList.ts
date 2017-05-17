@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { Category } from './categoryModel';
-import { CategoryService } from './categoryService';
+import { CategoryModel } from '../../models/categoryModel';
+import { CategoryService } from '../../services/categoryService';
 
 @Component({
     moduleId: module.id,
@@ -124,10 +124,10 @@ import { CategoryService } from './categoryService';
 })
 
 export class CategoryList {
-    private newCategory: Category = new Category();
-    categories: Category[];
-    selectedCategory : Category;
-    openedAddBox : boolean;
+    private newCategory: CategoryModel = new CategoryModel();
+    private categories: CategoryModel[];
+    private selectedCategory : CategoryModel;
+    private openedAddBox : boolean;
     //addservice via constructor
 
     constructor(
@@ -160,7 +160,7 @@ export class CategoryList {
             .then(categories => this.categories = categories);
     }
 
-    delete(category: Category): void {
+    delete(category: CategoryModel): void {
         this.categoryService
             .delete(category.id)
             .then(() => {
@@ -172,17 +172,17 @@ export class CategoryList {
         this.getCategories();
         this.openedAddBox = false;
     }
-    onSelect(category: Category) : void {
+    onSelect(category: CategoryModel) : void {
         this.selectedCategory = category;
     }
-    gotoDetail(category: Category): void {
+    gotoDetail(category: CategoryModel): void {
         this.selectedCategory = category;
         this.router.navigate(['admin/categories', this.selectedCategory.id]);
     }
     editCancel(): void {
         this.openedAddBox = false;
     }
-    save(category: Category): void {
+    save(category: CategoryModel): void {
         this.categoryService.update(category);
     }
 }

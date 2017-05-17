@@ -2,9 +2,9 @@ import 'rxjs/add/operator/toPromise';
 import { Injectable } from '@angular/core';
 import { Headers, Http } from '@angular/http';
 
-import { Category } from '../admin/category/categoryModel';
-import { Product } from '../admin/product/productModel';
-import { Relation } from './relationModel';
+import { CategoryModel } from '../models/categoryModel';
+import { ProductModel } from '../models/productModel';
+import { RelationModel } from '../models/relationModel';
 
 @Injectable()
 export class RelationService {
@@ -14,20 +14,20 @@ export class RelationService {
 
     constructor(private http: Http) { }
 
-    getRelations(): Promise<Relation[]> {
+    getRelations(): Promise<RelationModel[]> {
         return this.http.get(this.relationUrl)
             .toPromise()
-            .then(response => response.json().data as Relation[])
+            .then(response => response.json().data as RelationModel[])
             .catch(this.handleError);
     }
-    getRelationsOfProduct(productId : number) : Promise<Relation[]> {
+    getRelationsOfProduct(productId : number) : Promise<RelationModel[]> {
         const url = `${this.relationUrl}?productId=${productId}`;
         return this.http.get(url)
             .toPromise()
-            .then(response => response.json().data as Relation[])
+            .then(response => response.json().data as RelationModel[])
             .catch(this.handleError);
     }
-    createRelationsOfProduct(relation : any) : Promise<Relation> {
+    createRelationsOfProduct(relation : any) : Promise<RelationModel> {
         return this.http
             .post(this.relationUrl, JSON.stringify(relation), {headers: this.headers})
             .toPromise()
@@ -42,11 +42,11 @@ export class RelationService {
             .catch(this.handleError);
     }
 
-    getRelationsOfCategory(categoryId : number) : Promise<Relation[]> {
+    getRelationsOfCategory(categoryId : number) : Promise<RelationModel[]> {
         const url = `${this.relationUrl}?categoryId=${categoryId}`;
         return this.http.get(url)
             .toPromise()
-            .then(response => response.json().data as Relation[])
+            .then(response => response.json().data as RelationModel[])
             .catch(this.handleError);
     }
 

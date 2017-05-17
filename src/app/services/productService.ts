@@ -2,54 +2,53 @@ import 'rxjs/add/operator/toPromise';
 import { Injectable } from '@angular/core';
 import { Headers, Http } from '@angular/http';
 
-import { Category } from './categoryModel';
+import { ProductModel } from '../models/productModel';
 
 @Injectable()
-export class CategoryService {
-
-    private headers = new Headers({'Content-Type': 'application/json'});
+export class ProductService {
+	private headers = new Headers({'Content-Type': 'application/json'});
     // URL to web api
-    private categoriesUrl = 'api/categories';
+    private productsUrl = 'api/products';
 
     constructor(private http: Http) { }
 
-    getCategories(): Promise<Category[]> {
-        return this.http.get(this.categoriesUrl)
+    getProducts(): Promise<ProductModel[]> {
+        return this.http.get(this.productsUrl)
             .toPromise()
-            .then(response => response.json().data as Category[])
+            .then(response => response.json().data as ProductModel[])
             .catch(this.handleError);
     }
 
-    getCategory(id: number): Promise<Category> {
-        const url = `${this.categoriesUrl}/${id}`;
+    getProduct(id: number): Promise<ProductModel> {
+        const url = `${this.productsUrl}/${id}`;
         return this.http.get(url)
             .toPromise()
-            .then(response => response.json().data as Category)
+            .then(response => response.json().data as ProductModel)
             .catch(this.handleError);
     }
 
     delete(id: number): Promise<void> {
-        const url = `${this.categoriesUrl}/${id}`;
+        const url = `${this.productsUrl}/${id}`;
         return this.http.delete(url, {headers: this.headers})
             .toPromise()
             .then(() => null)
             .catch(this.handleError);
     }
 
-    createCategory(category : any) : Promise<Category> {
+    createProduct(product : any) : Promise<ProductModel> {
         return this.http
-            .post(this.categoriesUrl, JSON.stringify(category), {headers: this.headers})
+            .post(this.productsUrl, JSON.stringify(product), {headers: this.headers})
             .toPromise()
             .then(res => res.json().data)
             .catch(this.handleError);
     }
 
-    update(category: Category): Promise<Category> {
-        const url = `${this.categoriesUrl}/${category.id}`;
+    update(product: ProductModel): Promise<ProductModel> {
+        const url = `${this.productsUrl}/${product.id}`;
         return this.http
-            .put(url, JSON.stringify(category), {headers: this.headers})
+            .put(url, JSON.stringify(product), {headers: this.headers})
             .toPromise()
-            .then(() => category)
+            .then(() => product)
             .catch(this.handleError);
     }
 
