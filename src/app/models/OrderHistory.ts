@@ -14,6 +14,7 @@ export class CheckoutOrderListProductModel {
 }
 
 export class OrderHistory {
+    id: number;
     date: any;
     name: string;
     phone: string;

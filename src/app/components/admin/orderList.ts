@@ -56,8 +56,11 @@ import { ProductService } from '../../services/productService';
                                 </tr>
                             </table>                            
                         </td>
-                        <td>Sent</td>
-                        <td><a href="#">Approve</a><a href="#">Decline</a></td>
+                        <td>{{order.status}}</td>
+                        <td>
+                            <a href="#" (click)="approveOrder(order, $event)">Approve</a>
+                            <a href="#" (click)="declineOrder(order, $event)">Decline</a>
+                        </td>
                     </tr>
                 </table>
             </div>
@@ -78,11 +81,13 @@ export class OrderList implements OnInit {
         this.checkoutService.getOrders().then((response) => {
             for ( let i = 0 ; i < response.length ; i++ ) {
                 this.checkoutOrder[i] = {
+                    id: response[i].id,
                     name: response[i].name,
                     phone: response[i].phone,
                     address: response[i].address,
                     additional: response[i].additional,
                     date: response[i].date,
+                    status: response[i].status,
                     products: response[i].products,
                 };
                 this.checkoutOrder[i].totalPrice = 0;
@@ -104,5 +109,18 @@ export class OrderList implements OnInit {
                 }
             }
         });
+    }
+
+    approveOrder(order, e) : void {
+        e.preventDefault();
+        order.status = 'approved';
+
+        this.checkoutService.editOrders(order).then((response) => {});
+
+    }
+    declineOrder(order, e) : void {
+        e.preventDefault();
+        order.status = 'declined';
+        this.checkoutService.editOrders(order).then((response) => {});
     }
 }

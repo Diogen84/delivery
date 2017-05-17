@@ -30,7 +30,14 @@ export class CheckoutService {
             .then(response => response.json().data as CheckoutOrderModel[])
             .catch(this.handleError);
     }
-
+    editOrders(order: CheckoutOrderModel): Promise<CheckoutOrderModel> {
+        const url = `${this.checkoutOrderUrl}/${order.id}`;
+        return this.http
+            .put(url, JSON.stringify(order), {headers: this.headers})
+            .toPromise()
+            .then(() => order)
+            .catch(this.handleError);
+    }
     private handleError (error : any):Promise<any> {
         console.error('An error occured ', error);
         return Promise.reject(error.message || error);

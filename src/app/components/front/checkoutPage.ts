@@ -122,9 +122,14 @@ export class CheckoutPage implements OnInit {
         }
     }
     onSubmitCheckoutForm(): void {
+        let min = Math.ceil(10);
+        let max = Math.floor(100);
+
         let date = new Date();
         this.checkoutOrder.products = [];
         this.checkoutOrder.date = date;
+
+        this.checkoutOrder.id = Math.floor(Math.random() * (max - min + 1 )) + min;
         this.checkoutOrder.name = this.checkoutOrder.name || '';
         this.checkoutOrder.phone = this.checkoutOrder.phone || '';
         this.checkoutOrder.address = this.checkoutOrder.address || '';
