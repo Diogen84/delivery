@@ -54,7 +54,7 @@ import { ProductService } from '../../services/productService';
                                     <td colspan="3">Total:</td>
                                     <td colspan="3">{{order.totalPrice}}</td>
                                 </tr>
-                            </table>                            
+                            </table>
                         </td>
                         <td>{{order.status}}</td>
                         <td>
@@ -86,7 +86,7 @@ export class OrderList implements OnInit {
                     phone: response[i].phone,
                     address: response[i].address,
                     additional: response[i].additional,
-                    date: response[i].date,
+                    //date: response[i].date,
                     status: response[i].status,
                     products: response[i].products,
                 };
@@ -114,9 +114,7 @@ export class OrderList implements OnInit {
     approveOrder(order, e) : void {
         e.preventDefault();
         order.status = 'approved';
-
         this.checkoutService.editOrders(order).then((response) => {});
-
     }
     declineOrder(order, e) : void {
         e.preventDefault();

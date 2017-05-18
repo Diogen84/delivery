@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { CookieService } from '../services/cookieService';
 
 @Component({
 	moduleId: module.id,
@@ -12,8 +13,8 @@ import { Component } from '@angular/core';
 		            </h1>
 		            <a href="/" class="navigation-opener" (click)="openClose()"><span>open/close</span></a>
 		            <div class="cart">
-		                <a href="#">Admin</a>
-		                <a href="#">Cart: 1 item(s)</a>
+		                <a href="#/admin/categories">Admin</a>
+		                <a href="#/cart">Cart: {{amount}} item(s)</a>
 		            </div>
 		        </div>
 		    </div>
@@ -64,4 +65,19 @@ import { Component } from '@angular/core';
 	`
 })
 
-export class HeaderSection {}
+export class HeaderSection implements OnInit {
+
+	private amount : number = 0;
+
+	constructor(
+		private cookieService: CookieService
+	) {}
+
+	ngOnInit(): void {
+		let orders = JSON.parse(this.cookieService.getCookie('cart'));
+
+		for ( let i = 0 ; i < orders.length ; i++ ) {
+			this.amount = this.amount + orders[i].amount;
+		}
+	}
+}

@@ -1,7 +1,7 @@
 export class CheckoutOrderModel {
     id:number;
-    date: any;
     name: string;
+    date: any;
     phone: string;
     address: string;
     additional: any;
