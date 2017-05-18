@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { CheckoutService} from '../../services/checkoutService';
 import { OrderHistory } from '../../models/OrderHistory';
+import { CheckoutOrderModel } from '../../models/checkoutOrderModel';
 import { ProductService } from '../../services/productService';
 
 @Component({
@@ -25,7 +26,7 @@ import { ProductService } from '../../services/productService';
                         <th>Status</th>
                         <th>Operations</th>
                     </tr>
-                    <tr *ngFor="let order of checkoutOrder ; let index = index">
+                    <tr *ngFor="let order of orderList ; let index = index">
                         <td class="num">{{index + 1}}</td>
                         <td>{{order.name}}</td>
                         <td>{{order.phone}}</td>
@@ -44,11 +45,11 @@ import { ProductService } from '../../services/productService';
                                 </tr>
                                 <tr *ngFor="let itemProduct of order.products ; let i = index">
                                     <td class="productNum">{{i + 1}}</td>
-                                    <td class="productId">{{itemProduct.productId}}</td>
+                                    <td class="productId">{{itemProduct.id}}</td>
                                     <td class="productName">{{itemProduct.name}}</td>
                                     <td class="productPrice">{{itemProduct.price}} {{itemProduct.currency}}</td>
                                     <td class="productAmount">{{itemProduct.amount}}</td>
-                                    <td class="productTotalPrice">{{itemProduct.totalPrice}}</td>
+                                    <td class="productTotalPrice">{{itemProduct.subTotalPrice}}</td>
                                 </tr>
                                 <tr>
                                     <td colspan="3">Total:</td>
@@ -70,7 +71,8 @@ import { ProductService } from '../../services/productService';
 
 export class OrderList implements OnInit {
 
-    private checkoutOrder:OrderHistory[] = [];
+    private orderList:OrderHistory[] = [];
+    private checkoutOrderModel: CheckoutOrderModel[] = [];
 
     constructor (
         private productService: ProductService,
@@ -79,38 +81,40 @@ export class OrderList implements OnInit {
 
     ngOnInit(): void {
         this.checkoutService.getOrders().then((response) => {
+            console.log(response);
             for ( let i = 0 ; i < response.length ; i++ ) {
-                this.checkoutOrder[i] = {
-                    id: response[i].id,
-                    name: response[i].name,
-                    phone: response[i].phone,
-                    address: response[i].address,
-                    additional: response[i].additional,
-                    //date: response[i].date,
-                    status: response[i].status,
-                    products: response[i].products,
-                };
-                this.checkoutOrder[i].totalPrice = 0;
+                this.orderList[i] = new OrderHistory();
+                this.orderList[i].id = response[i].id;
+                this.orderList[i].name = response[i].name;
+                this.orderList[i].phone = response[i].phone;
+                this.orderList[i].address = response[i].address;
+                this.orderList[i].additional = response[i].additional;
+                this.orderList[i].date = response[i].date;
+                this.orderList[i].status = response[i].status;
+                this.orderList[i].totalPrice = 0;
+                this.orderList[i].products = [];
                 for (let j = 0; j < response[i].products.length; j++) {
-
                     let currentItem = response[i].products[j];
                     this.productService.getProduct(currentItem.productId).then(product => {
+                        console.log(product);
                         let subTotalPrice = 0;
                         if (product.price.length > 0) {
-                            subTotalPrice = Number(product.price) * currentItem.productId;
+                            subTotalPrice = Number(product.price) * currentItem.amount;
                         }
-                        this.checkoutOrder[i].totalPrice = this.checkoutOrder[i].totalPrice + subTotalPrice;
-                        currentItem.product = product;
-                        currentItem.totalPrice = subTotalPrice;
-                        currentItem.name = product.name;
-                        currentItem.price = product.price;
-                        currentItem.currency = product.currency;
+                        this.orderList[i].products[j] = product;
+                        this.orderList[i].products[j].subTotalPrice = subTotalPrice;
+                        this.orderList[i].products[j].name = product.name;
+                        this.orderList[i].products[j].price = product.price;
+                        this.orderList[i].products[j].currency = product.currency;
+                        this.orderList[i].products[j].amount = response[i].products[j].amount;
+                        this.orderList[i].totalPrice = this.orderList[i].totalPrice + subTotalPrice;
                     });
+
                 }
             }
+            console.log(this.orderList);
         });
     }
-
     approveOrder(order, e) : void {
         e.preventDefault();
         order.status = 'approved';
@@ -119,6 +123,7 @@ export class OrderList implements OnInit {
     declineOrder(order, e) : void {
         e.preventDefault();
         order.status = 'declined';
-        this.checkoutService.editOrders(order).then((response) => {});
+        this.checkoutService.editOrders(order).then((response) => {
+        });
     }
 }

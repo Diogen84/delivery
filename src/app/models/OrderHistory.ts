@@ -1,17 +1,4 @@
-export class CheckoutOrderListProductModel {
-    id: number;
-    name: string;
-    thumbnail: any;
-    inStock : number;
-    price: string;
-    currency : string;
-    weight: string;
-    shortDescription : string;
-    description : string;
-    lock : boolean;
-    created : string;
-    edited : string;
-}
+import { ProductModel } from './productModel';
 
 export class OrderHistory {
     id: number;
@@ -22,5 +9,5 @@ export class OrderHistory {
     additional: any;
     totalPrice: number;
     status:string;
-    products: CheckoutOrderListProductModel[];
+    products: ProductModel[];
 }

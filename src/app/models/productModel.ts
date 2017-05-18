@@ -11,4 +11,6 @@ export class ProductModel {
     lock : boolean;
     created : string;
     edited : string;
+    amount: number;
+    subTotalPrice: number;
 }
