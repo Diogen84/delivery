@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 
 import { CategoryModel } from '../../models/categoryModel';
 import { CategoryService } from '../../services/categoryService';
+import { SharedService } from '../../services/sharedService';
 
 @Component({
     moduleId: module.id,
@@ -36,7 +37,8 @@ export class CategoryListPage {
 
     constructor(
         private router: Router,
-        private categoryService: CategoryService
+        private categoryService: CategoryService,
+        private sharedService: SharedService
     ) {}
 
     gotoDetail(category: CategoryModel): void {
@@ -48,6 +50,7 @@ export class CategoryListPage {
             .then(categories => this.categories = categories);
     }
     ngOnInit(): void {
+        this.sharedService.publishCart();
         this.getCategories();
     }
 }

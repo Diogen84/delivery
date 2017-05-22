@@ -8,6 +8,7 @@ import { CartModel } from '../../models/cartModel';
 import { CheckoutOrderModel } from '../../models/checkoutOrderModel';
 import { CookieService } from '../../services/cookieService';
 import { CheckoutService } from '../../services/checkoutService';
+import { SharedService } from '../../services/sharedService';
 
 @Component({
     moduleId: module.id,
@@ -100,13 +101,15 @@ export class CheckoutPage implements OnInit {
     constructor(
         private productService: ProductService,
         private cookieService: CookieService,
-        private checkoutService: CheckoutService
+        private checkoutService: CheckoutService,
+        private sharedService: SharedService
     ) {}
 
     ngOnInit(): void {
         let orders = JSON.parse(this.cookieService.getCookie('cart'));
         let totalPrice = 0;
 
+        this.sharedService.publishCart();
         for ( let i = 0 ; i < orders.length ; i++ ) {
             let obj = orders[i];
             this.productService.getProduct(obj.productId).then(product => {

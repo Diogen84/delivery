@@ -81,7 +81,6 @@ export class OrderList implements OnInit {
 
     ngOnInit(): void {
         this.checkoutService.getOrders().then((response) => {
-            console.log(response);
             for ( let i = 0 ; i < response.length ; i++ ) {
                 this.orderList[i] = new OrderHistory();
                 this.orderList[i].id = response[i].id;
@@ -96,7 +95,6 @@ export class OrderList implements OnInit {
                 for (let j = 0; j < response[i].products.length; j++) {
                     let currentItem = response[i].products[j];
                     this.productService.getProduct(currentItem.productId).then(product => {
-                        console.log(product);
                         let subTotalPrice = 0;
                         if (product.price.length > 0) {
                             subTotalPrice = Number(product.price) * currentItem.amount;
@@ -112,7 +110,6 @@ export class OrderList implements OnInit {
 
                 }
             }
-            console.log(this.orderList);
         });
     }
     approveOrder(order, e) : void {

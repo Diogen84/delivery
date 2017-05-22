@@ -22,6 +22,7 @@ import { ProductService } from './services/productService';
 import { RelationService } from './services/relationService';
 import { CookieService } from './services/cookieService';
 import { CheckoutService } from './services/checkoutService';
+import { SharedService } from './services/sharedService';
 
 import { CategoryList } from './components/admin/categoryList';
 import { CategoryDetail } from './components/admin/categoryDetail';
@@ -35,7 +36,6 @@ import { ProductListPage } from './components/front/productListPage';
 import { ProductDetailPage } from './components/front/productDetailPage';
 import { CartPage } from './components/front/cartPage';
 import { CheckoutPage } from './components/front/checkoutPage';
-
 
 
 @NgModule({
@@ -73,7 +73,8 @@ import { CheckoutPage } from './components/front/checkoutPage';
         ProductService,
         RelationService,
         CookieService,
-        CheckoutService
+        CheckoutService,
+        SharedService
     ],
     bootstrap: [ AppComponent ]
 })

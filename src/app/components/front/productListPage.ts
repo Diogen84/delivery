@@ -6,6 +6,7 @@ import { RelationModel } from '../../models/relationModel';
 
 import { ProductService } from '../../services/productService';
 import { RelationService } from '../../services/relationService';
+import { SharedService } from '../../services/sharedService';
 
 @Component({
     moduleId: module.id,
@@ -43,13 +44,15 @@ export class ProductListPage {
         private router: Router,
         private route: ActivatedRoute,
         private productService: ProductService,
-        private relationService: RelationService
+        private relationService: RelationService,
+        private sharedService: SharedService
     ) {}
 
     gotoDetail(product: ProductModel): void {
         this.router.navigate(['products/', product.id]);
     }
     ngOnInit(): void {
+        this.sharedService.publishCart();
         this.route.params.switchMap((params: Params) => this.relationService.getRelationsOfCategory(+params['id']))
             .subscribe(relations => {
                 for ( let i = 0 ; i < relations.length ; i++ ) {

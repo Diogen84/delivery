@@ -6,6 +6,7 @@ import { CartModel } from '../../models/cartModel';
 
 import { ProductService } from '../../services/productService';
 import { CookieService } from '../../services/cookieService';
+import { SharedService } from '../../services/sharedService';
 
 @Component({
     moduleId: module.id,
@@ -44,7 +45,7 @@ import { CookieService } from '../../services/cookieService';
                         </td>
                         <td class="cart-table-options">
                             <ul>
-                                <li><a href="#">Refresh</a></li>
+                                <li><a href="#" (click)="ngRefreshRow($event, item)">Refresh</a></li>
                                 <li><a href="#" (click)="ngRemoveProduct($event, item)">Delete</a></li>
                             </ul>
                         </td>
@@ -66,17 +67,18 @@ export class CartPage implements OnInit {
 
     constructor(
         private productService: ProductService,
-        private cookieService: CookieService
+        private cookieService: CookieService,
+        private sharedService: SharedService
     ) {}
 
     ngOnInit(): void {
         let orders = JSON.parse(this.cookieService.getCookie('cart'));
         let totalPrice = 0;
 
+        this.sharedService.publishCart();
         for ( let i = 0 ; i < orders.length ; i++ ) {
             let obj = orders[i];
             this.productService.getProduct(obj.productId).then(product => {
-                console.log(product);
                 if (product.price.length > 0) {
                     totalPrice = Number(product.price) * obj.amount;
                 }
@@ -109,8 +111,30 @@ export class CartPage implements OnInit {
             expires :3600
         });
 
+        this.sharedService.publishCart();
+
         function findExistingProductInCookieByID(item) {
             return item.productId === id;
         }
+    }
+    ngRefreshRow(e, currentProduct) : void {
+        e.preventDefault();
+
+        let id = currentProduct.product.id;
+
+        this.orderModel = {
+            productId : currentProduct.product.id,
+            amount : currentProduct.amount
+        };
+
+        this.cookieOrders = JSON.parse(this.cookieService.getCookie('cart'));
+        let result = this.cookieService.checkCookies(this.cookieOrders, this.orderModel);
+        this.cookieService.setCookie('cart', JSON.stringify(result), {
+            expires :3600
+        });
+
+        this.sharedService.publishCart();
+
+        currentProduct.totalPrice = currentProduct.amount * currentProduct.product.price;
     }
 }

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
+import { SharedService } from '../../services/sharedService';
+
 @Component({
     moduleId: module.id,
     selector: 'div.index',
@@ -18,8 +20,11 @@ import { Router } from '@angular/router';
 })
 
 export class Index {
+    constructor(
+        private sharedService: SharedService
+    ) {}
+
     ngOnInit(): void {
-        /*this.getCategories();*/
-        console.log('index page');
+        this.sharedService.publishCart();
     }
 }

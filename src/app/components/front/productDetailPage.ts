@@ -7,6 +7,8 @@ import { ProductModel } from '../../models/productModel';
 import { OrderModel } from '../../models/orderModel';
 import { CookieService } from '../../services/cookieService';
 
+import { SharedService } from '../../services/sharedService';
+
 @Component({
     moduleId: module.id,
     selector: 'div.products',
@@ -83,11 +85,13 @@ export class ProductDetailPage implements OnInit {
     data : string;
     cart: OrderModel;
     cookieOrders: OrderModel[] = [];
+    cartNumber: number = 0;
 
     constructor(
         private route: ActivatedRoute,
         private productService: ProductService,
-        private cookieService: CookieService
+        private cookieService: CookieService,
+        private sharedService: SharedService
     ) {}
 
     ngOnInit(): void {
@@ -96,6 +100,8 @@ export class ProductDetailPage implements OnInit {
                 this.product = item;
                 this.amount = 1;
             });
+
+        this.sharedService.publishCart();
     }
 
     onSubmitBuyProductForm(): void {
@@ -105,10 +111,18 @@ export class ProductDetailPage implements OnInit {
         };
         this.cookieOrders = JSON.parse(this.cookieService.getCookie('cart'));
         let result = this.cookieService.checkCookies(this.cookieOrders, this.cart);
+/*
+        for ( let i = 0 ; i < result.length ; i++ ) {
+            if ( this.cart.productId == result.length ) {
+
+            }
+        }*/
+
+
         this.cookieService.setCookie('cart', JSON.stringify(result), {
             expires :3600
         });
-        console.log(result);
-        console.log('===================================');
+
+        this.sharedService.publishCart();
     }
 }

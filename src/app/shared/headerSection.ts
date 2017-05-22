@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CookieService } from '../services/cookieService';
+import { SharedService} from '../services/sharedService';
 
 @Component({
 	moduleId: module.id,
@@ -14,7 +15,7 @@ import { CookieService } from '../services/cookieService';
 		            <a href="/" class="navigation-opener" (click)="openClose()"><span>open/close</span></a>
 		            <div class="cart">
 		                <a href="#/admin/categories">Admin</a>
-		                <a href="#/cart">Cart: {{amount}} item(s)</a>
+		                <a href="#/cart" class="cart-summary" cart-summary>Cart: {{cartAmount}} item(s)</a>
 		            </div>
 		        </div>
 		    </div>
@@ -67,17 +68,18 @@ import { CookieService } from '../services/cookieService';
 
 export class HeaderSection implements OnInit {
 
-	private amount : number = 0;
+	private cartAmount : number;
 
 	constructor(
-		private cookieService: CookieService
+		private cookieService: CookieService,
+		private sharedService: SharedService
 	) {}
 
 	ngOnInit(): void {
-		let orders = JSON.parse(this.cookieService.getCookie('cart'));
-
-		for ( let i = 0 ; i < orders.length ; i++ ) {
-			this.amount = this.amount + orders[i].amount;
-		}
+		this.sharedService.cartAmount$.subscribe(
+			data => {
+				this.cartAmount = data;
+			}
+		);
 	}
 }
