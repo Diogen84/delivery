@@ -7,8 +7,8 @@ import { APP_BASE_HREF, LocationStrategy, HashLocationStrategy } from '@angular/
 import { AppRoutingModule }     from './app.router';
 
 // Imports for loading & configuring the in-memory web api
-import { InMemoryWebApiModule } from 'angular2-in-memory-web-api';
-import { InMemoryDataService }  from './simulated-api/in-memory-data.service';
+//import { InMemoryWebApiModule } from 'angular2-in-memory-web-api';
+//import { InMemoryDataService }  from './simulated-api/in-memory-data.service';
 
 
 import { HeaderSection } from './shared/headerSection';
@@ -37,13 +37,12 @@ import { ProductDetailPage } from './components/front/productDetailPage';
 import { CartPage } from './components/front/cartPage';
 import { CheckoutPage } from './components/front/checkoutPage';
 
-
 @NgModule({
     imports: [
         BrowserModule,
         FormsModule,
         HttpModule,
-        InMemoryWebApiModule.forRoot(InMemoryDataService),
+        //InMemoryWebApiModule.forRoot(InMemoryDataService),
         AppRoutingModule
     ],
     declarations: [

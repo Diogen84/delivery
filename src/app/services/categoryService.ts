@@ -9,7 +9,7 @@ export class CategoryService {
 
     private headers = new Headers({'Content-Type': 'application/json'});
     // URL to web api
-    private categoriesUrl = 'api/categories';
+    private categoriesUrl = 'http://localhost:3000/categories'; //'api/categories';
 
     constructor(private http: Http) { }
 

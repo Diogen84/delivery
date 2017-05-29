@@ -12,7 +12,7 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 
-import {SharedService} from '../../services/sharedService';
+import { SharedService } from '../../services/sharedService';
 
 @Component({
     moduleId:module.id,
@@ -20,11 +20,9 @@ import {SharedService} from '../../services/sharedService';
     template:`
     
     `,
-    providers:[SharedService]
+    providers:[ SharedService ]
 })
 
-export class CartSummary implements OnInit {
+export class CartSummary  {
     private cartSummary:Observable<number>;
-
-
 }
