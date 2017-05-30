@@ -147,6 +147,7 @@ export class CategoryList {
         this.newCategory.id = Math.floor(Math.random() * (max - min + 1 )) + min;
         this.newCategory.created = time.getDate() + '.' + (time.getMonth() + 1) + '.' + time.getFullYear();
         this.newCategory.edited = this.newCategory.created;
+        console.log(this.newCategory);
         this.categoryService.createCategory(this.newCategory)
             .then(category => {
                 this.categories.push(category);

@@ -16,7 +16,8 @@ export class CategoryService {
     getCategories(): Promise<CategoryModel[]> {
         return this.http.get(this.categoriesUrl)
             .toPromise()
-            .then(response => response.json().data as CategoryModel[])
+            //.then(response => response.json().data as CategoryModel[])
+            .then(response => response.json() as CategoryModel[])
             .catch(this.handleError);
     }
 
@@ -38,7 +39,7 @@ export class CategoryService {
 
     createCategory(category : any) : Promise<CategoryModel> {
         return this.http
-            .post(this.categoriesUrl, JSON.stringify(category), {headers: this.headers})
+            .post(this.categoriesUrl, JSON.stringify(category))
             .toPromise()
             .then(res => res.json().data)
             .catch(this.handleError);

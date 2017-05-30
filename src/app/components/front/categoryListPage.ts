@@ -47,7 +47,10 @@ export class CategoryListPage {
     getCategories(): void {
         this.categoryService
             .getCategories()
-            .then(categories => this.categories = categories);
+            .then(categories => {
+                this.categories = categories;
+                console.log(categories);
+            });
     }
     ngOnInit(): void {
         this.sharedService.publishCart();

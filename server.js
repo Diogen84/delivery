@@ -4,6 +4,7 @@ var mysql = require("mysql");
 var app = express();
 var bodyParser = require("body-parser");
 var parseHeader = require("parse-http-header");
+var qs = require('querystring');
 
 var pool = mysql.createPool({
     connectionLimit : 100,
@@ -13,8 +14,9 @@ var pool = mysql.createPool({
     database : 'delivery',
     debug : false
 });
-
-app.use(bodyParser.json());
+//app.use(express.bodyParser());
+//app.use(bodyParser.json());
+app.use(bodyParser.json({ type: 'application/json' }));
 app.use(bodyParser.urlencoded({extended : false}));
 /*app.use(function(res, req, next) {
     console.log(parseHeader(res.headers));
@@ -73,8 +75,47 @@ app.get("/categories", function(req, res) {
     //console.log(req);
     handle_database(req,res,"SELECT * from categories");
 
+    console.log(parseHeader(req.headers));
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
     res.header('Access-Control-Allow-Headers', 'Content-Type');
 });
+
+app.post("/categories", function(req, res) {
+    var body='';
+    req.on('data', function (data) {
+        body +=data;
+    });
+    req.on('end', function (){
+        console.log(body);
+        handle_database(req, res, "INSERT INTO categories ( name, shortDescription, description, lockField, created, edited ) VALUES ( " + body.name + "," + body.shortDescription +  "," + body.description + "," + body.lockField + "," + body.created + "," + body.edited + ")");
+        res.header('Access-Control-Allow-Origin', '*');
+        res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+        res.header('Access-Control-Allow-Headers', 'Content-Type');
+});
+});
+
+
 app.listen(3000);
+/*
+var sys = require ('sys'),
+    url = require('url'),
+    http = require('http'),
+    qs = require('querystring');
+
+http.createServer(function (req, res) {
+    if(req.method=='POST') {
+        var body='';
+        req.on('data', function (data) {
+            body +=data;
+        });
+        req.on('end',function(){
+            var POST =  qs.parse(body);
+            console.log(POST);
+        });
+    }
+    else if(req.method=='GET') {
+        var url_parts = url.parse(req.url,true);
+        console.log(url_parts.query);
+    }
+}).listen(1337, "127.0.0.1");*/
