@@ -20,12 +20,10 @@ app.use(function(res, req, next) {
 var categoryRouter = express.Router();
 
 categoryRouter.get('/', categoryList, function(req, res) {});
+categoryRouter.post('/', categoryCreate, function(req, res) {});
 //categoryRouter.get('/:id', function(req, res) {});
-//categoryRouter.post('/', function(req, res) {});
+
 app.use('/categories', categoryRouter);
-
-
-
 
 function categoryList(req, res, next) {
     pool.getConnection(function(err, connection) {
@@ -50,7 +48,39 @@ function categoryList(req, res, next) {
             });
         });
     });
+}
 
+function categoryCreate(req, res, next) {
+    pool.getConnection(function(err, connection) {
+        var body='';
+        req.on('data', function (data) {
+            body +=data;
+        });
+
+        if(err) {
+            res.json({
+                "code" : 100,
+                "status" : "Error in connection database"
+            });
+            //return;
+        }
+        connection.on('error', function(err) {
+            res.json({
+                "code" : 100,
+                "status" : "Error in connection database"
+            });
+        });
+
+        req.on('end', function () {
+            console.log("Connected as id " + connection.threadId);
+            connection.query("INSERT INTO categories ( name, shortDescription, description, lockField, created, edited ) VALUES ( " + body.name + "," + body.shortDescription + "," + body.description + "," + body.lockField + "," + body.created + "," + body.edited + ")", function (err, rows) {
+                connection.release();
+                if (!err) {
+                    res.json(rows);
+                }
+            });
+        });
+    });
 }
 
 module.exports = app;
