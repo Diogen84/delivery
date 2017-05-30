@@ -11,19 +11,23 @@ var pool = mysql.createPool({
     debug : false
 });
 
-var appRouter = express.Router();
+app.use(function(res, req, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    next();
+});
+var categoryRouter = express.Router();
 
-categoryRouter.get('/', function(req, res) {});
+categoryRouter.get('/', categoryList, function(req, res) {});
 //categoryRouter.get('/:id', function(req, res) {});
 //categoryRouter.post('/', function(req, res) {});
-
-// Attach the routers for their respective paths
-app.use('/categories', appRouter);
+app.use('/categories', categoryRouter);
 
 
 
 
-function categoryLookup(req, res, next) {
+function categoryList(req, res, next) {
     pool.getConnection(function(err, connection) {
         if(err) {
             res.json({
@@ -46,6 +50,9 @@ function categoryLookup(req, res, next) {
             });
         });
     });
+
 }
 
 module.exports = app;
+
+app.listen(3000);
