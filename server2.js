@@ -79,7 +79,7 @@ function categoryCreate(req, res, next) {
                     "status" : "Error in connection database"
                 });
             });
-            console.log(body);
+            body = JSON.parse(body);
             console.log("Connected as id " + connection.threadId);
             connection.query("INSERT INTO categories ( name, shortDescription, description, created, edited ) VALUES ( '" + body.name + "','" + body.shortDescription + "','" + body.description + "','" + body.created + "','" + body.edited + "')", function (err, rows) {
                 connection.release();
