@@ -47,8 +47,7 @@ import { CategoryService } from '../../services/categoryService';
                                           <a href="#" (click)="delete(category); $event.stopPropagation(); 
                                           $event.preventDefault();">Remove</a>
                                       </div>
-                                      <div class="trigger"><input type="checkbox" 
-                                      [(ngModel)]="category.lock" name="lock" (change)="save(category)" /></div>
+                                      <div class="trigger"><input type="checkbox" [(ngModel)]="category.lockField" name="lock" (change)="save(category)" /></div>
                                       <div class="created">{{category.created}}</div>
                                       <div class="edited">{{category.edited}}</div>
                                       <div class="name">{{category.name}}</div>
@@ -71,9 +70,9 @@ import { CategoryService } from '../../services/categoryService';
                                                       </div>
                                                   </div>
                                                   <div class="row">
-                                                      <div class="label"><label for="lock">Lock: <br />{{newCategory.lock}}</label></div>
+                                                      <div class="label"><label for="lockField">Lock: <br />{{newCategory.lockField}}</label></div>
                                                       <div class="field">
-                                                          <input [(ngModel)]="newCategory.lock" name="lock" #lock="ngModel" type="checkbox" />
+                                                          <input type="checkbox" [(ngModel)]="newCategory.lockField" name="lock" #lockField="ngModel" />
                                                       </div>
                                                   </div>
                                                   <div class="row">
@@ -152,13 +151,22 @@ export class CategoryList {
             .then(category => {
                 this.categories.push(category);
                 this.selectedCategory = null;
+                this.getCategories();
+                this.newCategory = new CategoryModel();
             });
         this.openedAddBox = false;
     }
     getCategories(): void {
         this.categoryService
             .getCategories()
-            .then(categories => this.categories = categories);
+            .then(categories => {
+                for ( let i = 0 ; i < categories.length ; i++ ) {
+                    if ( categories[i].lockField !== true ) {
+                        categories[i].lockField = false;
+                    }
+                }
+                this.categories = categories;
+            });
     }
 
     delete(category: CategoryModel): void {

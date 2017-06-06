@@ -8,7 +8,7 @@ export class ProductModel {
     weight: string;
     shortDescription : string;
     description : string;
-    lock : boolean;
+    lockField : boolean;
     created : string;
     edited : string;
     amount: number;

@@ -4,7 +4,7 @@ export class CategoryModel {
     thumbnail: any;
     shortDescription : string;
     description : string;
-    lock : boolean;
+    lockField : boolean;
     created : string;
     edited : string;
 }

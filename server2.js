@@ -26,9 +26,54 @@ var categoryRouter = express.Router();
 
 categoryRouter.get('/', categoryList, function(req, res) {});
 categoryRouter.post('/', categoryCreate, function(req, res) {});
+categoryRouter.post('/delete/', categoryDelete, function(req, res) {});
 //categoryRouter.get('/:id', function(req, res) {});
 
 app.use('/categories', categoryRouter);
+
+function categoryDelete(req, res, next) {
+    var body='';
+    req.on('data', function (data) {
+        body +=data;
+    });
+    req.on('end', function (){
+        pool.getConnection(function(err, connection) {
+            res.header('Access-Control-Allow-Origin', '*');
+            res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+            res.header('Access-Control-Allow-Headers', 'Content-Type');
+            if(err) {
+                res.json({
+                    "code" : 100,
+                    "status" : "Error in connection database"
+                });
+                //return;
+            }
+            connection.on('error', function(err) {
+                res.json({
+                    "code" : 100,
+                    "status" : "Error in connection database"
+                });
+            });
+            body = JSON.parse(body);
+            console.log("Connected as id " + connection.threadId);
+            connection.query("DELETE FROM categories WHERE id = " + body.id, function(err, rows) {
+                connection.release();
+                if (!err) {
+                    res.statusCode = 201;
+                    res.json(rows);
+                } else {
+                    console.log(err);
+                    res.json({
+                        "code" : 500,
+                        "status" : "Error in connection database"
+                    });
+                }
+                next();
+            });
+
+        });
+    });
+}
 
 function categoryList(req, res, next) {
     pool.getConnection(function(err, connection) {

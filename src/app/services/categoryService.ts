@@ -30,10 +30,11 @@ export class CategoryService {
     }
 
     delete(id: number): Promise<void> {
-        const url = `${this.categoriesUrl}/${id}`;
-        return this.http.delete(url, {headers: this.headers})
+        const url = `${this.categoriesUrl}/delete/`;
+        return this.http
+            .post(url, JSON.stringify({id: id}))
             .toPromise()
-            .then(() => null)
+            .then(res => res.json().data)
             .catch(this.handleError);
     }
 

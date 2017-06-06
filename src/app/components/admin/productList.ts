@@ -48,7 +48,7 @@ import { ProductService } from '../../services/productService';
                                           </div>
                                       </div>
                                       <div class="trigger"><input type="checkbox" 
-                                      [(ngModel)]="product.lock" name="lock" (change)="save(product)" /></div>
+                                      [(ngModel)]="product.lockField" name="lockField" (change)="save(product)" /></div>
                                       <div class="created">{{product.created}}</div>
                                       <div class="edited">{{product.edited}}</div>
                                       <div class="name">{{product.name}}</div>
@@ -73,15 +73,13 @@ import { ProductService } from '../../services/productService';
                                                       </div>
                                                   </div>
                                                   <div class="row">
-                                                      <div class="label"><label for="lock">Lock: <br />{{newProduct.lock}}</label></div>
+                                                      <div class="label"><label for="lockField">Lock: <br />{{newProduct.lockField}}</label></div>
                                                       <div class="field">
-                                                          <input [(ngModel)]="newProduct.lock" 
-                                                          name="lock" #lock="ngModel" type="checkbox" />
+                                                          <input [(ngModel)]="newProduct.lockField" name="lockField" #lockField="ngModel" type="checkbox" />
                                                       </div>
                                                   </div>
                                                   <div class="row">
-                                                      <div class="label"><label for="thumbnail">Thumbnail: 
-                                                      <br />{{newProduct.thumbnail}}</label></div>
+                                                      <div class="label"><label for="thumbnail">Thumbnail:<br />{{newProduct.thumbnail}}</label></div>
                                                       <div class="field">
                                                           <input type="text" [(ngModel)]="newProduct.thumbnail" 
                                                           name="thumbnail" #thumbnail="ngModel" />
@@ -91,37 +89,31 @@ import { ProductService } from '../../services/productService';
                                                       <div class="label"><label for="inStock">Items in stock: <br />
                                                       {{newProduct.inStock}}</label></div>
                                                       <div class="field">
-                                                          <input type="text" [(ngModel)]="newProduct.inStock" 
-                                                          name="inStock" #lock="ngModel" type="text" />
+                                                          <input type="text" [(ngModel)]="newProduct.inStock" name="inStock" #lock="ngModel" type="text" />
                                                       </div>
                                                   </div>
                                                   <div class="row">
                                                       <div class="label"><label for="price">Price: <br />
                                                       {{newProduct.price}}</label></div>
                                                       <div class="field">
-                                                          <input type="text" [(ngModel)]="newProduct.price" 
-                                                          name="price" #lock="ngModel" type="text" />
+                                                          <input type="text" [(ngModel)]="newProduct.price" name="price" #lock="ngModel" type="text" />
                                                       </div>
                                                   </div>
                                                   <div class="row">
                                                       <div class="label"><label for="currency">Currency: <br />
                                                       {{newProduct.currency}}</label></div>
                                                       <div class="field">
-                                                          <input type="text" [(ngModel)]="newProduct.currency" 
-                                                          name="currency" #lock="ngModel" type="text" />
+                                                          <input type="text" [(ngModel)]="newProduct.currency" name="currency" #lock="ngModel" type="text" />
                                                       </div>
                                                   </div>
                                                   <div class="row">
-                                                      <div class="label"><label for="weight">Weight: <br />
-                                                      {{newProduct.weight}}</label></div>
+                                                      <div class="label"><label for="weight">Weight: <br />{{newProduct.weight}}</label></div>
                                                       <div class="field">
-                                                          <input type="text" [(ngModel)]="newProduct.weight" 
-                                                          name="weight" #lock="ngModel" type="text" />
+                                                          <input type="text" [(ngModel)]="newProduct.weight" name="weight" #lock="ngModel" type="text" />
                                                       </div>
                                                   </div>
                                                   <div class="row">
-                                                      <div class="label"><label for="newCategoryProducts_related">
-                                                      Related products</label></div>
+                                                      <div class="label"><label for="newCategoryProducts_related">Related products</label></div>
                                                       <div class="field">
                                                           <select multiple id="newCategoryProducts_related">
                                                               <option>Category1</option>
