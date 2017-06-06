@@ -47,7 +47,7 @@ import { CategoryService } from '../../services/categoryService';
                                           <a href="#" (click)="delete(category); $event.stopPropagation(); 
                                           $event.preventDefault();">Remove</a>
                                       </div>
-                                      <div class="trigger"><input type="checkbox" [(ngModel)]="category.lockField" name="lock" (change)="save(category)" /></div>
+                                      <div class="trigger"><input type="checkbox" [(ngModel)]="category.lockField" name="lockField" #lockField="ngModel" (change)="save(category)" /></div>
                                       <div class="created">{{category.created}}</div>
                                       <div class="edited">{{category.edited}}</div>
                                       <div class="name">{{category.name}}</div>
@@ -143,15 +143,18 @@ export class CategoryList {
         let max = Math.floor(100);
         let time = new Date();
 
-        this.newCategory.id = Math.floor(Math.random() * (max - min + 1 )) + min;
         this.newCategory.created = time.getDate() + '.' + (time.getMonth() + 1) + '.' + time.getFullYear();
         this.newCategory.edited = this.newCategory.created;
+        this.newCategory.lockField = false;
+        //console.log(this.newCategory);
+        //console.log(new CategoryModel());
         console.log(this.newCategory);
         this.categoryService.createCategory(this.newCategory)
             .then(category => {
+                console.log(category);
                 this.categories.push(category);
                 this.selectedCategory = null;
-                this.getCategories();
+                //this.getCategories();
                 this.newCategory = new CategoryModel();
             });
         this.openedAddBox = false;

@@ -42,7 +42,9 @@ export class CategoryService {
         return this.http
             .post(this.categoriesUrl, JSON.stringify(category))
             .toPromise()
-            .then(res => res.json().data)
+            .then(function(res) {
+                return res.json();
+            })
             .catch(this.handleError);
     }
 

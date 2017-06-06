@@ -124,13 +124,14 @@ function categoryCreate(req, res, next) {
                     "status" : "Error in connection database"
                 });
             });
-            body = JSON.parse(body);
+            var bodyJson = JSON.parse(body);
             console.log("Connected as id " + connection.threadId);
-            connection.query("INSERT INTO categories ( name, shortDescription, description, created, edited ) VALUES ( '" + body.name + "','" + body.shortDescription + "','" + body.description + "','" + body.created + "','" + body.edited + "')", function (err, rows) {
+            connection.query("INSERT INTO categories ( name, shortDescription, description, created, edited ) VALUES ( '" + bodyJson.name + "','" + bodyJson.shortDescription + "','" + bodyJson.description + "','" + bodyJson.created + "','" + bodyJson.edited + "')", function (err, rows) {
                 connection.release();
                 if (!err) {
+                    bodyJson.id = rows.insertId;
                     res.statusCode = 201;
-                    res.json(rows);
+                    res.json(bodyJson);
                 } else {
                     console.log(err);
                     res.json({
@@ -138,7 +139,6 @@ function categoryCreate(req, res, next) {
                         "status" : "Error in connection database"
                     });
                 }
-                next();
             });
 
             res.header('Access-Control-Allow-Origin', '*');
