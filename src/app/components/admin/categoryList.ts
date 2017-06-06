@@ -36,10 +36,10 @@ import { CategoryService } from '../../services/categoryService';
                                   <div class="edited">Last edit</div>
                                   <div class="name">Name</div>
                               </li>
-                              <li *ngFor="let category of categories" [class.selected]="category === selectedCategory"> 
+                              <li *ngFor="let category of categories; let index = index" [class.selected]="category === selectedCategory"> 
                               <!--[routerLink]="['/admin/categories/' + category.id]">-->
                                   <div class="row">
-                                      <div class="number">index</div>
+                                      <div class="number">{{index}}</div>
                                       <div class="id">{{category.id}}</div>
                                       <div class="options">
                                           <a href="#" (click)="gotoDetail(category); $event.stopPropagation(); 
@@ -145,7 +145,9 @@ export class CategoryList {
 
         this.newCategory.created = time.getDate() + '.' + (time.getMonth() + 1) + '.' + time.getFullYear();
         this.newCategory.edited = this.newCategory.created;
-        this.newCategory.lockField = false;
+        if ( this.newCategory.lockField !== true ) {
+            this.newCategory.lockField = false;
+        }
         //console.log(this.newCategory);
         //console.log(new CategoryModel());
         console.log(this.newCategory);

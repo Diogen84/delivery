@@ -26,55 +26,56 @@ import { CategoryService } from '../../services/categoryService';
                     </div>
                     <div class="right-section">
                         <div class="search-section" category-search></div>
-
                         <div class="admin-content">
-                            <div *ngIf="category">
-                                <div><label>Id: </label>{{category.id}}</div>
-                                <div>
-                                  <label>Name:{{category.name}}</label>
-                                  <div>
-                                    <input [(ngModel)]="category.name" />
-                                  </div>
-                                </div>
-                                <div>
-                                  <label>Thumbnail: <br />{{category.thumbnail}}</label>
-                                  <div>
-                                    <input [(ngModel)]="category.thumbnail" />
-                                </div>
-                                </div>
-                                <div>
-                                  <label>Short description: <br />{{category.shortDescription}}</label>
-                                  <div>
-                                    <input [(ngModel)]="category.shortDescription" />
+                            <form #editCategoryForm="ngForm" *ngIf="category" (ngSubmit)="onSubmitEditCategoryForm(editCategoryForm.value)">
+                                <fieldset>
+                                    <div><label>Id: </label>{{category.id}}</div>
+                                    <div>
+                                        <label>Name:{{category.name}}</label>
+                                        <div>
+                                            <input [(ngModel)]="category.name" name="name" />
+                                        </div>
                                     </div>
-                                </div>
-                                <div>
-                                  <label>Description: <br />{{category.description}}</label>
-                                  <div>
-                                  <input [(ngModel)]="category.description" />
-                                  </div>
-                                </div>
-                                <div>
-                                  <label>Lock: <br />{{category.lock}}</label>
-                                  <div>
-                                  <input [(ngModel)]="category.lock" type="checkbox" />
-                                  </div>
-                                </div>
-                                <div>
-                                  <label>Created: <br />{{category.created}}</label>
-                                  <div>
-                                  <input [(ngModel)]="category.created" />
-                                  </div>
-                                </div>
-                                <div>
-                                  <label>Edited: <br />{{category.edited}}</label>
-                                  <div>
-                                  <input [(ngModel)]="category.edited" />
-                                  </div>
-                                </div>
-                                <button (click)="goBack()">Back</button>
-                                <button (click)="save()">Save</button>
-                            </div>
+                                    <div>
+                                        <label>Thumbnail: <br />{{category.thumbnail}}</label>
+                                        <div>
+                                            <input [(ngModel)]="category.thumbnail" name="thumbnail" />
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label>Short description: <br />{{category.shortDescription}}</label>
+                                        <div>
+                                            <input [(ngModel)]="category.shortDescription" name="shortDescription" #shortDescription="ngModel" />
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label>Description: <br />{{category.description}}</label>
+                                        <div>
+                                            <input [(ngModel)]="category.description" name="description" />
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label>Lock: <br />{{category.lockField}}</label>
+                                        <div>
+                                            <input [(ngModel)]="category.lockField" type="checkbox" name="lockField" />
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label>Created: <br />{{category.created}}</label>
+                                        <div>
+                                            <input [(ngModel)]="category.created" name="created" />
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label>Edited: <br />{{category.edited}}</label>
+                                        <div>
+                                            <input [(ngModel)]="category.edited" name="edited" />
+                                        </div>
+                                    </div>
+                                    <button (click)="goBack()">Back</button>
+                                    <input type="submit" value="Save" />
+                                </fieldset>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -95,7 +96,11 @@ export class CategoryDetail implements OnInit {
     ngOnInit(): void {
         this.route.params
             .switchMap((params: Params) => this.categoryService.getCategory(+params['id']))
-            .subscribe(category => this.category = category );
+            .subscribe(category => {
+                console.log(category);
+                this.category = category;
+                console.log(this.category);
+            });
     }
 
     save(): void {
@@ -105,5 +110,9 @@ export class CategoryDetail implements OnInit {
 
     goBack(): void {
         this.location.back();
+    }
+
+    onSubmitEditCategoryForm(): void {
+        this.save();
     }
 }

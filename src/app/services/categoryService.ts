@@ -25,7 +25,7 @@ export class CategoryService {
         const url = `${this.categoriesUrl}/${id}`;
         return this.http.get(url)
             .toPromise()
-            .then(response => response.json().data as CategoryModel)
+            .then(response => response.json() as CategoryModel)
             .catch(this.handleError);
     }
 
