@@ -183,6 +183,7 @@ export class ProductList {
         this.newProduct.id = Math.floor(Math.random() * (max - min + 1 )) + min;
         this.newProduct.created = time.getDate() + '.' + (time.getMonth() + 1) + '.' + time.getFullYear();
         this.newProduct.edited = this.newProduct.created;
+        console.log(this.newProduct);
         this.productService.createProduct(this.newProduct)
             .then(product => {
                 this.products.push(product);

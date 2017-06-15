@@ -34,7 +34,7 @@ export class CategoryService {
         return this.http
             .post(url, JSON.stringify({id: id}))
             .toPromise()
-            .then(res => res.json().data)
+            .then(res => res.json())
             .catch(this.handleError);
     }
 
@@ -47,7 +47,7 @@ export class CategoryService {
             })
             .catch(this.handleError);
     }
-
+// need to redo for mysql case
     update(category: CategoryModel): Promise<CategoryModel> {
         const url = `${this.categoriesUrl}/${category.id}`;
         return this.http

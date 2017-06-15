@@ -8,14 +8,14 @@ import { ProductModel } from '../models/productModel';
 export class ProductService {
 	private headers = new Headers({'Content-Type': 'application/json'});
     // URL to web api
-    private productsUrl = 'api/products';
+    private productsUrl = 'http://localhost:3000/products'; //api/products';
 
     constructor(private http: Http) { }
 
     getProducts(): Promise<ProductModel[]> {
         return this.http.get(this.productsUrl)
             .toPromise()
-            .then(response => response.json().data as ProductModel[])
+            .then(response => response.json() as ProductModel[])
             .catch(this.handleError);
     }
 
@@ -23,26 +23,27 @@ export class ProductService {
         const url = `${this.productsUrl}/${id}`;
         return this.http.get(url)
             .toPromise()
-            .then(response => response.json().data as ProductModel)
+            .then(response => response.json() as ProductModel)
             .catch(this.handleError);
     }
 
     delete(id: number): Promise<void> {
-        const url = `${this.productsUrl}/${id}`;
-        return this.http.delete(url, {headers: this.headers})
+        const url = `${this.productsUrl}/delete/`;
+        return this.http.post(url, JSON.stringify({id: id}))
             .toPromise()
-            .then(() => null)
+            .then(res => res.json())
             .catch(this.handleError);
     }
 
     createProduct(product : any) : Promise<ProductModel> {
         return this.http
-            .post(this.productsUrl, JSON.stringify(product), {headers: this.headers})
+            .post(this.productsUrl, JSON.stringify(product))
             .toPromise()
-            .then(res => res.json().data)
+            .then(res => res.json())
             .catch(this.handleError);
     }
 
+// need to redo for mysql case
     update(product: ProductModel): Promise<ProductModel> {
         const url = `${this.productsUrl}/${product.id}`;
         return this.http

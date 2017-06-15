@@ -28,6 +28,7 @@
     "@angular/platform-browser-dynamic": "~2.2.4",
     "@angular/router": "~3.2.4",
     "@angular/upgrade": "~2.2.4",
+    "body-parser": "^1.17.2",
     "core-js": "^2.4.1",
     "mysql": "^2.13.0",
     "reflect-metadata": "^0.1.3",
