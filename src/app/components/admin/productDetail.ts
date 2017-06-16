@@ -123,6 +123,7 @@ export class ProductDetail implements OnInit {
                         }
                         this.relationService.getRelationsOfProduct(this.product.id)
                             .then(res => {
+                                console.log(res);
                                 this.localRelations = res;
                                 this.selectedCategories = [];
                                 for ( let i = 0; i < res.length ; i++ ) {

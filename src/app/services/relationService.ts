@@ -9,7 +9,7 @@ import { RelationModel } from '../models/relationModel';
 @Injectable()
 export class RelationService {
     private headers = new Headers({'Content-Type': 'application/json'});
-    private relationUrl = 'api/relation';
+    private relationUrl = 'http://localhost:3000/relation'; //'api/relation';
     private categoryUrl = 'api/categories';
 
     constructor(private http: Http) { }
@@ -17,26 +17,27 @@ export class RelationService {
     getRelations(): Promise<RelationModel[]> {
         return this.http.get(this.relationUrl)
             .toPromise()
-            .then(response => response.json().data as RelationModel[])
+            .then(response => response.json() as RelationModel[])
             .catch(this.handleError);
     }
     getRelationsOfProduct(productId : number) : Promise<RelationModel[]> {
         const url = `${this.relationUrl}?productId=${productId}`;
         return this.http.get(url)
             .toPromise()
-            .then(response => response.json().data as RelationModel[])
+            .then(response => response.json() as RelationModel[])
             .catch(this.handleError);
     }
     createRelationsOfProduct(relation : any) : Promise<RelationModel> {
         return this.http
-            .post(this.relationUrl, JSON.stringify(relation), {headers: this.headers})
+            .post(this.relationUrl, JSON.stringify(relation))
             .toPromise()
-            .then(res => res.json().data)
+            .then(res => res.json())
             .catch(this.handleError);
     }
     deleteRelationsOfProduct(id: number): Promise<void> {
-        const url = `${this.relationUrl}/${id}`;
-        return this.http.delete(url, {headers: this.headers})
+        const url = `${this.relationUrl}`;
+        return this.http
+            .post(url, JSON.stringify({id: id}))
             .toPromise()
             .then(() => null)
             .catch(this.handleError);

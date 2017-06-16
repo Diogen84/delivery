@@ -81,7 +81,7 @@ import { CategoryService } from '../../services/categoryService';
                                                           <input type="text" [(ngModel)]="newCategory.thumbnail" name="thumbnail" #thumbnail="ngModel" />
                                                       </div>
                                                   </div>
-                                                  <div class="row">
+                                                  <!--div class="row">
                                                       <div class="label"><label for="newCategoryProducts_related">Related products</label></div>
                                                       <div class="field">
                                                           <select multiple id="newCategoryProducts_related" >
@@ -91,7 +91,7 @@ import { CategoryService } from '../../services/categoryService';
                                                               <option>Category4</option>
                                                           </select>
                                                       </div>
-                                                  </div>
+                                                  </div-->
                                                   <div class="row">
                                                       <div class="label"><label for="shortDescription">Short description:<br />{{newCategory.shortDescription}}</label></div>
                                                       <div class="field">
