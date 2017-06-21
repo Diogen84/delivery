@@ -97,6 +97,7 @@ export class ProductDetailPage implements OnInit {
     ngOnInit(): void {
         this.route.params.switchMap((params: Params) => this.productService.getProduct(+params['id']))
             .subscribe(item => {
+                console.log(item);
                 this.product = item;
                 this.amount = 1;
             });

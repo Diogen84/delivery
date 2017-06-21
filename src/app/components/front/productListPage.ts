@@ -23,7 +23,8 @@ import { SharedService } from '../../services/sharedService';
                             <img src="{{product.thumbnail}}" alt="" />
                         </div>
                         <div class="description">
-                            <p>{{product.shortDescription}}</p>
+                            <h3>{{product.name}}</h3>
+                            <p>{{product.shortDescription}}{{product.id}}</p>
                         </div>
                         <ul class="options">
                             <li><a href="#/products/{{product.id}}" (click)="gotoDetail(product); $event.stopPropagation();$event.preventDefault();">Details</a></li>
@@ -38,7 +39,7 @@ import { SharedService } from '../../services/sharedService';
 export class ProductListPage {
     relations : RelationModel[] = [];
     products : ProductModel[] = [];
-    product : ProductModel;
+    product : ProductModel = new ProductModel();
 
     constructor(
         private router: Router,
@@ -49,14 +50,19 @@ export class ProductListPage {
     ) {}
 
     gotoDetail(product: ProductModel): void {
+        console.log(product);
         this.router.navigate(['products/', product.id]);
     }
     ngOnInit(): void {
         this.sharedService.publishCart();
         this.route.params.switchMap((params: Params) => this.relationService.getRelationsOfCategory(+params['id']))
             .subscribe(relations => {
+                console.log(relations);
                 for ( let i = 0 ; i < relations.length ; i++ ) {
-                    this.productService.getProduct(relations[i].productId).then(res => this.products.push(res) );
+                    this.productService.getProduct(relations[i].productId).then(res => {
+                        console.log(res);
+                        this.products.push(res);
+                    } );
                 }
             });
 

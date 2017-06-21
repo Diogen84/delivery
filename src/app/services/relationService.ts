@@ -21,7 +21,7 @@ export class RelationService {
             .catch(this.handleError);
     }
     getRelationsOfProduct(productId : number) : Promise<RelationModel[]> {
-        const url = `${this.relationUrl}/${productId}`;
+        const url = `${this.relationUrl}/product/${productId}`;
         return this.http.get(url)
             .toPromise()
             .then(response => response.json() as RelationModel[])
@@ -44,10 +44,10 @@ export class RelationService {
     }
 
     getRelationsOfCategory(categoryId : number) : Promise<RelationModel[]> {
-        const url = `${this.relationUrl}?categoryId=${categoryId}`;
+        const url = `${this.relationUrl}/category/${categoryId}`;
         return this.http.get(url)
             .toPromise()
-            .then(response => response.json().data as RelationModel[])
+            .then(response => response.json() as RelationModel[])
             .catch(this.handleError);
     }
 

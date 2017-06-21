@@ -44,7 +44,8 @@ app.use(function(res, req, next) {
 app.use('/products', productRouter);
 
 relationRouter.get('/', relationList, function(req, res) {});
-relationRouter.get('/:productId', relationDetails, function(req, res) {});
+relationRouter.get('/product/:productId', relationDetails, function(req, res) {});
+relationRouter.get('/category/:categoryId', relationCategoryDetails, function(req, res) {});
 relationRouter.post('/', relationCreate, function(req, res) {});
 relationRouter.post('/delete/', relationDelete, function(req, res) {});
 app.use(function(res, req, next) {
@@ -142,7 +143,35 @@ function relationCreate(req, res, next) {
         });
     });
 }
+function relationCategoryDetails(req, res, next) {
+    pool.getConnection(function(err, connection) {
+        if(err) {
+            res.json({
+                "code" : 100,
+                "status" : "Error in connection database"
+            });
+            //return;
+        }
+        console.log("Connected as id " + connection.threadId);
+        console.log("the ID is : " + req.params.categoryId);
+        connection.query("SELECT * from relation where categoryId = " + req.params.categoryId, function(err, rows) {
+            connection.release();
+            if(!err) {
+                res.json(rows);
+            }
+        });
+        connection.on('error', function(err) {
+            res.json({
+                "code" : 100,
+                "status" : "Error in connection database"
+            });
+        });
 
+        res.header('Access-Control-Allow-Origin', '*');
+        res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+        res.header('Access-Control-Allow-Headers', 'Content-Type');
+    });
+}
 function relationDetails(req, res, next) {
     pool.getConnection(function(err, connection) {
         if(err) {
