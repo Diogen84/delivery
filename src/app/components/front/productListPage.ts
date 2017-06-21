@@ -27,7 +27,7 @@ import { SharedService } from '../../services/sharedService';
                             <p>{{product.shortDescription}}{{product.id}}</p>
                         </div>
                         <ul class="options">
-                            <li><a href="#/products/{{product.id}}" (click)="gotoDetail(product); $event.stopPropagation();$event.preventDefault();">Details</a></li>
+                            <li><a href="#" (click)="gotoDetail(product); $event.stopPropagation();$event.preventDefault();">Details</a></li>
                         </ul>
                     </div>
                 </div>
@@ -61,7 +61,7 @@ export class ProductListPage {
                 for ( let i = 0 ; i < relations.length ; i++ ) {
                     this.productService.getProduct(relations[i].productId).then(res => {
                         console.log(res);
-                        this.products.push(res);
+                        this.products.push(res[0]);
                     } );
                 }
             });
