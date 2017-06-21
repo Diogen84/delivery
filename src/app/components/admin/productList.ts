@@ -2,7 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { ProductModel } from '../../models/productModel';
+import { RelationModel } from '../../models/relationModel';
+import { CategoryItem } from '../../models/selectedCategoriesModel';
+
+import { RelationService } from '../../services/relationService';
 import { ProductService } from '../../services/productService';
+import { CategoryService } from '../../services/categoryService';
+
 
 @Component({
 	moduleId: module.id,
@@ -113,13 +119,16 @@ import { ProductService } from '../../services/productService';
                                                       </div>
                                                   </div>
                                                   <div class="row">
-                                                      <div class="label"><label for="newCategoryProducts_related">Assigned categories:</label></div>
+                                                      <div class="label"><label for="selectedCategories">Assigned categories:</label></div>
                                                       <div class="field">
-                                                          <select multiple id="newCategoryProducts_related">
+                                                          <!--select multiple id="newCategoryProducts_related">
                                                               <option>Category1</option>
                                                               <option>Category2</option>
                                                               <option>Category3</option>
                                                               <option>Category4</option>
+                                                          </select-->
+                                                          <select multiple [(ngModel)]="selectedCategories" name="selectedCategory">
+                                                              <option *ngFor="let category of categoryList" [ngValue]="category">{{category.name}}</option>
                                                           </select>
                                                       </div>
                                                   </div>
@@ -164,9 +173,16 @@ export class ProductList {
     products: ProductModel[];
     selectedProduct : ProductModel;
     openedAddBox : boolean;
+    selectedCategories: CategoryItem[] = [];
+    categoryList: CategoryItem[] = [];
+
+    localRelations: RelationModel[];
+    relation: RelationModel;
 
     //addservice via constructor
     constructor(
+        private categoryService: CategoryService,
+        private relationService: RelationService,
         private router: Router,
         private productService: ProductService
     ) {}
@@ -180,21 +196,28 @@ export class ProductList {
         let max = Math.floor(100);
         let time = new Date();
 
-        this.newProduct.id = Math.floor(Math.random() * (max - min + 1 )) + min;
         this.newProduct.created = time.getDate() + '.' + (time.getMonth() + 1) + '.' + time.getFullYear();
         this.newProduct.edited = this.newProduct.created;
-        console.log(this.newProduct);
+        //console.log(this.selectedCategories);
+        console.log(this.selectedCategories);
         this.productService.createProduct(this.newProduct)
             .then(product => {
                 this.products.push(product);
                 this.selectedProduct = null;
+
+                for ( let z = 0 ; z < this.selectedCategories.length ; z++ ) {
+                    this.relation = new RelationModel();
+                    this.relation = {
+                        productId: product.id,
+                        categoryId: this.selectedCategories[z].value
+                    };
+                    console.log(this.relation);
+                    this.relationService.createRelationsOfProduct(this.relation).then(res => {
+                        console.log(res);
+                    });
+                }
             });
         this.openedAddBox = false;
-    }
-    getProducts(): void {
-        this.productService
-            .getProducts()
-            .then(products => this.products = products);
     }
 
     delete(product: ProductModel): void {
@@ -206,7 +229,35 @@ export class ProductList {
             });
     }
     ngOnInit(): void {
-        this.getProducts();
+        this.productService.getProducts().then(
+            products => {
+                //console.log(products);
+                this.products = products;
+
+                this.categoryService.getCategories()
+                    .then(response => {
+                        for ( let i = 0 ; i < response.length ; i++ ) {
+                            this.categoryList.push(new CategoryItem(response[i].id, response[i].name));
+                        }
+                        //console.log(response);
+                        /*this.relationService.getRelationsOfProduct(this.product.id)
+                            .then(res => {
+                                console.log(res);
+                                this.localRelations = res;
+                                this.selectedCategories = [];
+                                for ( let i = 0; i < res.length ; i++ ) {
+                                    if ( this.product.id === res[i].productId ) {
+                                        for ( let j = 0 ; j < this.categoryList.length ; j++ ) {
+                                            if (res[i].categoryId === this.categoryList[j].value) {
+                                                this.selectedCategories.push(this.categoryList[j]);
+                                            }
+                                        }
+                                    }
+                                }
+                            });*/
+                    });
+            }
+        );
         this.openedAddBox = false;
     }
     onSelect(product: ProductModel) : void {

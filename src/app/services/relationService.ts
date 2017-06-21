@@ -10,7 +10,7 @@ import { RelationModel } from '../models/relationModel';
 export class RelationService {
     private headers = new Headers({'Content-Type': 'application/json'});
     private relationUrl = 'http://localhost:3000/relation'; //'api/relation';
-    private categoryUrl = 'api/categories';
+   // private categoryUrl = 'api/categories';
 
     constructor(private http: Http) { }
 
@@ -21,17 +21,17 @@ export class RelationService {
             .catch(this.handleError);
     }
     getRelationsOfProduct(productId : number) : Promise<RelationModel[]> {
-        const url = `${this.relationUrl}?productId=${productId}`;
+        const url = `${this.relationUrl}/${productId}`;
         return this.http.get(url)
             .toPromise()
             .then(response => response.json() as RelationModel[])
             .catch(this.handleError);
     }
-    createRelationsOfProduct(relation : any) : Promise<RelationModel> {
+    createRelationsOfProduct(relation : RelationModel) : Promise<RelationModel> {
         return this.http
             .post(this.relationUrl, JSON.stringify(relation))
             .toPromise()
-            .then(res => res.json())
+            .then(res => res.json() as RelationModel)
             .catch(this.handleError);
     }
     deleteRelationsOfProduct(id: number): Promise<void> {

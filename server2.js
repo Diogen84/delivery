@@ -17,6 +17,7 @@ var pool = mysql.createPool({
 
 var categoryRouter = express.Router();
 var productRouter = express.Router();
+var relationRouter = express.Router();
 
 categoryRouter.get('/', categoryList, function(req, res) {});
 categoryRouter.get('/:id', categoryDetails, function(req, res) {});
@@ -42,17 +43,17 @@ app.use(function(res, req, next) {
 });
 app.use('/products', productRouter);
 
-productRouter.get('/', relationList, function(req, res) {});
-productRouter.get('/:id', relationDetails, function(req, res) {});
-productRouter.post('/', relationCreate, function(req, res) {});
-productRouter.post('/delete/', relationDelete, function(req, res) {});
+relationRouter.get('/', relationList, function(req, res) {});
+relationRouter.get('/:productId', relationDetails, function(req, res) {});
+relationRouter.post('/', relationCreate, function(req, res) {});
+relationRouter.post('/delete/', relationDelete, function(req, res) {});
 app.use(function(res, req, next) {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
     res.header('Access-Control-Allow-Headers', 'Content-Type');
     next();
 });
-app.use('/relation', productRouter);
+app.use('/relation', relationRouter);
 
 
 function relationDelete(req, res, next) {
@@ -120,11 +121,10 @@ function relationCreate(req, res, next) {
                 });
             });
             var bodyJson = JSON.parse(body);
-            console.log("Connected as id " + connection.threadId);
             connection.query("INSERT INTO relation ( productId, categoryId) VALUES ('" + bodyJson.productId + "','" + bodyJson.categoryId + "')", function (err, rows) {
                 connection.release();
                 if (!err) {
-                    bodyJson.id = rows.insertId;
+                    bodyJson.productId = rows.insertId;
                     res.statusCode = 201;
                     res.json(bodyJson);
                 } else {
@@ -153,7 +153,8 @@ function relationDetails(req, res, next) {
             //return;
         }
         console.log("Connected as id " + connection.threadId);
-        connection.query("SELECT * from relation where id = " + req.params.id, function(err, rows) {
+        console.log("the ID is : " + req.params.productId);
+        connection.query("SELECT * from relation where productId = " + req.params.productId, function(err, rows) {
             connection.release();
             if(!err) {
                 res.json(rows);

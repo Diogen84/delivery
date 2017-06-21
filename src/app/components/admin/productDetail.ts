@@ -33,7 +33,7 @@ import { CategoryItem } from '../../models/selectedCategoriesModel';
                     <div class="right-section">
                         <div class="search-section" category-search></div>
                         <div class="admin-content">
-                            <form #editProductForm="ngForm" *ngIf="product" (ngSubmit)="onSubmitNewCategoryForm(editProductForm.value)">
+                            <form #editProductForm="ngForm" *ngIf="product" (ngSubmit)="onSubmitNewProductForm(editProductForm.value)">
                                 <fieldset>
                                     <ul class="data-table">
                                           <li>
@@ -94,7 +94,7 @@ import { CategoryItem } from '../../models/selectedCategoriesModel';
 })
 
 export class ProductDetail implements OnInit {
-    product: ProductModel;
+    product: ProductModel = new ProductModel();
     selectedCategories: CategoryItem[] = [];
     categoryList: CategoryItem[] = [];
 
@@ -115,7 +115,8 @@ export class ProductDetail implements OnInit {
         this.route.params
             .switchMap((params: Params) => this.productService.getProduct(+params['id']))
             .subscribe(product => {
-                this.product = product;
+                this.product = product[0];
+                console.log(this.product);
                 this.categoryService.getCategories()
                     .then(response => {
                         for ( let i = 0 ; i < response.length ; i++ ) {
@@ -139,9 +140,10 @@ export class ProductDetail implements OnInit {
                     });
             });
     }
-    onSubmitNewCategoryForm(): void {
+    onSubmitNewProductForm(): void {
         this.productService.update(this.product)
             .then(() => {
+            console.log(this.localRelations);
                 for ( let i = 0; i < this.categoryList.length ; i++ ) {
                     for ( let j = 0 ; j < this.localRelations.length ; j++ ) {
                         //create elements
@@ -149,10 +151,10 @@ export class ProductDetail implements OnInit {
                             for ( let z = 0 ; z < this.selectedCategories.length ; z++ ) {
                                 if ( this.selectedCategories[z].value ===  this.categoryList[i].value ) {
                                     this.relation = {
-                                        id: Math.random() * (1000 - 10) + 10,
                                         productId: this.product.id,
                                         categoryId: this.selectedCategories[z].value
                                     };
+                                    console.log(this.relation);
                                     this.relationService.createRelationsOfProduct(this.relation).then(res => {});
                                 }
                             }
@@ -160,7 +162,11 @@ export class ProductDetail implements OnInit {
                             //delete elements
                             for ( let z = 0 ; z < this.selectedCategories.length ; z++ ) {
                                 if ( this.selectedCategories[z].value !==  this.localRelations[j].categoryId ) {
-                                    this.relationService.deleteRelationsOfProduct(this.localRelations[j].id).then(res => {});
+                                    console.log(this.product.id);
+                                    this.relationService.getRelationsOfProduct(this.product.id).then(res => {
+                                        console.log(res);
+                                    });
+                                    ///this.relationService.deleteRelationsOfProduct(this.localRelations[j].id).then(res => {});
                                 }
                             }
                         }

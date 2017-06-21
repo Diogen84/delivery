@@ -65,7 +65,7 @@ app.get("/reset", function(req, res) {
     handle_database(req, res, "DROP TABLE orders");
     handle_database(req, res, "DROP TABLE ordersRelation");
 */
-    handle_database(req, res, "CREATE TABLE relation(id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY, productId INT, amount INT)");
+    handle_database(req, res, "CREATE TABLE relation(id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY, productId INT, categoryId INT)");
     handle_database(req, res, "CREATE TABLE categories(id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255), thumbnail LONGBLOB, shortDescription VARCHAR(255), lockField BOOLEAN, created VARCHAR(12), edited VARCHAR(12))");
     handle_database(req, res, "CREATE TABLE products(id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255), thumbnail LONGBLOB, inStock INT, price VARCHAR(255), currency VARCHAR(10), weight VARCHAR(255), shortDescription VARCHAR(255), description MEDIUMTEXT, lockField BOOLEAN, created VARCHAR(12), edited VARCHAR(12))");
     handle_database(req, res, "CREATE TABLE orders(id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255), phone VARCHAR(255), address VARCHAR(255), additional VARCHAR(255), status VARCHAR(255), date VARCHAR(12), products VARCHAR(512))");
