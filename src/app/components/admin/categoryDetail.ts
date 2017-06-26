@@ -98,7 +98,7 @@ export class CategoryDetail implements OnInit {
             .switchMap((params: Params) => this.categoryService.getCategory(+params['id']))
             .subscribe(category => {
                 console.log(category);
-                this.category = category;
+                this.category = category[0];
                 console.log(this.category);
             });
     }

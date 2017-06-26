@@ -124,8 +124,8 @@ export class ProductDetail implements OnInit {
                         }
                         this.relationService.getRelationsOfProduct(this.product.id)
                             .then(res => {
-                                console.log(res);
                                 this.localRelations = res;
+                                console.log(this.localRelations);
                                 this.selectedCategories = [];
                                 for ( let i = 0; i < res.length ; i++ ) {
                                     if ( this.product.id === res[i].productId ) {
@@ -144,9 +144,14 @@ export class ProductDetail implements OnInit {
         this.productService.update(this.product)
             .then(() => {
             console.log(this.localRelations);
+            console.log(this.selectedCategories);
                 for ( let i = 0; i < this.categoryList.length ; i++ ) {
                     for ( let j = 0 ; j < this.localRelations.length ; j++ ) {
                         //create elements
+                        console.log('--------------');
+                        console.log(this.categoryList[i].value !== this.localRelations[j].categoryId);
+
+
                         if ( this.categoryList[i].value !== this.localRelations[j].categoryId ) {
                             for ( let z = 0 ; z < this.selectedCategories.length ; z++ ) {
                                 if ( this.selectedCategories[z].value ===  this.categoryList[i].value ) {

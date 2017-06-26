@@ -43,13 +43,14 @@ export class ProductService {
             .catch(this.handleError);
     }
 
-// need to redo for mysql case
     update(product: ProductModel): Promise<ProductModel> {
-        const url = `${this.productsUrl}/${product.id}`;
+        const url = `${this.productsUrl}/update/`;
         return this.http
-            .put(url, JSON.stringify(product), {headers: this.headers})
+            .post(url, JSON.stringify(product))
             .toPromise()
-            .then(() => product)
+            .then(function(res) {
+                return res.json();
+            })
             .catch(this.handleError);
     }
 

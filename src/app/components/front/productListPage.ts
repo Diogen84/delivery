@@ -60,7 +60,6 @@ export class ProductListPage {
                 console.log(relations);
                 for ( let i = 0 ; i < relations.length ; i++ ) {
                     this.productService.getProduct(relations[i].productId).then(res => {
-                        console.log(res);
                         this.products.push(res[0]);
                     } );
                 }

@@ -47,13 +47,14 @@ export class CategoryService {
             })
             .catch(this.handleError);
     }
-// need to redo for mysql case
     update(category: CategoryModel): Promise<CategoryModel> {
-        const url = `${this.categoriesUrl}/${category.id}`;
+        const url = `${this.categoriesUrl}/update/`;
         return this.http
-            .put(url, JSON.stringify(category), {headers: this.headers})
+            .post(url, JSON.stringify(category))
             .toPromise()
-            .then(() => category)
+            .then(function(res) {
+                return res.json();
+            })
             .catch(this.handleError);
     }
 
