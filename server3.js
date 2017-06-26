@@ -58,6 +58,15 @@ app.use(function(res, req, next) {
 });
 app.use('/relation', relationRouter);
 
+
+function reqDelete(query) {
+    return function() {
+        
+    }
+}
+
+
+
 function relationDelete(req, res, next) {
     var body='';
     req.on('data', function (data) {

@@ -34,27 +34,26 @@ import { CategoryService } from '../../services/categoryService';
                       <div class="admin-content">
                           <ul class="data-table">
                               <li class="heading">
-                                  <div class="number">#</div>
-						            <div class="id">ID</div>
-						            <div class="options">Options</div>
-						            <div class="trigger">Lock</div>
-						            <div class="name">Name</div>
+                                    <div class="number">#</div>
+                                    <div class="id">ID</div>
+                                    <div class="options">Options</div>
+                                    <div class="trigger">Lock</div>
+                                    <div class="created">Created</div>
+                                    <div class="edited">Edited</div>
+                                    <div class="name">Name</div>
                               </li>
-                              <li *ngFor="let product of products" [class.selected]="product === selectedProduct">
+                              <li *ngFor="let product of products; let index = index" [class.selected]="product === selectedProduct">
                               <!--[routerLink]="['/admin/products/' + product.id]">-->
                                   <div class="row">
-                                      <div class="number">index</div>
+                                      <div class="number">{{index}}</div>
                                       <div class="id">{{product.id}}</div>
                                       <div class="options">
                                           <div>
-                                              <a href="#" (click)="gotoDetail(product); $event.stopPropagation(); 
-                                              $event.preventDefault();">Edit</a>
-                                              <a href="#" (click)="delete(product); $event.stopPropagation(); 
-                                              $event.preventDefault();">Remove</a>
+                                              <a href="#" (click)="gotoDetail(product); $event.stopPropagation(); $event.preventDefault();">Edit</a>
+                                              <a href="#" (click)="delete(product); $event.stopPropagation(); $event.preventDefault();">Remove</a>
                                           </div>
                                       </div>
-                                      <div class="trigger"><input type="checkbox" 
-                                      [(ngModel)]="product.lockField" name="lockField" (change)="save(product)" /></div>
+                                      <div class="trigger"><input type="checkbox" [(ngModel)]="product.lockField" name="lockField" (change)="save(product)" /></div>
                                       <div class="created">{{product.created}}</div>
                                       <div class="edited">{{product.edited}}</div>
                                       <div class="name">{{product.name}}</div>

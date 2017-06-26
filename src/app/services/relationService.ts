@@ -51,20 +51,6 @@ export class RelationService {
             .catch(this.handleError);
     }
 
-
-
-
-
-/*
-    getRelationsOfCategory(categoryId : number) : Promise<Relation[]> {
-        const url = `${this.relationUrl}?productId=${categoryId}`;
-        return this.http.get(url)
-            .toPromise()
-            .then(response => response.json().data as Relation[])
-            .catch(this.handleError);
-    }
-*/
-
     private handleError (error : any):Promise<any> {
         console.error('An error occured ', error);
         return Promise.reject(error.message || error);
