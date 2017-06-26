@@ -35,7 +35,7 @@ export class RelationService {
             .catch(this.handleError);
     }
     deleteRelationsOfProduct(id: number): Promise<void> {
-        const url = `${this.relationUrl}`;
+        const url = `${this.relationUrl}/product/delete/`;
         return this.http
             .post(url, JSON.stringify({id: id}))
             .toPromise()

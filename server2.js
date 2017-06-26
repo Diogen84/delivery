@@ -49,7 +49,7 @@ relationRouter.get('/', relationList, function(req, res) {});
 relationRouter.get('/product/:productId', relationDetails, function(req, res) {});
 relationRouter.get('/category/:categoryId', relationCategoryDetails, function(req, res) {});
 relationRouter.post('/', relationCreate, function(req, res) {});
-relationRouter.post('/delete/', relationDelete, function(req, res) {});
+relationRouter.post('/product/delete/', relationDelete, function(req, res) {});
 app.use(function(res, req, next) {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
@@ -83,9 +83,8 @@ function relationDelete(req, res, next) {
                 });
             });
             body = JSON.parse(body);
-            console.log(body);
             console.log("Connected as id " + connection.threadId);
-            connection.query("DELETE FROM relation WHERE id = " + body.id, function(err, rows) {
+            connection.query("DELETE FROM relation WHERE productId = " + body.id, function(err, rows) {
                 connection.release();
                 if (!err) {
                     res.statusCode = 201;
