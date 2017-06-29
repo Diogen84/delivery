@@ -46,8 +46,8 @@ app.use(function(res, req, next) {
 app.use('/products', productRouter);
 
 relationRouter.get('/', relationList, function(req, res) {});
-relationRouter.get('/product/:productId', relationDetails, function(req, res) {});
-relationRouter.get('/category/:categoryId', relationCategoryDetails, function(req, res) {});
+relationRouter.get('/product/:id', relationToProduct, function(req, res) {});
+relationRouter.get('/category/:id', relationToCategory, function(req, res) {});
 relationRouter.post('/', relationCreate, function(req, res) {});
 relationRouter.post('/product/delete/', relationDelete, function(req, res) {});
 app.use(function(res, req, next) {
@@ -58,460 +58,169 @@ app.use(function(res, req, next) {
 });
 app.use('/relation', relationRouter);
 
-
-function reqDelete(query) {
-    return function() {
-        
-    }
-}
-
-
-
-function relationDelete(req, res, next) {
-    var body='';
+function categoryDelete(req, res, next) {
+    var body = '';
     req.on('data', function (data) {
-        body +=data;
+        body += data;
     });
     req.on('end', function (){
-        pool.getConnection(function(err, connection) {
-            res.header('Access-Control-Allow-Origin', '*');
-            res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-            res.header('Access-Control-Allow-Headers', 'Content-Type');
-            if(err) {
-                res.json({
-                    "code" : 100,
-                    "status" : "Error in connection database"
-                });
-                //return;
-            }
-            connection.on('error', function(err) {
-                res.json({
-                    "code" : 100,
-                    "status" : "Error in connection database"
-                });
-            });
-            body = JSON.parse(body);
-            console.log("Connected as id " + connection.threadId);
-            connection.query("DELETE FROM relation WHERE productId = " + body.id, function(err, rows) {
-                connection.release();
-                if (!err) {
-                    res.statusCode = 201;
-                    res.json(rows);
-                } else {
-                    console.log(err);
-                    res.json({
-                        "code" : 500,
-                        "status" : "Error in connection database"
-                    });
-                }
-                next();
-            });
-
-        });
+        var postData = {
+            id : body.id
+        };
+        postRequest(req, res, next, body, "DELETE FROM categories WHERE ?", postData);
     });
 }
-function relationCreate(req, res, next) {
-    var body='';
+function categoryList(req, res, next) {
+    return getRequest(req, res, next, "SELECT * from categories ");
+}
+function categoryDetails(req, res, next) {
+    return getRequest(req, res, next, "SELECT * from categories where id = ");
+}
+function categoryCreate(req, res, next) {
+    var body = '';
     req.on('data', function (data) {
-        body +=data;
+        body += data;
     });
     req.on('end', function (){
-        pool.getConnection(function(err, connection) {
-            if(err) {
-                res.json({
-                    "code" : 100,
-                    "status" : "Error in connection database"
-                });
-                //return;
-            }
-            connection.on('error', function(err) {
-                res.json({
-                    "code" : 100,
-                    "status" : "Error in connection database"
-                });
-            });
-            var bodyJson = JSON.parse(body);
-            connection.query("INSERT INTO relation ( productId, categoryId) VALUES ('" + bodyJson.productId + "','" + bodyJson.categoryId + "')", function (err, rows) {
-                connection.release();
-                if (!err) {
-                    bodyJson.productId = rows.insertId;
-                    res.statusCode = 201;
-                    res.json(bodyJson);
-                } else {
-                    console.log(err);
-                    res.json({
-                        "code" : 500,
-                        "status" : "Error in connection database"
-                    });
-                }
-            });
-
-            res.header('Access-Control-Allow-Origin', '*');
-            res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-            res.header('Access-Control-Allow-Headers', 'Content-Type');
-        });
+        var postData = {
+            name : body.name,
+            shortDescription: body.shortDescription,
+            description:body.description,
+            created :body.created,
+            edited :body.edited
+        };
+        postRequest(req, res, next, body, "INSERT INTO categories SET ?", postData);
     });
 }
-function relationCategoryDetails(req, res, next) {
-    pool.getConnection(function(err, connection) {
-        if(err) {
-            res.json({
-                "code" : 100,
-                "status" : "Error in connection database"
-            });
-            //return;
-        }
-        console.log("Connected as id " + connection.threadId);
-        console.log("the ID is : " + req.params.categoryId);
-        connection.query("SELECT * from relation where categoryId = " + req.params.categoryId, function(err, rows) {
-            connection.release();
-            if(!err) {
-                res.json(rows);
-            }
-        });
-        connection.on('error', function(err) {
-            res.json({
-                "code" : 100,
-                "status" : "Error in connection database"
-            });
-        });
-
-        res.header('Access-Control-Allow-Origin', '*');
-        res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-        res.header('Access-Control-Allow-Headers', 'Content-Type');
-    });
-}
-function relationDetails(req, res, next) {
-    pool.getConnection(function(err, connection) {
-        if(err) {
-            res.json({
-                "code" : 100,
-                "status" : "Error in connection database"
-            });
-            //return;
-        }
-        console.log("Connected as id " + connection.threadId);
-        console.log("the ID is : " + req.params.productId);
-        connection.query("SELECT * from relation where productId = " + req.params.productId, function(err, rows) {
-            connection.release();
-            if(!err) {
-                res.json(rows);
-            }
-        });
-        connection.on('error', function(err) {
-            res.json({
-                "code" : 100,
-                "status" : "Error in connection database"
-            });
-        });
-
-        res.header('Access-Control-Allow-Origin', '*');
-        res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-        res.header('Access-Control-Allow-Headers', 'Content-Type');
-    });
-}
-function relationList(req, res, next) {
-    pool.getConnection(function(err, connection) {
-        if(err) {
-            res.json({
-                "code" : 100,
-                "status" : "Error in connection database"
-            });
-            //return;
-        }
-        console.log("Connected as id " + connection.threadId);
-        connection.query("SELECT * from relation", function(err, rows) {
-            connection.release();
-            if(!err) {
-                res.json(rows);
-            }
-        });
-        connection.on('error', function(err) {
-            res.json({
-                "code" : 100,
-                "status" : "Error in connection database"
-            });
-        });
-
-        res.header('Access-Control-Allow-Origin', '*');
-        res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-        res.header('Access-Control-Allow-Headers', 'Content-Type');
-    });
-}
-
-function productUpdate(req, res, next) {
-    var body='';
+function categoryUpdate(req, res, next) {
+    var body = '';
     req.on('data', function (data) {
-        body +=data;
+        body += data;
     });
     req.on('end', function (){
-        pool.getConnection(function(err, connection) {
-            res.header('Access-Control-Allow-Origin', '*');
-            res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-            res.header('Access-Control-Allow-Headers', 'Content-Type');
-            if(err) {
-                res.json({
-                    "code" : 100,
-                    "status" : "Error in connection database"
-                });
-                //return;
-            }
-            connection.on('error', function(err) {
-                res.json({
-                    "code" : 100,
-                    "status" : "Error in connection database"
-                });
-            });
-            body = JSON.parse(body);
-            console.log("Connected as id " + connection.threadId);
-            var postUpdate = {
-                name : body.name,
-                inStock : body.inStock,
-                price: body.price,
-                currency: body.currency,
-                weight: body.weight,
-                shortDescription: body.shortDescription,
-                description:body.description,
-                edited :body.edited
-            };
-            var condition = {id:body.id};
-            connection.query("UPDATE products SET ? WHERE ?",[postUpdate, condition],  function (err, rows) {
-                connection.release();
-                if (!err) {
-                    res.statusCode = 201;
-                    res.json(rows);
-                } else {
-                    console.log(err);
-                    res.json({
-                        "code" : 500,
-                        "status" : "Error in connection database"
-                    });
-                }
-                next();
-            });
-        });
-    });
-}
-function productCreate(req, res, next) {
-    var body='';
-    req.on('data', function (data) {
-        body +=data;
-    });
-    req.on('end', function (){
-        pool.getConnection(function(err, connection) {
-            if(err) {
-                res.json({
-                    "code" : 100,
-                    "status" : "Error in connection database"
-                });
-                //return;
-            }
-            connection.on('error', function(err) {
-                res.json({
-                    "code" : 100,
-                    "status" : "Error in connection database"
-                });
-            });
-            var bodyJson = JSON.parse(body);
-            console.log("Connected as id " + connection.threadId);
-            connection.query("INSERT INTO products ( name, inStock, price, currency, weight, shortDescription, description, created, edited) VALUES ('" + bodyJson.name + "','" + bodyJson.inStock + "','" + bodyJson.price + "','" + bodyJson.currency + "','" + bodyJson.weight + "','" + bodyJson.shortDescription + "','" + bodyJson.description + "','" + bodyJson.created + "','" + bodyJson.edited + "')", function (err, rows) {
-                connection.release();
-                if (!err) {
-                    bodyJson.id = rows.insertId;
-                    res.statusCode = 201;
-                    res.json(bodyJson);
-                } else {
-                    console.log(err);
-                    res.json({
-                        "code" : 500,
-                        "status" : "Error in connection database"
-                    });
-                }
-            });
-
-            res.header('Access-Control-Allow-Origin', '*');
-            res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-            res.header('Access-Control-Allow-Headers', 'Content-Type');
-        });
-    });
-}
-
-function productDelete(req, res, next) {
-    var body='';
-    req.on('data', function (data) {
-        body +=data;
-    });
-    req.on('end', function (){
-        pool.getConnection(function(err, connection) {
-            res.header('Access-Control-Allow-Origin', '*');
-            res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-            res.header('Access-Control-Allow-Headers', 'Content-Type');
-            if(err) {
-                res.json({
-                    "code" : 100,
-                    "status" : "Error in connection database"
-                });
-                //return;
-            }
-            connection.on('error', function(err) {
-                res.json({
-                    "code" : 100,
-                    "status" : "Error in connection database"
-                });
-            });
-            body = JSON.parse(body);
-            console.log(body);
-            console.log("Connected as id " + connection.threadId);
-            connection.query("DELETE FROM products WHERE id = " + body.id, function(err, rows) {
-                connection.release();
-                if (!err) {
-                    res.statusCode = 201;
-                    res.json(rows);
-                } else {
-                    console.log(err);
-                    res.json({
-                        "code" : 500,
-                        "status" : "Error in connection database"
-                    });
-                }
-                next();
-            });
-
-        });
+        var postData = {
+            name : body.name,
+            shortDescription:body.shortDescription,
+            description:body.description,
+            edited :body.edited
+        };
+        postRequest(req, res, next, body, "UPDATE categories SET ? WHERE ?", postData);
     });
 }
 function productList(req, res, next) {
-    pool.getConnection(function(err, connection) {
-        if(err) {
-            res.json({
-                "code" : 100,
-                "status" : "Error in connection database"
-            });
-            //return;
-        }
-        console.log("Connected as id " + connection.threadId);
-        connection.query("SELECT * from products", function(err, rows) {
-            connection.release();
-            if(!err) {
-                res.json(rows);
-            }
-        });
-        connection.on('error', function(err) {
-            res.json({
-                "code" : 100,
-                "status" : "Error in connection database"
-            });
-        });
-
-        res.header('Access-Control-Allow-Origin', '*');
-        res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-        res.header('Access-Control-Allow-Headers', 'Content-Type');
-    });
+    return getRequest(req, res, next, "SELECT * from products");
 }
 function productDetails(req, res, next) {
+    return getRequest(req, res, next, "SELECT * from products WHERE id = ");
+}
+function productCreate(req, res, next) {
+    var body = '';
+    req.on('data', function (data) {
+        body += data;
+    });
+    req.on('end', function (){
+        var postData = {
+            name : body.name,
+            inStock : body.inStock,
+            price: body.price,
+            currency: body.currency,
+            weight: body.weight,
+            shortDescription: body.shortDescription,
+            description:body.description,
+            created: body.created,
+            edited :body.edited
+        };
+        postRequest(req, res, next, body, "INSERT INTO products SET ?", postData);
+    });
+}
+function productDelete(req, res, next) {
+    var body = '';
+    req.on('data', function (data) {
+        body += data;
+    });
+    req.on('end', function (){
+        var postData = {
+            id : body.id
+        };
+        postRequest(req, res, next, body, "DELETE FROM products WHERE ?", postData);
+    });
+}
+function productUpdate(req, res, next) {
+    var body = '';
+    req.on('data', function (data) {
+        body += data;
+    });
+    req.on('end', function (){
+        var postData = {
+            name : body.name,
+            inStock : body.inStock,
+            price: body.price,
+            currency: body.currency,
+            weight: body.weight,
+            shortDescription: body.shortDescription,
+            description:body.description,
+            edited :body.edited
+        };
+        postRequest(req, res, next, body, "UPDATE products SET ? WHERE ?", postData);
+    });
+}
+function relationList(req, res, next) {
+    return getRequest(req, res, next, "SELECT * from relation");
+}
+function relationToProduct(req, res, next) {
+    return getRequest(req, res, next, "SELECT * from relation where productId = ");
+}
+function relationToCategory(req, res, next) {
+    return getRequest(req, res, next, "SELECT * from relation where categoryId = ");
+}
+function relationCreate(req, res, next) {
+    var body = '';
+    req.on('data', function (data) {
+        body += data;
+    });
+    req.on('end', function (){
+        var postData = {
+            productId : bodyJson.productId,
+            categoryId : bodyJson.categoryId
+        };
+        postRequest(req, res, next, body, "INSERT INTO relation SET ?", postData);
+    });
+}
+function relationDelete(req, res, next) {
+    var body = '';
+    req.on('data', function (data) {
+        body += data;
+    });
+    req.on('end', function (){
+        var postData = {
+            productId : bodyJson.body.id
+        };
+        postRequest(req, res, next, body, "DELETE FROM relation WHERE ?", postData);
+    });
+}
+
+function postRequest(req, res, next, body, query, postDataObject) {
     pool.getConnection(function(err, connection) {
+        res.header('Access-Control-Allow-Origin', '*');
+        res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+        res.header('Access-Control-Allow-Headers', 'Content-Type');
         if(err) {
             res.json({
                 "code" : 100,
                 "status" : "Error in connection database"
             });
-            //return;
         }
-        console.log("Connected as id " + connection.threadId);
-        connection.query("SELECT * from products where id = " + req.params.id, function(err, rows) {
-            connection.release();
-            if(!err) {
-                res.json(rows);
-            }
-        });
         connection.on('error', function(err) {
             res.json({
                 "code" : 100,
                 "status" : "Error in connection database"
             });
         });
-
-        res.header('Access-Control-Allow-Origin', '*');
-        res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-        res.header('Access-Control-Allow-Headers', 'Content-Type');
-    });
-}
-
-function categoryUpdate(req, res, next) {
-    var body='';
-    req.on('data', function (data) {
-        body +=data;
-    });
-    req.on('end', function (){
-        pool.getConnection(function(err, connection) {
-            res.header('Access-Control-Allow-Origin', '*');
-            res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-            res.header('Access-Control-Allow-Headers', 'Content-Type');
-            if(err) {
-                res.json({
-                    "code" : 100,
-                    "status" : "Error in connection database"
-                });
-                //return;
-            }
-            connection.on('error', function(err) {
-                res.json({
-                    "code" : 100,
-                    "status" : "Error in connection database"
-                });
-            });
-            body = JSON.parse(body);
-            console.log("Connected as id " + connection.threadId);
-            var postUpdate = {
-                name : body.name,
-                shortDescription:body.shortDescription,
-                description:body.description,
-                edited :body.edited
-            };
+        body = JSON.parse(body);
+        console.log("Connected as id " + connection.threadId);
+        if(typeof body.id == 'number') {
             var condition = {id:body.id};
-            connection.query("UPDATE categories SET ? WHERE ?",[postUpdate, condition],  function (err, rows) {
-                 connection.release();
-                if (!err) {
-                    res.statusCode = 201;
-                    res.json(rows);
-                } else {
-                    console.log(err);
-                    res.json({
-                        "code" : 500,
-                        "status" : "Error in connection database"
-                    });
-                }
-                next();
-            });
-        });
-    });
-}
-function categoryDelete(req, res, next) {
-    var body='';
-    req.on('data', function (data) {
-        body +=data;
-    });
-    req.on('end', function (){
-        pool.getConnection(function(err, connection) {
-            res.header('Access-Control-Allow-Origin', '*');
-            res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-            res.header('Access-Control-Allow-Headers', 'Content-Type');
-            if(err) {
-                res.json({
-                    "code" : 100,
-                    "status" : "Error in connection database"
-                });
-                //return;
-            }
-            connection.on('error', function(err) {
-                res.json({
-                    "code" : 100,
-                    "status" : "Error in connection database"
-                });
-            });
-            body = JSON.parse(body);
-            console.log("Connected as id " + connection.threadId);
-            connection.query("DELETE FROM categories WHERE id = " + body.id, function(err, rows) {
+            connection.query(query, [postDataObject, condition], function (err, rows) {
                 connection.release();
                 if (!err) {
                     res.statusCode = 201;
@@ -525,68 +234,12 @@ function categoryDelete(req, res, next) {
                 }
                 next();
             });
-
-        });
-    });
-}
-
-function categoryList(req, res, next) {
-    pool.getConnection(function(err, connection) {
-        if(err) {
-            res.json({
-                "code" : 100,
-                "status" : "Error in connection database"
-            });
-            //return;
-        }
-        console.log("Connected as id " + connection.threadId);
-        connection.query("SELECT * from categories", function(err, rows) {
-            connection.release();
-            if(!err) {
-                res.json(rows);
-            }
-        });
-        connection.on('error', function(err) {
-            res.json({
-                "code" : 100,
-                "status" : "Error in connection database"
-            });
-        });
-
-        res.header('Access-Control-Allow-Origin', '*');
-        res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-        res.header('Access-Control-Allow-Headers', 'Content-Type');
-    });
-}
-
-function categoryCreate(req, res, next) {
-    var body='';
-    req.on('data', function (data) {
-        body +=data;
-    });
-    req.on('end', function (){
-        pool.getConnection(function(err, connection) {
-            if(err) {
-                res.json({
-                    "code" : 100,
-                    "status" : "Error in connection database"
-                });
-                //return;
-            }
-            connection.on('error', function(err) {
-                res.json({
-                    "code" : 100,
-                    "status" : "Error in connection database"
-                });
-            });
-            var bodyJson = JSON.parse(body);
-            console.log("Connected as id " + connection.threadId);
-            connection.query("INSERT INTO categories ( name, shortDescription, description, created, edited ) VALUES ( '" + bodyJson.name + "','" + bodyJson.shortDescription + "','" + bodyJson.description + "','" + bodyJson.created + "','" + bodyJson.edited + "')", function (err, rows) {
+        } else {
+            connection.query(query, [postDataObject], function (err, rows) {
                 connection.release();
                 if (!err) {
-                    bodyJson.id = rows.insertId;
                     res.statusCode = 201;
-                    res.json(bodyJson);
+                    res.json(rows);
                 } else {
                     console.log(err);
                     res.json({
@@ -594,16 +247,12 @@ function categoryCreate(req, res, next) {
                         "status" : "Error in connection database"
                     });
                 }
+                next();
             });
-
-            res.header('Access-Control-Allow-Origin', '*');
-            res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-            res.header('Access-Control-Allow-Headers', 'Content-Type');
-        });
+        }
     });
 }
-
-function categoryDetails(req, res, next) {
+function getRequest(req, res, next, query) {
     pool.getConnection(function(err, connection) {
         if(err) {
             res.json({
@@ -613,12 +262,21 @@ function categoryDetails(req, res, next) {
             //return;
         }
         console.log("Connected as id " + connection.threadId);
-        connection.query("SELECT * from categories where id = " + req.params.id, function(err, rows) {
-            connection.release();
-            if(!err) {
-                res.json(rows);
-            }
-        });
+        if(req.params.id) {
+            connection.query(query + req.params.id, function(err, rows) {
+                connection.release();
+                if(!err) {
+                    res.json(rows);
+                }
+            });
+        } else {
+            connection.query(query, function(err, rows) {
+                connection.release();
+                if(!err) {
+                    res.json(rows);
+                }
+            });
+        }
         connection.on('error', function(err) {
             res.json({
                 "code" : 100,
@@ -631,8 +289,6 @@ function categoryDetails(req, res, next) {
         res.header('Access-Control-Allow-Headers', 'Content-Type');
     });
 }
-
-
 
 module.exports = app;
 
